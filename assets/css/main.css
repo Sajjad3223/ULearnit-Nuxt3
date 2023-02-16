@@ -1,0 +1,407 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+
+@layer components{
+    html{
+        direction: rtl;
+        scroll-behavior: smooth;
+    }
+    body{
+        @apply bg-white dark:bg-gray-900 text-white font-Vaizr;
+    }
+    .text-center{
+        text-align: center !important;
+    }
+    .searchbox{
+        @apply w-full p-2 outline-none rounded-md bg-gray-800 focus-within:ring-2 focus-within:ring-indigo-500;
+    }
+    .nav-link{
+        @apply block py-2 pl-3 pr-4 text-gray-700 rounded hover:bg-gray-100 md:hover:bg-transparent md:hover:text-blue-700 md:p-0 md:dark:hover:text-white dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white md:dark:hover:bg-transparent dark:border-gray-700 transition;
+    }
+    .active-nav-link{
+        @apply text-white bg-indigo-500 md:bg-transparent md:text-indigo-300 md:p-0 dark:text-white;
+    }
+
+    .btn{
+        text-align: center !important;
+        @apply p-2 rounded-lg text-sm md:text-base;
+    }
+    .link{
+        @apply text-amber-400 hover:underline underline-offset-4 text-sm md:text-base;
+    }
+
+    .alert{
+        @apply p-4 mb-4 text-sm rounded-lg ;
+    }
+    .alert-warning{
+        @apply  text-yellow-800 bg-yellow-50 dark:bg-gray-800 dark:text-yellow-300;
+    }
+    .alert-danger{
+        @apply text-red-800 bg-red-50 dark:bg-gray-800 dark:text-red-400;
+    }
+    .badge{
+        @apply px-4 py-1 rounded-full text-xs;
+    }
+    .badge-warning{
+        @apply bg-amber-600 text-amber-200;
+    }
+    .badge-danger{
+        @apply bg-red-600 text-red-200;
+    }
+    .badge-primary{
+        @apply bg-indigo-600 text-indigo-200;
+    }
+    .badge-success{
+        @apply bg-green-600 text-green-200;
+    }
+    .badge-secondary{
+        @apply bg-gray-600 text-slate-200;
+    }
+    .discountBadge{
+        @apply text-sm rounded-full px-3 bg-red-500 text-white;
+    }
+
+
+    footer.footer{
+        @apply container mx-auto mt-12 flex flex-col lg:grid lg:grid-cols-4 p-8 rounded-t-lg bg-gray-900 ring-4 ring-indigo-500;
+    }
+    footer.footer .newsletter{
+        @apply flex flex-col lg:flex-row items-end lg:items-center relative lg:space-x-4 lg:space-x-reverse;
+    }
+    footer.footer .newsletter input{
+        @apply searchbox flex-1 pr-10;
+    }
+    footer.footer .newsletter svg{
+        @apply absolute -right-2 lg:top-[50%] top-[23%] -translate-y-[50%];
+    }
+    footer.footer .footerLinks{
+        @apply grid grid-cols-2 lg:grid-cols-3 gap-2 lg:gap-4 mt-8;
+    }
+    footer.footer .footerLinks ul{
+        @apply flex flex-col space-y-4 w-full;
+    }
+    footer.footer .footerLinks ul li{
+        @apply flex w-full;
+    }
+    footer.footer .footerLinks ul li a{
+        @apply w-full p-2 rounded-md border-2 border-slate-700 hover:bg-gray-700 transition;
+    }
+    footer.footer .footerLinks ul li a.footerActiveLink{
+        @apply relative pr-8 before:content-[''] before:h-2 before:w-8 before:absolute before:bg-indigo-500
+        before:rounded-full before:-right-2 before:shadow-indigo-500 before:shadow-lg before:top-[50%] before:-translate-y-[50%];
+    }
+    footer.footer > .left{
+        @apply mt-6 lg:mt-0;
+    }
+    .socialNetworks{
+        @apply flex justify-around;
+    }
+    .copyright{
+        @apply lg:col-start-1 lg:col-span-3 text-base lg:text-xl;
+    }
+
+    /* Courses Search Page Styles*/
+    form.filter{
+        @apply relative pl-24 grid grid-cols-3 gap-x-8 mx-auto p-4 border-4 border-slate-700 rounded-lg;
+    }
+    .filter > div{
+        @apply flex flex-col space-y-3;
+    }
+    .filter > div > label{
+        @apply font-bold text-lg mr-2;
+    }
+    .filter > div > div{
+        @apply flex h-14 items-center border-4 border-slate-700 rounded-xl;
+    }
+    .filter > div > div > label{
+        @apply flex-1 text-center;
+    }
+    .filter > div > div > label > input{
+        @apply appearance-none opacity-0;
+    }
+    .filter > div > div > label > span{
+        @apply p-1 px-4 rounded-lg transition cursor-pointer;
+    }
+
+    /* Single Page Styles */
+    .courseSidebar{
+        @apply flex flex-col w-full lg:w-1/3;
+    }
+    .courseDetails{
+        @apply flex flex-col w-full bg-gray-800 p-4 rounded-lg space-y-4;
+    }
+    .courseSidebar .courseDetails .detailItem{
+        @apply flex items-center;
+    }
+    .courseSidebar .courseDetails .detailItem > svg{
+        @apply w-10 opacity-50;
+    }
+    .courseSidebar .courseDetails .detailItem > span{
+        @apply w-1/2 ;
+    }
+    .courseSidebar .courseDetails .detailItem > div{
+        @apply flex flex-col items-center space-y-2;
+    }
+    .courseSidebar .courseDetails .detailItem > div > div{
+        @apply flex items-center space-x-2 space-x-reverse;
+    }
+    .courseSidebar .courseDetails .detailItem > div > div > s{
+        @apply opacity-70 text-sm;
+    }
+    .courseSidebar .courseDetails .detailItem > div > div > span{
+        @apply discountBadge animate-pulse;
+    }
+    .courseSidebar .courseDetails .detailItem strong{
+        @apply font-bold flex;
+    }
+    .courseSidebar .courseDetails .detailItem strong a{
+        @apply link flex items-center space-x-2 space-x-reverse;
+    }
+    .tags,.share,.requirments{
+        @apply flex flex-col my-4;
+    }
+    .tags strong,.share strong,.requirments strong{
+        @apply my-2;
+    }
+    .tags ul,.share ul,.requirments ul{
+        @apply flex flex-wrap gap-4 mx-4;
+    }
+    .tags ul li,.share ul li,.requirments ul li{
+        @apply bg-blue-100 hover:bg-blue-200 text-blue-800 text-sm font-medium mr-2 px-2.5 py-0.5 rounded dark:bg-gray-700 dark:text-blue-400 border border-blue-400;
+    }
+    .share ul li a svg{
+        @apply w-12 h-12;
+    }
+
+    .course-videos,.course-comments{
+        @apply p-4 flex flex-col mt-4 rounded-lg border-2 border-slate-700;
+    }
+    .course-videos .title ,.course-comments .title{
+        @apply flex w-full items-center mb-3;
+    }
+    .course-videos .title h4, .course-comments .title h4{
+        @apply text-lg mr-2;
+    }
+    .course-videos .title div, .course-comments .title div{
+        @apply mr-auto;
+    }
+    .video{
+        @apply mx-4 my-2 px-4 py-2 flex flex-col items-start bg-gray-800 rounded-lg space-x-2 space-x-reverse;
+    }
+    .video .vid{
+        @apply w-full items-center flex flex-wrap;
+    }
+    .counter{
+        @apply grid place-items-center w-8 h-8 bg-gradient-to-br from-slate-600 to-slate-800 hover:drop-shadow-md transition rounded-full ml-2;
+    }
+    .video .actions{
+        @apply flex flex-row-reverse items-center space-x-3 m-2 flex-1;
+    }
+    .video .actions a{
+        @apply w-10 h-10 grid place-items-center rounded-full btn;
+    }
+
+    .not-authenticated{
+        @apply flex my-2 items-center space-x-2 space-x-reverse;
+    }
+
+    input[type=checkbox] {
+        @apply outline-none w-7 h-7 cursor-pointer ml-2 rounded-lg bg-gray-800;
+    }
+
+    .comments{
+        @apply flex flex-col mt-4 space-y-4;
+    }
+    .comments .comment{
+        @apply flex flex-col space-y-2;
+    }
+    .comments .comment .commtent-content{
+        @apply flex items-start p-2 lg:p-4 bg-gray-800 rounded-lg space-x-2 space-x-reverse;
+    }
+    .comments .comment .comments .commtent-content{
+        @apply flex items-start p-2 lg:p-4 border-4 border-slate-700 bg-transparent rounded-lg space-x-2 space-x-reverse;
+    }
+    .comments .comment .commtent-content img{
+        @apply rounded-md lg:rounded-2xl max-w-[4rem];
+    }
+    .comments .comment .commtent-content .comment-main{
+        @apply flex flex-col;
+    }
+    .comments .comment .commtent-content .comment-main .comment-top{
+        @apply flex flex-col-reverse lg:flex-row items-start lg:justify-between;
+    }
+    .comments .comment .commtent-content .comment-main .comment-top .send-info{
+        @apply flex flex-col space-y-1;
+    }
+    .comments .comment .commtent-content .comment-main .comment-top .actions{
+        @apply flex space-x-4 space-x-reverse self-end;
+    }
+    .comments .comment .commtent-content .comment-main .comment-top .actions a{
+        @apply scale-[80%];
+    }
+    .comment-body{
+        @apply mt-2 lg:mt-8 -mr-[4rem] ml-2 lg:ml-4 text-sm text-justify;
+    }
+
+    /* User Panel Styles */
+    main.render-body > div{
+        @apply flex flex-col lg:flex-row w-full gap-12 mt-8;
+    }
+    main.render-body > div > .panel-details{
+        @apply w-full lg:w-3/4 border-4 border-gray-800 p-8 rounded-lg h-max;
+    }
+
+    .user-sidebar{
+        @apply w-full lg:w-1/4 border-4 border-gray-700 rounded-lg p-4 relative;
+    }
+    .user-sidebar .options{
+        @apply flex flex-col space-y-2;
+    }
+    .user-sidebar .options li{
+        @apply w-full flex;
+    }
+    .user-sidebar .options .option{
+        @apply w-full flex space-x-2 space-x-reverse border-2 border-slate-800 hover:border-slate-700 transition rounded-lg py-2 px-4;
+    }
+    .user-sidebar .options .active{
+        @apply bg-gray-700 rounded-lg pr-8 mr-4 relative border-transparent
+        before:absolute before:-right-4 before:top-[50%] before:translate-y-[-50%] before:w-8 before:h-2
+        before:rounded-full before:content-[''] before:bg-indigo-500 before:drop-shadow-md;
+    }
+    .user-sidebar .options .option > svg{
+        @apply opacity-50 scale-90;
+    }
+    .user-sidebar .options .active > svg{
+        @apply opacity-100;
+    }
+    .user-information{
+        @apply flex-col space-y-4 mt-4;
+    }
+    .user-information > div{
+        @apply flex flex-col space-y-2 lg:space-y-0 lg:flex-row items-start w-full;
+    }
+    .user-information > div > .key{
+        @apply w-full lg:w-1/3 flex items-center space-x-3 space-x-reverse;
+    }
+    .user-information > div > .key > svg{
+        @apply scale-[80%] opacity-60;
+    }
+    .user-information > div > .value{
+        @apply w-full lg:w-2/3 flex flex-wrap justify-between items-center space-x-3 space-x-reverse;
+    }
+    .user-information > div > .value > strong{
+        @apply mr-auto lg:mr-0;
+    }
+    .liked-courses{
+        @apply w-full mt-4;
+    }
+    .liked-courses > ul{
+        @apply flex flex-col space-y-2 lg:mx-4;
+    }
+    .liked-courses > ul > li{
+        @apply flex items-center justify-between py-2 px-4 bg-gray-900 rounded-lg;
+    }
+    .liked-courses > ul > li > a{
+        @apply text-indigo-300 hover:underline underline-offset-4;
+    }
+    .courses-status{
+        @apply mt-4 grid grid-cols-1 lg:grid-cols-2 gap-6;
+    }
+    .courses-status > div{
+        @apply flex flex-col space-y-2;
+    }
+    .courses-status > div > a{
+        @apply link;
+    }
+    progress {
+        direction: ltr;
+        border-radius: 1.5em;
+        min-width: 150px;
+        -webkit-appearance: none;
+        -moz-appearance: none;
+        appearance: none;
+        width: 100%;
+        height: 30px;
+        @apply bg-gray-900;
+        border: none;
+        padding: 5px;
+        position: relative;
+    }
+    .table-holder progress {
+        @apply bg-gray-800;
+    }
+    progress::after {
+        content: attr(value) " %";
+        position: absolute;
+        color: #fff;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+    }
+    progress::-webkit-progress-bar {
+        @apply bg-gray-900;
+        border-radius: 1.5em;
+    }
+    .table-holder progress::-webkit-progress-bar {
+        @apply bg-gray-800;
+        border-radius: 1.5em;
+    }
+    progress::-moz-progress-bar {
+        @apply bg-indigo-600;
+        border-radius: 1.5em;
+    }
+    progress::-webkit-progress-value {
+        @apply bg-indigo-600;
+        border-radius: 1.5em;
+    }
+    .table-holder progress::-moz-progress-bar {
+        @apply bg-indigo-400;
+        border-radius: 1.5em;
+    }
+    .table-holder progress::-webkit-progress-value {
+        @apply bg-indigo-400;
+        border-radius: 1.5em;
+    }
+
+    /* user information page*/
+    .panel-details .user-info{
+        @apply grid grid-cols-1 lg:grid-cols-2 gap-4 items-center mt-6;
+    }
+    .panel-details .user-info > div{
+        @apply flex flex-col items-start w-full space-y-2;
+    }
+    .panel-details .user-info > div:last-of-type{
+        @apply flex flex-row items-center w-full space-y-0;
+    }
+    
+    /* Ticket Details Style*/
+    .ticket{
+        @apply flex flex-col;
+    }
+    .ticket > .topic{
+        @apply w-full lg:w-1/2 flex items-center space-x-2 space-x-reverse;
+    }
+    .ticket > .chat-container{
+        @apply w-full bg-gray-800 p-4 rounded-lg mt-6;
+    }
+    .ticket > .chat-container > .chats{
+        @apply flex flex-col lg:p-8 space-y-2;
+    }
+    .ticket > .chat-container > .chats span{
+        @apply text-xs opacity-80 mr-auto mt-2;
+    }
+    .ticket > .chat-container > .chats p a{
+        @apply link;
+    }
+    .ticket > .chat-container > .chats > .me{
+        @apply flex flex-col w-4/5 text-sm lg:text-base lg:w-1/3 self-end bg-indigo-500 p-2 rounded-lg rounded-bl-sm shadow-md;
+    }
+    .ticket > .chat-container > .chats > .him{
+        @apply flex flex-col w-4/5 text-sm lg:text-base lg:w-1/3 bg-gray-700 p-2 rounded-lg rounded-br-sm shadow-md;
+    }
+
+
+}
+/* npx tailwindcss -i ./css/tailwind/main.css -o ./dist/output.css --watch */
