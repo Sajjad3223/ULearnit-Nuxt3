@@ -16,6 +16,8 @@
     "@tailwindcss/forms": "^0.5.3",
     "animate.css": "^4.1.1",
     "flowbite": "^1.6.3",
-    "pinia": "^2.0.29"
+    "pinia": "^2.0.29",
+    "vee-validate": "^4.7.4",
+    "yup": "^1.0.0"
   }
 }
