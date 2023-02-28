@@ -15,9 +15,10 @@
         </svg>
       </a>
       <div class="user-image w-full grid place-items-center relative overflow-hidden">
-        <img src="/imgs/default.jpg" alt="user image" class="peer w-1/2 rounded-full">
-        <a href=""
-           class="btn bg-black/50 absolute w-1/2 h-full grid place-items-center opacity-0 peer-hover:opacity-70 hover:opacity-70 transition rounded-full">
+        <img :src="getUserAvatar" alt="user image" class="peer w-1/2 rounded-full">
+        <input type="file" name="userAvatar" id="userAvatar" class="hidden" @input="setUserAvatar">
+        <label for="userAvatar"
+           class="btn bg-black/50 absolute w-1/2 h-full grid place-items-center opacity-0 peer-hover:opacity-70 hover:opacity-70 transition rounded-full cursor-pointer">
           <svg class="scale-125" width="24" height="24" viewBox="0 0 24 24" fill="none"
                xmlns="http://www.w3.org/2000/svg">
             <path
@@ -30,11 +31,11 @@
                 d="M21 22.75H3C2.59 22.75 2.25 22.41 2.25 22C2.25 21.59 2.59 21.25 3 21.25H21C21.41 21.25 21.75 21.59 21.75 22C21.75 22.41 21.41 22.75 21 22.75Z"
                 fill="#FFFFFF"/>
           </svg>
-        </a>
+        </label>
       </div>
       <div class="name flex items-center">
-        <span>سجاد میرشبی</span>
-        <a href="" class="btn btn-icon">
+        <span>{{ authStore.currentUser?.fullName }}</span>
+        <NuxtLink to="/userpanel/userInformation" class="btn btn-icon">
           <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
             <path
                 d="M5.53999 19.5201C4.92999 19.5201 4.35999 19.31 3.94999 18.92C3.42999 18.43 3.17999 17.69 3.26999 16.89L3.63999 13.65C3.70999 13.04 4.07999 12.23 4.50999 11.79L12.72 3.10005C14.77 0.930049 16.91 0.870049 19.08 2.92005C21.25 4.97005 21.31 7.11005 19.26 9.28005L11.05 17.97C10.63 18.42 9.84999 18.84 9.23999 18.9401L6.01999 19.49C5.84999 19.5 5.69999 19.5201 5.53999 19.5201ZM15.93 2.91005C15.16 2.91005 14.49 3.39005 13.81 4.11005L5.59999 12.8101C5.39999 13.0201 5.16999 13.5201 5.12999 13.8101L4.75999 17.05C4.71999 17.38 4.79999 17.65 4.97999 17.82C5.15999 17.99 5.42999 18.05 5.75999 18L8.97999 17.4501C9.26999 17.4001 9.74999 17.14 9.94999 16.93L18.16 8.24005C19.4 6.92005 19.85 5.70005 18.04 4.00005C17.24 3.23005 16.55 2.91005 15.93 2.91005Z"
@@ -46,7 +47,7 @@
                 d="M21 22.75H3C2.59 22.75 2.25 22.41 2.25 22C2.25 21.59 2.59 21.25 3 21.25H21C21.41 21.25 21.75 21.59 21.75 22C21.75 22.41 21.41 22.75 21 22.75Z"
                 fill="#FFFFFF"/>
           </svg>
-        </a>
+        </NuxtLink>
       </div>
     </div>
     <hr class="my-4 opacity-50">
@@ -213,9 +214,28 @@
   </aside>
 </template>
 
-<script>
+<script setup lang="ts">
+import {useAuthStore} from "~/stores/authStore";
+import {SetAvatar} from "~/services/user.service";
+import {ApiUrl} from "~/utilities/ApiUrls";
+
+const authStore = useAuthStore();
+
+const setUserAvatar=async (e: any)=>{
+  const avatar = new FormData();
+  if (e.target.files[0] != undefined) {
+    avatar.append("avatar", e.target.files[0]);
+  }
+  const result = await SetAvatar(avatar);
+  if(result.isSuccess)
+  {
+    await authStore.setCurrentUser();
+    //Toast
+  }
+  else{
+    //Toast
+  }
+}
+
+const getUserAvatar = computed(()=>`${ApiUrl}/user/avatars/${authStore.currentUser?.avatar}`);
 </script>
-
-<style scoped>
-
-</style>

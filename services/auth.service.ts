@@ -19,3 +19,18 @@ export function LoginUser(command:LoginViewModel) : Promise<ApiResponse<LoginRes
         body:command,
     });
 }
+
+export function RefreshToken(refreshToken:string) : Promise<ApiResponse<LoginResultDto>>
+{
+    return FetchApi("/auth/refreshToken",{
+        method:"POST",
+        body:refreshToken,
+    });
+}
+
+export function LogoutUser() : Promise<ApiResponse<undefined>>
+{
+    return FetchApi("/auth/logout",{
+        method:"DELETE",
+    });
+}

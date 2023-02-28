@@ -10,6 +10,8 @@ export interface UserDto {
     phoneNumber: string;
     password: string;
     avatar: string;
+    website: string;
+    description: string;
     roles: UserRoleDto[];
 }
 

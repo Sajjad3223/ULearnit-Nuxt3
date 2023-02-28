@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div class="container mx-auto">
    <base-navbar/>
 
     <main class="container px-4 md:mx-auto flex-col mt-8">

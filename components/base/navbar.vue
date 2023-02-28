@@ -48,8 +48,11 @@
           <li>
             <a href="#" class="nav-link">پروژه های آماده</a>
           </li>
-          <li>
+          <li v-if="!isLogin">
             <NuxtLink to="/auth/login" class="nav-link">ورود / ثبت نام</NuxtLink>
+          </li>
+          <li v-else>
+            <NuxtLink to="/userpanel" class="nav-link">حساب کاربری</NuxtLink>
           </li>
         </ul>
       </div>
@@ -58,6 +61,8 @@
 </template>
 
 <script setup>
+
+import {useAuthStore} from "~/stores/authStore";
 
 const showNotifs = ref(false);
 
@@ -71,6 +76,9 @@ const toggleNotifs=()=>{
     x = x - 110;
   notifsDropdown.style.transform = `translate(${x}px,${77}px)`;
 };
+
+const authStore = useAuthStore();
+const isLogin = computed(()=>authStore.isLogin);
 
 const toggleNavbar = ()=>{
   const navbarMenu = document.getElementById("navbarMenu");

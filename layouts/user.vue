@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div class="container mx-auto">
     <base-navbar />
 
     <main class="render-body">
@@ -16,9 +16,11 @@
 </template>
 
 <script setup lang="ts">
+
 useHead({
   link: [
     {rel: "stylesheet", href: "https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css"}
   ],
 })
+
 </script>

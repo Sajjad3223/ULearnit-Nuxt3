@@ -3,15 +3,9 @@
     <h1 class="text-xl font-bold leading-tight tracking-tight text-gray-900 md:text-2xl dark:text-white">
       ورود به حساب کاربری
     </h1>
-    <Form @submit.prevent="login" :validation-schema="loginSchema" class="space-y-4 md:space-y-6" >
-      <div>
-        <label for="username" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">ایمیل / تلفن همراه</label>
-        <input type="text" name="username" id="username" v-model="loginData.username" class="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="email@example.com" required="">
-      </div>
-      <div>
-        <label for="password" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">رمز عبور</label>
-        <input type="password" name="password" id="password" v-model="loginData.password" placeholder="••••••••" class="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" required="">
-      </div>
+    <Form @submit="login" :validation-schema="loginSchema" class="space-y-4 md:space-y-6" >
+      <base-input name="username" type="text" label="ایمیل / تلفن همراه" v-model="loginData.username" placeholder="ایمیل یا شماره تلفن خود را وارد کنید" isRequired />
+      <base-input name="password" type="password" label="کلمه عبور" v-model="loginData.password" placeholder="••••••••" isRequired />
       <div class="flex items-start">
         <div class="flex items-center h-5">
           <input id="rememberMe" aria-describedby="rememberMe" type="checkbox" v-model="loginData.rememberMe" class="w-4 h-4 border border-gray-300 rounded bg-gray-50 focus:ring-3 focus:ring-primary-300 dark:bg-gray-700 dark:border-gray-600 dark:focus:ring-primary-600 dark:ring-offset-gray-800">
@@ -29,7 +23,7 @@
 </template>
 
 <script setup lang="ts">
-
+import {Form} from "vee-validate";
 import {LoginUser} from "~/services/auth.service";
 import {LoginViewModel} from "~/models/auth/loginViewModel";
 import * as Yup from "yup";
@@ -39,8 +33,8 @@ definePageMeta({
 })
 
 const loginSchema = Yup.object().shape({
-  username:Yup.string().required(),
-  password:Yup.string().required().min(6),
+  username:Yup.string().required("نام کاربری الزامی است"),
+  password:Yup.string().min(6,"کلمه عبور باید بیشتر از 5 کاراکتر باشد").required("کلمه عبور الزامی است"),
 });
 
 const loginData : LoginViewModel = reactive({
