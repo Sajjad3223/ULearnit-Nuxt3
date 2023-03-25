@@ -14,23 +14,54 @@
     <div class="alert alert-warning">
       لطفا سوالات خود را راجع به این آموزش در این بخش پرسش و پاسخ مطرح کنید به سوالات در قسمت نظرات  پاسخ داده نخواهد شد و آن نظر حذف میشود.
     </div>
-    <send-comment />
+    <send-comment ref="sendComment" :post-type="postType" :post-id="postId" @commentSent="loadData"/>
     <section class="bg-white dark:bg-gray-900 py-8 ">
       <div class="w-full mx-auto px-4">
-        <comment />
-        <comment is-child />
-        <comment />
-        <comment />
+        <comment v-for="c in comments" :key="c" :comment="c" @setParentId="setParentId" @reacted="loadData"/>
       </div>
     </section>
   </div>
 </template>
 
-<script setup>
+<script setup lang="ts">
 import SendComment from "~/components/comments/send-comment.vue";
 import Comment from "~/components/comments/comment.vue";
+import {EPostType} from "~/models/comment/commentDto";
+import {CommentFilterParams} from "~/models/comment/commentFilterParams";
+import {GetComments} from "~/services/comment.service";
+
+const props = defineProps<{
+  postType:EPostType,
+  postId:number,
+}>();
+
+const getCommentsData:CommentFilterParams = {
+  postId: 0,
+  postType: EPostType.Course,
+  commentStatus: null,
+  startDate: null,
+  endDate: null,
+  userRequested: null,
+}
+
+const comments = ref();
+const sendComment = ref();
+
+onMounted(async ()=>{
+  getCommentsData.postId = props.postId;
+  getCommentsData.postType = props.postType;
+  await loadData();
+})
+
+const loadData = async ()=>{
+  const result = await GetComments(getCommentsData);
+  if(result.isSuccess) {
+    comments.value = result.data.data;
+  }
+}
+
+const setParentId = (id:number)=>{
+  sendComment.value.setParentId(id);
+}
+
 </script>
-
-<style scoped>
-
-</style>

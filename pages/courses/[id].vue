@@ -1,5 +1,8 @@
 <template>
   <div v-if="course !== undefined">
+    <Head>
+      <Title>{{course.title}}</Title>
+    </Head>
     <div class="w-full lg:mx-auto mt-8" >
       <div class="flex flex-col lg:flex-row w-full items-center lg:items-end space-y-4 lg:space-y-0">
         <div class="flex-1 flex flex-col ">
@@ -79,7 +82,7 @@
             </div>
           </div>
           <course-videos :time="course.time" :videos="course.sections"/>
-          <comments />
+          <comments :post-type="EPostType.Course" :post-id="course.id" />
         </div>
       </div>
     </div>
@@ -92,6 +95,7 @@ import {CourseDto} from "~/models/course/courseDto";
 import {GetCourse} from "~/services/course.service";
 import {useRoute} from "nuxt/app";
 import {ApiUrl} from "~/utilities/ApiUrls";
+import {EPostType} from "~/models/comment/commentDto";
 
 const course = ref<CourseDto>();
 

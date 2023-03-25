@@ -28,7 +28,7 @@
           </div>
         </article>
         <hr class="my-6 opacity-50">
-        <comments />
+        <comments :post-type="EPostType.Blog" :post-id="post.id"/>
       </div>
       <hr class="lg:hidden my-8 opacity-30">
       <div class="p-4 border-4 border-gray-700 w-full lg:w-1/3 rounded-xl h-max">
@@ -52,6 +52,7 @@
 <script setup lang="ts">
 import {PostDto} from "~/models/blog/postDto";
 import {GetPostBySlug} from "~/services/blog.service";
+import {EPostType} from "~/models/comment/commentDto";
 
 const post = ref<PostDto>();
 const route = useRoute();

@@ -43,6 +43,7 @@ const addCategoryChildData:AddCategoryChildViewModel = reactive({
 let parentId = ref(0);
 
 const setParentId=(id:any)=>{
+  console.log(id)
   parentId.value = id;
 }
 

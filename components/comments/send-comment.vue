@@ -1,7 +1,7 @@
 <template>
   <div>
-    <Form class="m-6 flex flex-col" v-if="authStore.isLogin">
-      <base-input multiline name="comment" v-model="comment" label="نظر شما:" placeholder="نظر خود را بنویسید..."/>
+    <Form @submit="Send" class="m-6 flex flex-col" v-if="authStore.isLogin">
+      <base-input multiline name="comment" v-model="sendCommentData.text" label="نظر شما:" placeholder="نظر خود را بنویسید..."/>
       <base-button color="success" class="w-1/2 md:w-1/3 mr-auto mt-4">
         ارسال نظر
       </base-button>
@@ -20,10 +20,53 @@
 </template>
 
 <script setup lang="ts">
-
 import {Form} from "vee-validate";
 import {useAuthStore} from "~/stores/authStore";
+import {EPostType} from "~/models/comment/commentDto";
+import {SendCommentViewModel} from "~/models/comment/sendCommentViewModel";
+import {SendComment} from "~/services/comment.service";
+import {errorAlert, successAlert} from "~/services/alert.service";
+
+const props = defineProps<{
+  postType:EPostType,
+  postId:number,
+}>();
+
+const emits = defineEmits(['commentSent']);
+
+const parentId = ref(null);
 
 const authStore = useAuthStore();
-const comment = ref();
+const sendCommentData:SendCommentViewModel = {
+  parentId: null,
+  postId: 0,
+  postType: EPostType.Course,
+  text: "",
+}
+
+const setParentId = (id:number)=>{
+  sendCommentData.parentId = id;
+  const form = document.getElementById('comments');
+  form.scrollIntoView();
+  const textInput = document.getElementById('comment');
+  textInput.focus();
+}
+
+const Send = async ()=>{
+  sendCommentData.postId = props.postId;
+  sendCommentData.postType = props.postType;
+  if(parentId.value != null) sendCommentData.parentId = parentId.value;
+  const result = await SendComment(sendCommentData);
+  if(result.isSuccess) {
+    successAlert();
+    sendCommentData.text = "";
+    emits('commentSent');
+  }
+  else
+    errorAlert();
+}
+
+defineExpose({
+  setParentId
+});
 </script>

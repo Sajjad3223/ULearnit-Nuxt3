@@ -1,5 +1,5 @@
-import {BaseFilterParams} from "~/baseFilterParams";
-import {BaseFilterResult} from "~/baseFilterResult";
+import {BaseFilterParams} from "~/models/baseFilterParams";
+import {BaseFilterResult} from "~/models/baseFilterResult";
 
 export interface CourseFilterParams extends BaseFilterParams{
 
