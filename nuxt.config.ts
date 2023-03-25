@@ -1,4 +1,6 @@
 // https://nuxt.com/docs/api/configuration/nuxt-config
+import {ApiUrl} from "~/utilities/ApiUrls";
+
 export default defineNuxtConfig({
     app:{
         layoutTransition: { name: 'layout', mode: 'out-in' },
@@ -14,5 +16,15 @@ export default defineNuxtConfig({
     modules:[
         '@pinia/nuxt',
         '@nuxtjs/tailwindcss',
+        '@nuxt/image-edge'
     ],
+    image:{
+        domains:[
+            'http://localhost:5161',
+            'http://localhost:3000'
+        ],
+        alias:{
+            ulearnit:'http://localhost:5161',
+        }
+    }
 })

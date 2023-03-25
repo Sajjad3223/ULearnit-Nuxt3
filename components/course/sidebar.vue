@@ -60,14 +60,23 @@
           <path d="M12 2C6.49 2 2 6.49 2 12C2 17.51 6.49 22 12 22C17.51 22 22 17.51 22 12C22 6.49 17.51 2 12 2ZM11.25 8C11.25 7.59 11.59 7.25 12 7.25C12.41 7.25 12.75 7.59 12.75 8V13C12.75 13.41 12.41 13.75 12 13.75C11.59 13.75 11.25 13.41 11.25 13V8ZM12.92 16.38C12.87 16.51 12.8 16.61 12.71 16.71C12.61 16.8 12.5 16.87 12.38 16.92C12.26 16.97 12.13 17 12 17C11.87 17 11.74 16.97 11.62 16.92C11.5 16.87 11.39 16.8 11.29 16.71C11.2 16.61 11.13 16.51 11.08 16.38C11.03 16.26 11 16.13 11 16C11 15.87 11.03 15.74 11.08 15.62C11.13 15.5 11.2 15.39 11.29 15.29C11.39 15.2 11.5 15.13 11.62 15.08C11.86 14.98 12.14 14.98 12.38 15.08C12.5 15.13 12.61 15.2 12.71 15.29C12.8 15.39 12.87 15.5 12.92 15.62C12.97 15.74 13 15.87 13 16C13 16.13 12.97 16.26 12.92 16.38Z" fill="white"/>
         </svg>
         <span>وضعیت دوره:</span>
-        <strong class="badge badge-success">{{ status }}</strong>
+        <strong>
+          <u-badge color="warning" v-if="status === 0">شروع به زودی...</u-badge>
+          <u-badge v-if="status === 1">در حال برگزاری</u-badge>
+          <u-badge color="success" v-if="status === 2">به اتمام رسیده</u-badge>
+          <u-badge color="danger" v-if="status === 3">متوقف شده</u-badge>
+        </strong>
       </div>
       <div class="detailItem">
         <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
           <path d="M16.19 2H7.81C4.17 2 2 4.17 2 7.81V16.18C2 19.83 4.17 22 7.81 22H16.18C19.82 22 21.99 19.83 21.99 16.19V7.81C22 4.17 19.83 2 16.19 2ZM9.91 16.19C9.91 16.83 9.39 17.35 8.74 17.35C8.1 17.35 7.58 16.83 7.58 16.19V12.93C7.58 12.29 8.1 11.77 8.74 11.77C9.39 11.77 9.91 12.29 9.91 12.93V16.19ZM16.42 16.19C16.42 16.83 15.9 17.35 15.26 17.35C14.61 17.35 14.09 16.83 14.09 16.19V7.81C14.09 7.17 14.61 6.65 15.26 6.65C15.9 6.65 16.42 7.17 16.42 7.81V16.19Z" fill="white"/>
         </svg>
         <span>سطح دوره:</span>
-        <strong>{{ level }}</strong>
+        <strong>
+          <u-badge color="dark" v-if="level === 0">مقدماتی</u-badge>
+          <u-badge color="dark" v-if="level === 1">متوسط</u-badge>
+          <u-badge color="dark" v-if="level === 2">پیشرفته</u-badge>
+        </strong>
       </div>
       <div class="detailItem">
         <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -120,11 +129,11 @@ defineProps({
     required:true
   },
   status:{
-    type:String,
+    type:Number,
     required:true
   },
   level:{
-    type:String,
+    type:Number,
     required:true
   },
   lastUpdate:{

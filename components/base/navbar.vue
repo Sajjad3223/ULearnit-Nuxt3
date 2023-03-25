@@ -43,7 +43,7 @@
             <NuxtLink to="/courses" class="nav-link" exact-active-class="active-nav-link"  aria-current="page">لیست دوره ها</NuxtLink>
           </li>
           <li>
-            <a href="#" class="nav-link">وبلاگ</a>
+            <NuxtLink to="/blog/search" class="nav-link">وبلاگ</NuxtLink>
           </li>
           <li>
             <a href="#" class="nav-link">پروژه های آماده</a>
@@ -53,6 +53,9 @@
           </li>
           <li v-else>
             <NuxtLink to="/userpanel" class="nav-link">حساب کاربری</NuxtLink>
+          </li>
+          <li>
+            <NuxtLink to="/admin" class="nav-link">پنل ادمین</NuxtLink>
           </li>
         </ul>
       </div>

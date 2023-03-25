@@ -1,12 +1,12 @@
 <template>
-  <div>
-    <div class="w-full lg:mx-auto mt-8">
+  <div v-if="course !== undefined">
+    <div class="w-full lg:mx-auto mt-8" >
       <div class="flex flex-col lg:flex-row w-full items-center lg:items-end space-y-4 lg:space-y-0">
         <div class="flex-1 flex flex-col ">
-          <h2 class="text-2xl font-bold">آموزش کار با موتور بازی سازی آنریل انجین</h2>
+          <h2 class="text-2xl font-bold">{{ course.title }}</h2>
           <bread-crumb :links="[
-              {link:'/courses',title:'آنریل انجین'},
-              {link: '',title: 'آموزش کار با موتور بازی سازی آنریل انجین'}
+              {link:'/courses',title:course.category.title},
+              {link: '',title: course.subCategory.title}
               ]" />
         </div>
         <div class="w-full lg:w-1/3">
@@ -19,36 +19,19 @@
       <div class="flex flex-col lg:flex-row-reverse w-full">
         <div class="courseSidebar">
           <course-sidebar
-              :price="50000"
-              :real-price="100000"
-              :discount="50"
-              teacher="سجاد میرشبی"
+              :price="course.price"
+              :real-price="course.price"
+              :discount="0"
+              :teacher="course.teacher.user.fullName"
               teacher-resume="/userpanel"
               :students-count="879"
-              time="60:25:14"
-              :videos-count="212"
-              status="به پایان رسیده"
-              level="مقدماتی"
-              last-update="1401/11/22"
+              :time="course.time"
+              :videos-count="getEpisodesCount"
+              :status="course.courseStatus"
+              :level="course.courseLevel"
+              :last-update="course.lastUpdate"
           />
-          <u-tags title="برچسب ها" :tags="[
-              {
-                title:'آنریل انجین',
-                link:'/courses',
-              },
-              {
-                title:'++C',
-                link:'/courses',
-              },
-              {
-                title:'UE4',
-                link:'/courses',
-              },
-              {
-                title:'UnrealEngine',
-                link:'/courses',
-              },
-          ]"/>
+          <u-tags title="برچسب ها" :tags="course.tags"/>
           <a href="#comments" class="btn link">
             <span>رفتن به نظرات</span>
           </a>
@@ -81,21 +64,21 @@
         </div>
         <div class="w-24"></div>
         <div class="flex flex-col flex-1  mt-8 lg:mt-0">
-          <img src="/imgs/unrealEngine-course.jpg" alt="unreal engine course" class="w-full rounded-lg">
+<!--          <img :src="`${ApiUrl}/core/course/banner/${course.imageName}`" alt="unreal engine course" class="w-full rounded-lg">-->
+          <video :poster="`${ApiUrl}/core/course/banner/${course.imageName}`" controls class="w-full rounded-lg" >
+            <source :src="`${ApiUrl}/core/course/intro/${course.introVideo}`" type="video/mp4">
+            Your browser does not support the video tag.
+          </video>
           <div class="course-description p-4 border-2 border-slate-700 rounded-lg mt-2">
-            <h3 class="text-xl font-semibold my-4">آموزش کار با موتور بازی سازی آنریل انجین</h3>
-            <p class="p-1 lg:p-4 text-justify text-sm lg:text-base">
-              لورم ایپسوم متن ساختگی با تولید سادگی نامفهوم از صنعت چاپ، و با استفاده از طراحان گرافیک است، چاپگرها و متون بلکه روزنامه و مجله در ستون و سطرآنچنان که لازم است، و برای شرایط فعلی تکنولوژی مورد نیاز، و کاربردهای متنوع با هدف بهبود ابزارهای کاربردی می باشد، کتابهای زیادی در شصت و سه درصد گذشته حال و آینده، شناخت فراوان جامعه و متخصصان را می طلبد، تا با نرم افزارها شناخت بیشتری را برای طراحان رایانه ای علی الخصوص طراحان خلاقی، و فرهنگ پیشرو در زبان فارسی ایجاد کرد، در این صورت می توان امید داشت که تمام و دشواری موجود در ارائه راهکارها، و شرایط سخت تایپ به پایان رسد و زمان مورد نیاز شامل حروفچینی دستاوردهای اصلی، و جوابگوی سوالات پیوسته اهل دنیای موجود طراحی اساسا مورد استفاده قرار گیرد.
-              لورم ایپسوم متن ساختگی با تولید سادگی نامفهوم از صنعت چاپ، و با استفاده از طراحان گرافیک است، چاپگرها و متون بلکه روزنامه و مجله در ستون و سطرآنچنان که لازم است، و برای شرایط فعلی تکنولوژی مورد نیاز، و کاربردهای متنوع با هدف بهبود ابزارهای کاربردی می باشد، کتابهای زیادی در شصت و سه
-            </p>
-            <u-tags title="نیازمندی ها" :tags="[
-              {
-                title:'جستجو در اینترنت',
-                link:'/courses',
-              },
-          ]"/>
+            <h3 class="text-xl font-semibold my-4">{{course.title}}</h3>
+            <p class="p-1 lg:p-4 text-justify text-sm lg:text-base" v-html="course.description"></p>
+            <u-tags title="نیازمندی ها" :tags="course.requirements" v-if="course.requirements.length > 0 && course.requirements[0] !== ''"/>
+            <div v-else class="flex flex-col space-y-2 mt-8">
+              <span>نیازمندی ها:</span>
+              <strong class="mr-4">پیش نیاز ندارد</strong>
+            </div>
           </div>
-          <course-videos time="60:25:14" />
+          <course-videos :time="course.time" :videos="course.sections"/>
           <comments />
         </div>
       </div>
@@ -105,5 +88,53 @@
 
 <script setup lang="ts">
 
-import Comments from "~/components/comments/comments.vue";
+import {CourseDto} from "~/models/course/courseDto";
+import {GetCourse} from "~/services/course.service";
+import {useRoute} from "nuxt/app";
+import {ApiUrl} from "~/utilities/ApiUrls";
+
+const course = ref<CourseDto>();
+
+const route = useRoute();
+onMounted(async ()=>{
+  const id = Number.parseInt(route.params.id.toString());
+  const result = await GetCourse(id);
+  course.value = result.data;
+  console.log(result);
+})
+
+const getEpisodesCount = computed(()=>{
+  if(course.value.sections.length > 0) {
+    const episodes = course.value.sections.map(c => c.episodes);
+    return episodes[0].length;
+  }
+  else{
+    return 0;
+  }
+})
+
+const getCourseStatus=computed(()=>{
+  switch (course.value.courseStatus)
+  {
+    case 0:
+      return 'مقدماتی';
+    case 1:
+      return 'متوسط';
+    case 2:
+      return 'پیشرفته';
+  }
+})
+const getCourseLevel=computed(()=>{
+  switch (course.value.courseStatus)
+  {
+    case 0:
+      return 'شروع به زودی...';
+    case 1:
+      return 'در حال برگزاری';
+    case 2:
+      return 'به اتمام رسیده';
+    case 3:
+      return 'متوقف شده';
+  }
+})
 </script>

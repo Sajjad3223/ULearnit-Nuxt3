@@ -2,9 +2,9 @@
   <nav class="fixed top-0 right-0 z-50 w-full bg-white border-b border-gray-200 dark:bg-gray-800 dark:border-gray-700">
     <div class="px-3 py-3 lg:px-5 lg:pr-3">
       <div class="flex items-center justify-between">
-        <a href="https://flowbite.com" class="flex mr-2 md:ml-32">
+        <NuxtLink to="/" class="flex mr-2 md:ml-32">
           <img src="/imgs/light-ULearnit.png" class="h-12 mr-3" alt="ULearnit Logo" />
-        </a>
+        </NuxtLink>
 
         <div class="flex items-center justify-end">
           <div class="flex items-center">

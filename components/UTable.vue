@@ -181,10 +181,11 @@ const showActions = ()=>{
   }
 }
 
-const showOption = (i)=>{
+const showOption = (i:any)=>{
   const optionsList = document.getElementsByClassName("table-option");
   const options = [...optionsList];
   const table = document.getElementById("data-table");
+  const rowCount = document.querySelectorAll("tbody > tr").length;
 
   if(!options[i].classList.contains('hidden')) {
     options[i].classList.add('hidden');
@@ -196,16 +197,18 @@ const showOption = (i)=>{
   })
   options[i].classList.toggle('hidden');
   options[i].classList.add('absolute');
-  if(document.documentElement.clientHeight > options[i].parentElement.parentElement.getBoundingClientRect().bottom &&
-    table.getBoundingClientRect().bottom - options[i].parentElement.parentElement.getBoundingClientRect().bottom > 100) {
+  if((document.documentElement.clientHeight > options[i].parentElement.parentElement.getBoundingClientRect().bottom &&
+    table.getBoundingClientRect().bottom - options[i].parentElement.parentElement.getBoundingClientRect().bottom > 100) ||
+    rowCount <= 1
+    ) {
     const y = (options[0].parentElement.parentElement.getBoundingClientRect().top - table.getBoundingClientRect().top) + options[0].parentElement.parentElement.getBoundingClientRect().height;
     options[i].style.inset = "0px auto auto 0px";
     options[i].style.transform = `translate(0px, ${y + (i * 49)}px)`;
   }
   else{
-    const y = -(table.getBoundingClientRect().bottom - options[9].parentElement.parentElement.getBoundingClientRect().bottom) - options[9].parentElement.parentElement.getBoundingClientRect().height;
+    const y = -(table.getBoundingClientRect().bottom - options[rowCount-1].parentElement.parentElement.getBoundingClientRect().bottom) - options[rowCount-1].parentElement.parentElement.getBoundingClientRect().height;
     options[i].style.inset = "auto auto 0px 0px";
-    options[i].style.transform = `translate(0px, ${y - ((9 - i) * options[i].parentElement.parentElement.getBoundingClientRect().height)}px)`;
+    options[i].style.transform = `translate(0px, ${y - ((rowCount - 1 - i) * options[i].parentElement.parentElement.getBoundingClientRect().height)}px)`;
   }
   enableHider.value = true;
 }

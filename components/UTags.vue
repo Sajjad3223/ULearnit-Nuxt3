@@ -3,7 +3,7 @@
     <strong>{{ title }}:</strong>
     <ul>
       <li v-for="tag in tags">
-        <NuxtLink class="font-sans" :to="tag.link">{{tag.title}}</NuxtLink>
+        <NuxtLink class="font-sans" :to="`/courses?search=${tag.replace(' ','-')}`">{{tag}}</NuxtLink>
       </li>
     </ul>
   </div>

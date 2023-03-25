@@ -32,7 +32,6 @@
 
 <script setup lang="ts">
 import {Form} from "vee-validate";
-import {FetchApi} from "~/utilities/CustomFetchApi";
 import {RegisterMaster} from "~/services/teacher.service";
 
 definePageMeta({

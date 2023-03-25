@@ -15,7 +15,7 @@
 
 <style scoped>
 .badge{
-  @apply inline-flex items-center text-xs font-medium px-2.5 py-0.5 rounded whitespace-nowrap;
+  @apply inline-flex items-center text-xs font-medium px-2.5 py-0.5 rounded whitespace-nowrap w-max;
 }
 .badge-warning{
   @apply bg-yellow-100 text-yellow-800 dark:bg-yellow-900 dark:text-yellow-300;

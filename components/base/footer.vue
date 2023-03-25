@@ -23,9 +23,11 @@
           <li><a href="">تماس با ما</a></li>
         </ul>
         <ul>
-          <li><a href="">
+          <li>
+            <NuxtLink to="/userpanel/registerMaster">
             تدریس در یولرن
-          </a></li>
+            </NuxtLink>
+          </li>
         </ul>
       </div>
     </div>

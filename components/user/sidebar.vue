@@ -15,7 +15,7 @@
         </svg>
       </a>
       <div class="user-image w-full grid place-items-center relative overflow-hidden">
-        <img :src="getUserAvatar" alt="user image" class="peer w-1/2 rounded-full">
+        <img :src="getUserAvatar" alt="user image" class="peer w-1/2 rounded-full" v-if="authStore.currentUser?.avatar !== undefined">
         <input type="file" name="userAvatar" id="userAvatar" class="hidden" @input="setUserAvatar">
         <label for="userAvatar"
            class="btn bg-black/50 absolute w-1/2 h-full grid place-items-center opacity-0 peer-hover:opacity-70 hover:opacity-70 transition rounded-full cursor-pointer">

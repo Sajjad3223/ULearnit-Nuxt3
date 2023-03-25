@@ -68,16 +68,42 @@
         </th>
       </template>
       <template v-slot:table-body="{showOption,hideAll}">
-          <master-course-row @showOption="showOption" @triggerDesc="hideAll" :index="i" v-for="(c,i) in 10"/>
+          <master-course-row @showOption="showOption" @triggerDesc="hideAll" :index="i" v-for="(c,i) in courses"
+            :id="c.id"
+            :episodes="getEpisodesCount(c)"
+            :title="c.title"
+            :status="c.courseStatus"
+            :price ="c.price"
+            />
       </template>
     </u-table>
     </div>
   </div>
 </template>
 
-<script setup>
+<script setup lang="ts">
+import {GetMasterCourses} from "~/services/course.service";
+import {CourseDto} from "~/models/course/courseDto";
+
 definePageMeta({
   layout:"user",
 })
+
+const courses = ref<CourseDto>();
+
+onBeforeMount( async ()=>{
+  const result = await GetMasterCourses();
+  courses.value = result.data;
+})
+
+const getEpisodesCount = (course:CourseDto)=>{
+  if(course.sections.length > 0) {
+    const episodes = course.sections.map(c => c.episodes);
+    return episodes[0].length;
+  }
+  else{
+    return 0;
+  }
+}
 
 </script>

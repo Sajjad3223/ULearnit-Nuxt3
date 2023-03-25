@@ -1,9 +1,9 @@
 <template>
   <li class="video">
     <div class="vid">
-      <span class="counter">1</span>
+      <span class="counter">{{index}}</span>
       <strong class="video-title">
-        <a href="javascript:void(0);" @click.prevent="toggleDescription">معرفی دوره</a>
+        <a href="javascript:void(0);" @click.prevent="toggleDescription">{{episode.title}}</a>
       </strong>
       <div class="actions">
         <base-button title="دانلود ویدئو" class="rounded-full" outline data-tooltip="دانلود ویدئو">
@@ -27,19 +27,29 @@
             <path d="M9 22H15C20 22 22 20 22 15V9C22 4 20 2 15 2H9C4 2 2 4 2 9V15C2 20 4 22 9 22Z" stroke="white" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
           </svg>
         </base-button>
-        <span class="video-time" dir="ltr">00:06':00"</span>
+        <span class="video-time" dir="ltr">{{episode.time}}</span>
       </div>
     </div>
     <transition enter-active-class="animate__animated animate__fadeInDown animate__faster"
                 leave-active-class="animate__animated animate__fadeOutUp animate__faster" >
       <p class="text-sm p-2" v-if="showDesc">
-        در این قسمت با این دوره اشنا میشوید
+        {{ episode.description }}
       </p>
     </transition>
   </li>
 </template>
 
-<script setup>
+<script setup lang="ts">
+defineProps({
+  index:{
+    type:Object,
+    required:true,
+  },
+  episode:{
+    type:Object,
+    required:true,
+  }
+})
 const showDesc = ref(false);
 
 const toggleDescription=()=>{

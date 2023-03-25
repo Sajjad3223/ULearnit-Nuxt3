@@ -2,14 +2,16 @@
   <NuxtLink v-if="isLink === true" :to="link" :class="['btn',
    color != '' ? outline ? `btn-outline-${color}`:`btn-${color}` : '',
    {'w-full':wFull},
-   {'flex-1':fillFlex}]">
+   {'flex-1':fillFlex},
+   'disabled:opacity-75']" :disabled="disabled">
     <slot />
   </NuxtLink>
 
   <button v-else type="submit" :class="['btn','cursor-pointer',
    color != '' ? outline ? `btn-outline-${color}`:`btn-${color}` : '',
    {'w-full':wFull},
-   {'flex-1':fillFlex}]">
+   {'flex-1':fillFlex},
+   'disabled:opacity-75']" :disabled="disabled">
     <slot />
   </button>
 </template>
@@ -38,6 +40,10 @@
       default:false,
     },
     fillFlex:{
+      type:Boolean,
+      default:false,
+    },
+    disabled:{
       type:Boolean,
       default:false,
     }
