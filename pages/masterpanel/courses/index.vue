@@ -72,6 +72,7 @@
             :id="c.id"
             :episodes="getEpisodesCount(c)"
             :title="c.title"
+            :slug="c.slug"
             :status="c.courseStatus"
             :price ="c.price"
             />

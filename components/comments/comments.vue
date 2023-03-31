@@ -8,7 +8,9 @@
       </svg>
       <h4>نظرات کاربران:</h4>
       <div>
-        (<span class="text-warning">127</span> نظر)
+        <span v-if="comments">{{ comments.length }}</span>
+        <span v-else>0</span>
+        <span class="mr-2">نظر</span>
       </div>
     </div>
     <div class="alert alert-warning">

@@ -15,6 +15,8 @@ export interface CourseDto{
     courseStatus: number;
     seoData: SeoData;
     price: number;
+    discount: number;
+    totalPrice: number;
     lastUpdate: Date;
     sections: SectionDto[];
     teacher: MasterDto;

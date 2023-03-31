@@ -8,8 +8,10 @@
         <div class="flex-1 flex flex-col ">
           <h2 class="text-2xl font-bold">{{ course.title }}</h2>
           <bread-crumb :links="[
-              {link:'/courses',title:course.category.title},
-              {link: '',title: course.subCategory.title}
+              {title:'دوره های آموزشی',link:`/courses`},
+              {link:`/courses/category-${course.category.slug}`,title: course.category.title},
+              {link: `/courses/category-${course.subCategory.slug}`,title: course.subCategory.title},
+              {title: course.title ,link: ''}
               ]" />
         </div>
         <div class="w-full lg:w-1/3">
@@ -22,6 +24,7 @@
       <div class="flex flex-col lg:flex-row-reverse w-full">
         <div class="courseSidebar">
           <course-sidebar
+              :id="course.id"
               :price="course.price"
               :real-price="course.price"
               :discount="0"
@@ -90,9 +93,8 @@
 </template>
 
 <script setup lang="ts">
-
 import {CourseDto} from "~/models/course/courseDto";
-import {GetCourse} from "~/services/course.service";
+import {GetCourseBySlug} from "~/services/course.service";
 import {useRoute} from "nuxt/app";
 import {ApiUrl} from "~/utilities/ApiUrls";
 import {EPostType} from "~/models/comment/commentDto";
@@ -101,10 +103,9 @@ const course = ref<CourseDto>();
 
 const route = useRoute();
 onMounted(async ()=>{
-  const id = Number.parseInt(route.params.id.toString());
-  const result = await GetCourse(id);
+  const slug = route.params.slug.toString();
+  const result = await GetCourseBySlug(slug);
   course.value = result.data;
-  console.log(result);
 })
 
 const getEpisodesCount = computed(()=>{

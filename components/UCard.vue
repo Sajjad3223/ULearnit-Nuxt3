@@ -1,15 +1,15 @@
 <template>
   <div class="card">
     <div class="w-full relative">
-      <NuxtLink to="/courses/1">
-        <img :src='`/imgs/${imageName}`' :alt="title" class="cardImage">
+      <NuxtLink :to="`/courses/${slug}`">
+        <img :src='`${ApiUrl}/core/course/banner/${imageName}`' :alt="title" class="cardImage">
       </NuxtLink>
       <!-- <a href="" class="absolute bottom-0 left-0" data-master-name="سجاد میرشبی">
           <img src="imgs/master.jpg" class="max-w-[70px] rounded-lg rounded-bl-none ring-4 ring-slate-900" alt="master">
       </a> -->
     </div>
     <div class="cardInfo">
-      <NuxtLink to="/courses/1" class="cardTitle link">
+      <NuxtLink :to="`/courses/${slug}`" class="cardTitle link">
         <h4>
           {{ title }}
         </h4>
@@ -50,8 +50,8 @@
         </div>
       </div>
       <div class="flex w-full items-center mt-2 space-x-2 space-x-reverse">
-        <base-button is-link link="/courses/1" color="primary" fill-flex>مشاهده دوره</base-button>
-        <base-button color="" id="like" class="p-0 grid place-items-center rounded-lg btn-outline-danger w-9 h-9">
+        <base-button is-link :link="`/courses/${slug}`" color="primary" fill-flex>مشاهده دوره</base-button>
+        <base-button color="danger" outline id="like" @click.prevent="addToFavorite" class="p-0 grid place-items-center rounded-lg btn-outline-danger w-9 h-9">
           <svg width="24" height="20" viewBox="0 0 24 20" fill="none" xmlns="http://www.w3.org/2000/svg">
             <path d="M7.6 1C9.29038 1 10.8323 1.84142 12 2.8C13.1677 1.84142 14.7096 1 16.4 1C20.0451 1 23 3.71049 23 7.05386C23 13.795 15.3274 17.721 12.7981 18.8321C12.2886 19.056 11.7114 19.056 11.2019 18.8321C8.67259 17.721 1 13.7948 1 7.0537C1 3.71033 3.95492 1 7.6 1Z" stroke="white" stroke-width="2"/>
           </svg>
@@ -62,9 +62,20 @@
 </template>
 
 <script setup lang="ts">
+import {ApiUrl} from "~/utilities/ApiUrls";
+import {AddFavorite} from "~/services/course.service";
+import {errorAlert, successAlert} from "~/services/alert.service";
 
 const props = defineProps({
+  id: {
+    type: Number,
+    required:true,
+  },
   title: {
+    type: String,
+    required:true,
+  },
+  slug: {
     type: String,
     required:true,
   },
@@ -93,6 +104,14 @@ const props = defineProps({
     required:true,
   },
 })
+
+const addToFavorite = async ()=>{
+  const result = await AddFavorite(props.id);
+  if(result.isSuccess)
+    successAlert();
+  else
+    errorAlert();
+}
 </script>
 
 <style scoped>

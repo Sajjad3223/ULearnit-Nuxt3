@@ -1,8 +1,9 @@
 <template>
-  <div class="flex-1 flex flex-col lg:ml-6" >
-    <h2 class="text-2xl font-bold">پرسش و پاسخ</h2>
+  <div class="flex-1 flex flex-col lg:ml-6" v-if="course !== undefined">
+    <h2 class="text-2xl font-bold">پرسش و پاسخ: <span class="font-medium">آموزش کار با موتور بازی سازی آنریل انجین</span></h2>
     <bread-crumb :links="[
-              {link:'',title:'پرسش و پاسخ'},
+              {link:'/questions',title:'پرسش و پاسخ'},
+              {link: '',title: course.title}
               ]" />
 
     <!-- <hr class="h-px my-8 bg-gray-200 border-0 dark:bg-gray-700"> -->
@@ -11,7 +12,7 @@
       <template v-slot:table-options="{showFilter}">
         <div class="w-full md:w-auto flex flex-col md:flex-row space-y-2 md:space-y-0 items-stretch md:items-center justify-end md:space-x-3 md:space-x-reverse flex-shrink-0">
           <div class="flex items-center space-x-3 space-x-reverse w-full md:w-auto">
-
+            <base-button is-link :link="`/questions/${params.postId}/add`">سوال جدید</base-button>
             <button id="filterButton" @click.prevent="showFilter" class="w-full md:w-auto flex items-center justify-center py-2 px-4 text-sm font-medium text-gray-900 focus:outline-none bg-white rounded-lg border border-gray-200 hover:bg-gray-100 hover:text-primary-700 focus:z-10 focus:ring-4 focus:ring-gray-200 dark:focus:ring-gray-700 dark:bg-gray-800 dark:text-gray-400 dark:border-gray-600 dark:hover:text-white dark:hover:bg-gray-700" type="button">
               <svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" class="h-4 w-4 ml-2 text-gray-400" viewbox="0 0 20 20" fill="currentColor">
                 <path fill-rule="evenodd" d="M3 3a1 1 0 011-1h12a1 1 0 011 1v3a1 1 0 01-.293.707L12 11.414V15a1 1 0 01-.293.707l-2 2A1 1 0 018 17v-5.586L3.293 6.707A1 1 0 013 6V3z" clip-rule="evenodd" />
@@ -76,17 +77,23 @@
 <script setup lang="ts">
 import {QuestionFilterData} from "~/models/question/questionFilterParams";
 import {ApiUrl} from "~/utilities/ApiUrls";
+import {CourseDto} from "~/models/course/courseDto";
+import {GetCourse} from "~/services/course.service";
 
 definePageMeta({
   layout:'question',
 })
 
 const questions = ref<QuestionFilterData>();
+const course = ref<CourseDto>();
 const question = useQuestion();
+const params = question.getFilterParams();
 onMounted(async ()=>{
   const result = await question.getQuestionsByFilter();
   if(result.isSuccess) {
     questions.value = result.data.data;
+    const courseRes = await GetCourse(params.postId);
+    course.value = courseRes.data;
   }
 })
 </script>

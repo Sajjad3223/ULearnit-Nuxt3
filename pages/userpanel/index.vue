@@ -115,4 +115,5 @@ definePageMeta({
 })
 
 const authStore = useAuthStore();
+
 </script>

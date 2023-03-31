@@ -14,7 +14,7 @@
       <div class="footerLinks">
         <ul>
           <li><NuxtLink to="/" exact-active-class="footerActiveLink">صفحه اصلی</NuxtLink></li>
-          <li><NuxtLink to="/courses" exact-active-class="footerActiveLink">آموزش ها</NuxtLink></li>
+          <li><NuxtLink to="/courses/search" exact-active-class="footerActiveLink">آموزش ها</NuxtLink></li>
           <li><a href="">وبلاگ</a></li>
         </ul>
         <ul>

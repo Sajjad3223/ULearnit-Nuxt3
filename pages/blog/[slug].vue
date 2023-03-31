@@ -7,6 +7,7 @@
           <header class="mb-4 lg:mb-6 not-format">
             <h1 class="mb-4 text-2xl font-extrabold leading-tight text-gray-900 lg:mb-6 lg:text-3xl dark:text-white">{{post.title}}</h1>
             <bread-crumb :links="[
+            {title:'وبلاگ',link:`/blog/search`},
             {title:post.category.title,link:`/blog/search/category-${post.category.slug}`},
             {title:post.subCategory.title,link:`/blog/search/category-${post.subCategory.slug}`},
             {title:post.title},

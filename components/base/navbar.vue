@@ -40,10 +40,10 @@
         </div>
         <ul id="navbarMenu" class="flex flex-col p-4 mt-4 border border-gray-100 rounded-lg bg-gray-50 md:flex md:flex-row md:space-x-8 md:space-x-reverse md:mt-0 md:text-sm md:font-medium md:border-0 md:bg-white dark:bg-gray-800 md:dark:bg-gray-900 dark:border-gray-700">
           <li>
-            <NuxtLink to="/courses" class="nav-link" exact-active-class="active-nav-link"  aria-current="page">لیست دوره ها</NuxtLink>
+            <NuxtLink to="/courses/search" class="nav-link" exact-active-class="active-nav-link"  aria-current="page">لیست دوره ها</NuxtLink>
           </li>
           <li>
-            <NuxtLink to="/blog/search" class="nav-link">وبلاگ</NuxtLink>
+            <NuxtLink to="/blog/search" class="nav-link" active-class="active-nav-link">وبلاگ</NuxtLink>
           </li>
           <li>
             <a href="#" class="nav-link">پروژه های آماده</a>

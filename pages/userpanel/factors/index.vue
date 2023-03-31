@@ -14,16 +14,20 @@
           </th>
         </template>
         <template v-slot:table-body="{showOption}">
-          <tr class="border-b dark:border-gray-700" v-for="(f,i) in 10">
+          <tr class="border-b dark:border-gray-700" v-for="(f,i) in factors">
             <th scope="row" class="px-4 py-3 font-medium text-gray-900 whitespace-nowrap dark:text-white">
-              #12345
+              #{{ f.id }}
             </th>
-            <td class="px-4 py-3">2</td>
-            <td class="px-4 py-3">50,000</td>
-            <td class="px-4 py-3">1401/11/18</td>
+            <td class="px-4 py-3">{{f.totalItemCount}}</td>
+            <td class="px-4 py-3">{{f.totalPrice}}</td>
+            <td class="px-4 py-3">{{ new Date(f.creationDate).toLocaleDateString() }}</td>
             <td class="px-4 py-3">
-              <span
-                  class="bg-blue-100 text-blue-800 text-xs font-medium px-2.5 py-0.5 rounded dark:bg-blue-900 dark:text-blue-300 whitespace-nowrap">پرداخت شده</span>
+              <u-badge v-if="f.orderStatus === EOrderStatus.Pending"
+                  >در انتظار پرداخت</u-badge>
+              <u-badge v-if="f.orderStatus === EOrderStatus.Paid"
+                  color="success">پرداخت شده</u-badge>
+              <u-badge v-if="f.orderStatus === EOrderStatus.Canceled"
+                  color="danger">لغو شده</u-badge>
             </td>
             <td class="px-4 py-3 flex items-center justify-end">
               <button @click.prevent="showOption(i)"
@@ -40,7 +44,7 @@
                 <ul class="py-1 text-sm text-gray-700 dark:text-gray-200"
                     aria-labelledby="apple-imac-27-dropdown-button">
                   <li>
-                    <NuxtLink to="factors/1"
+                    <NuxtLink :to="`/userpanel/factors/${f.id}`"
                               class="block py-2 px-4 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">
                       جزئیات فاکتور
                     </NuxtLink>
@@ -55,8 +59,22 @@
   </div>
 </template>
 
-<script setup>
+<script setup lang="ts">
+import {GetUserOrders} from "~/services/cart.service";
+import {EOrderStatus, OrderDto} from "~/models/cart/orderDto";
+
 definePageMeta({
   layout: "user",
+})
+
+const factors = ref<OrderDto>();
+
+onMounted(async ()=>{
+  const result = await GetUserOrders();
+  if(result.isSuccess)
+  {
+    factors.value = result.data.data;
+    console.log(factors.value)
+  }
 })
 </script>

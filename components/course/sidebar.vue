@@ -87,15 +87,23 @@
         <span>آخرین به روز رسانی:</span>
         <strong>{{ lastUpdate }}</strong>
       </div>
-      <base-button w-full class="py-4" style="padding: 1.2rem 0">
+      <base-button w-full class="py-4" style="padding: 1.2rem 0" @click.prevent="AddOrderItem">
         ثبت نام در دوره
       </base-button>
-      <base-button link="/questions" is-link outline color="success">پرسش و پاسخ</base-button>
+      <base-button :link="`/questions/course/${id}?postType=0&postId=${id}`" is-link outline color="success">پرسش و پاسخ</base-button>
     </div>
 </template>
 
-<script setup>
-defineProps({
+<script setup lang="ts">
+import {AddToCartViewModel, EItemType} from "~/models/cart/addToCartViewModel";
+import {AddToCart} from "~/services/cart.service";
+import {successAlert} from "~/services/alert.service";
+
+const props = defineProps({
+  id:{
+    type:Number,
+    required:true,
+  },
   price:{
     type:Number,
     required:true,
@@ -141,8 +149,19 @@ defineProps({
     required:true
   }
 })
+
+const addToCartData:AddToCartViewModel = reactive({
+  itemId : props.id,
+  itemType : EItemType.Course,
+  count : 1
+});
+
+const router = useRouter();
+const AddOrderItem = async ()=>{
+  const result = await AddToCart(addToCartData);
+  if(result.isSuccess) {
+    successAlert();
+    router.push('/cart');
+  }
+}
 </script>
-
-<style scoped>
-
-</style>

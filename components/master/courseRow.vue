@@ -1,7 +1,7 @@
 <template>
   <tr class="border-b dark:border-gray-700">
     <th scope="row" class="px-4 py-3 font-medium text-gray-900 whitespace-nowrap dark:text-white">
-      <NuxtLink :to="`/courses/${id}`" class="link" >{{ title }}</NuxtLink>
+      <NuxtLink :to="`/courses/${slug}`" class="link" >{{ title }}</NuxtLink>
     </th>
     <td class="px-4 py-3">{{ episodes }}</td>
     <td class="px-4 py-3">
@@ -69,6 +69,10 @@ defineProps({
     required:true,
   },
   title:{
+    type:string,
+    required:true,
+  },
+  slug:{
     type:string,
     required:true,
   },

@@ -8,6 +8,7 @@ import {EditCourseViewModel} from "~/models/course/editCourseViewModel";
 import {EditSectionViewModel} from "~/models/course/editSectionViewModel";
 import {EditEpisodeViewModel} from "~/models/course/editEpisodeViewModel";
 import {CourseFilterParams, CourseFilterResult} from "~/models/course/courseSearchResultDto";
+import {FavoriteDto} from "~/models/favoriteDto";
 
 export function GetCourses():Promise<ApiResponse<CourseDto>>{
     return FetchApi('/Course',{
@@ -21,6 +22,11 @@ export function GetMasterCourses():Promise<ApiResponse<CourseDto>>{
 }
 export function GetCourse(courseId:Number):Promise<ApiResponse<CourseDto>>{
     return FetchApi(`/Course/${courseId}`,{
+        method:'GET',
+    });
+}
+export function GetCourseBySlug(slug:string):Promise<ApiResponse<CourseDto>>{
+    return FetchApi(`/Course/c/${slug}`,{
         method:'GET',
     });
 }
@@ -101,5 +107,22 @@ export function PublishEpisode(courseId:Number,episodeId:Number):Promise<ApiResp
             courseId,
             episodeId
         },
+    });
+}
+
+export function GetUserFavorites():Promise<ApiResponse<FavoriteDto>>{
+    return FetchApi('/Course/Favorites',{
+        method:'GET',
+    });
+}
+export function AddFavorite(postId:Number):Promise<ApiResponse<undefined>>{
+    return FetchApi('/Course/Favorites',{
+        method:'POST',
+        body:postId
+    });
+}
+export function DeleteFavorite(postId:Number):Promise<ApiResponse<undefined>>{
+    return FetchApi(`/Course/Favorites/${postId}`,{
+        method:'DELETE',
     });
 }

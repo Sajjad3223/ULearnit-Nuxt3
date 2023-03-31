@@ -1,7 +1,7 @@
 <template>
   <div>
     <div class="w-full lg:mx-auto mt-12">
-      <div v-if="1 > 0" class="flex flex-col lg:flex-row w-full items-start space-y-4 lg:space-y-0">
+      <div v-if="cart && cart.items.length > 0" class="flex flex-col lg:flex-row w-full items-start space-y-4 lg:space-y-0">
         <div class="flex-1 flex flex-col lg:ml-8">
           <h2 class="text-2xl font-bold">سبد خرید شما</h2>
           <bread-crumb :links="[
@@ -13,7 +13,7 @@
           </u-alert>
 
          <div class="w-full"></div>
-          <u-table :has-header="false" :has-footer="false" :max-height="550">
+          <u-table :has-header="false" :has-footer="false" :max-height="550" >
             <template #table-header>
               <th scope="col" class="px-6 py-3 hidden lg:block">
                 بنر
@@ -33,25 +33,34 @@
               <th></th>
             </template>
             <template #table-body>
-              <tr class="bg-white border-b dark:bg-gray-800 dark:border-gray-700" v-for="i in 10">
+              <tr class="bg-white border-b dark:bg-gray-800 dark:border-gray-700" v-for="(c,i) in cart.items">
                 <td class="hidden lg:block">
-                  <img src="/imgs/unrealEngine-course.jpg" class="w-24 m-4 rounded-lg">
+                  <base-img :src="`${ApiUrl}/core/course/banner/${c.itemBanner}`" class="w-24 m-4 rounded-lg" />
                 </td>
                 <th scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
-                  <NuxtLink to="/courses/1" class="hover:underline underline-offset-4">آموزش جامع آنریل انجین</NuxtLink>
-                  <p class="text-xs font-medium mt-2 dark:text-white opacity-60">سجاد میرشبی بایگی</p>
+                  <NuxtLink :to="`/courses/${c.itemSlug}`" class="hover:underline underline-offset-4">{{c.itemName}}</NuxtLink>
+                  <p class="text-xs font-medium mt-2 dark:text-white opacity-60">{{c.itemAuthorName}}</p>
                 </th>
-                <td class="px-6 py-4 hidden lg:table-cell">
-                  {{ (100000).toLocaleString() }}
+                <td class="px-6 py-4 hidden lg:table-cell" v-if="c.price > 0">
+                  {{ c.price.toLocaleString() }}
                 </td>
-                <td class="px-6 py-4 hidden lg:table-cell">
-                  {{ (50000).toLocaleString() }}
+                <td class="px-6 py-4 hidden lg:table-cell" v-else>
+                  رایگان !
                 </td>
-                <td class="px-6 py-4 text-white">
-                  {{ (50000).toLocaleString() }}
+                <td class="px-6 py-4 hidden lg:table-cell" v-if="c.discount > 0">
+                  {{ c.discount.toLocaleString() }}
+                </td>
+                <td class="px-6 py-4 hidden lg:table-cell" v-else>
+                  0
+                </td>
+                <td class="px-6 py-4 hidden lg:table-cell" v-if="c.totalPrice > 0">
+                  {{ c.totalPrice.toLocaleString() }}
+                </td>
+                <td class="px-6 py-4 hidden lg:table-cell" v-else>
+                  رایگان !
                 </td>
                 <td>
-                  <base-button color="none" class="text-red-500 hover:text-red-600 dark:hover:text-red-400" >
+                  <base-button color="none" class="text-red-500 hover:text-red-600 dark:hover:text-red-400" @click.prevent="deleteOrderItem(c.id,c.itemType)">
                     <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
                       <path d="M20.9997 6.72998C20.9797 6.72998 20.9497 6.72998 20.9197 6.72998C15.6297 6.19998 10.3497 5.99998 5.11967 6.52998L3.07967 6.72998C2.65967 6.76998 2.28967 6.46998 2.24967 6.04998C2.20967 5.62998 2.50967 5.26998 2.91967 5.22998L4.95967 5.02998C10.2797 4.48998 15.6697 4.69998 21.0697 5.22998C21.4797 5.26998 21.7797 5.63998 21.7397 6.04998C21.7097 6.43998 21.3797 6.72998 20.9997 6.72998Z" fill="currentColor"/>
                       <path d="M8.50074 5.72C8.46074 5.72 8.42074 5.72 8.37074 5.71C7.97074 5.64 7.69074 5.25 7.76074 4.85L7.98074 3.54C8.14074 2.58 8.36074 1.25 10.6907 1.25H13.3107C15.6507 1.25 15.8707 2.63 16.0207 3.55L16.2407 4.85C16.3107 5.26 16.0307 5.65 15.6307 5.71C15.2207 5.78 14.8307 5.5 14.7707 5.1L14.5507 3.8C14.4107 2.93 14.3807 2.76 13.3207 2.76H10.7007C9.64074 2.76 9.62074 2.9 9.47074 3.79L9.24074 5.09C9.18074 5.46 8.86074 5.72 8.50074 5.72Z" fill="currentColor"/>
@@ -75,13 +84,12 @@
             <hr class="my-4 opacity-50">
             <div class="grid grid-cols-2 gap-6 mx-4 place-items-end">
               <span class="justify-self-start text-sm">جمع کل:</span>
-              <strong> {{ (200000).toLocaleString() }} <sub>تومان</sub> </strong>
+              <strong> {{ cart.totalPrice.toLocaleString() }} <sub>تومان</sub> </strong>
               <span class="justify-self-start text-sm">مبلغ تخفیف:</span>
-              <strong> {{ (100000).toLocaleString() }} <sub>تومان</sub> </strong>
-              <span class="justify-self-start text-sm">موجودی کیف پول:</span>
-              <strong> {{ (0).toLocaleString() }} <sub>تومان</sub> </strong>
+              <strong v-if="cart.discount"> {{ cart.discount.amount.toLocaleString() }} <sub>تومان</sub> </strong>
+              <strong v-else> 0 <sub>تومان</sub> </strong>
               <span class="justify-self-start text-sm">قابل پرداخت:</span>
-              <strong> {{ (100000).toLocaleString() }} <sub>تومان</sub> </strong>
+              <strong> {{ cart.totalPrice.toLocaleString() }} <sub>تومان</sub> </strong>
             </div>
             <hr class="my-4 opacity-50">
             <form>
@@ -112,7 +120,7 @@
             <input type="text" class="searchbox rounded-l-none">
             <button type="submit" class="bg-indigo-500 p-3 px-6 rounded-l-lg">جستجو</button>
           </div>
-          <base-button is-link link="/courses">
+          <base-button is-link link="/courses/search">
             مشاهده همه دوره ها
           </base-button>
         </div>
@@ -122,6 +130,41 @@
   </div>
 </template>
 
-<script>
+<script setup lang="ts">
+import {GetPendingCart, RemoveOrderItem} from "~/services/cart.service";
+import {ApiUrl} from "~/utilities/ApiUrls";
+import {successAlert} from "~/services/alert.service";
+import {OrderItemCommand} from "~/models/cart/orderItemCommand";
+import {EItemType} from "~/models/cart/addToCartViewModel";
 
+const cart = ref();
+
+onMounted(async ()=>{
+  await loadData();
+})
+
+const loadData = async ()=>{
+  const result = await GetPendingCart();
+  if(result.isSuccess)
+  {
+    cart.value = result.data;
+  }
+}
+
+const deleteItemCommand:OrderItemCommand = reactive({
+  itemId:0,
+  itemType:EItemType.Course,
+  count:0
+});
+
+const deleteOrderItem = async (id:Number,itemType:EItemType)=>{
+  deleteItemCommand.itemId = id;
+  deleteItemCommand.itemType = itemType;
+  const result = await RemoveOrderItem(deleteItemCommand);
+  if(result.isSuccess)
+  {
+    successAlert("آیتم با موفقیت حذف شد!");
+    await loadData();
+  }
+}
 </script>
