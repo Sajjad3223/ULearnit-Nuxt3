@@ -8,7 +8,7 @@
       <u-badge v-if="status === 0" color="warning">به زودی...</u-badge>
       <u-badge v-if="status === 1">در حال برگزاری</u-badge>
       <u-badge v-if="status === 2" color="success">به اتمام رسیده</u-badge>
-      <u-badge v-if="status === 2" color="danger">متوقف شده</u-badge>
+      <u-badge v-if="status === 3" color="danger">متوقف شده</u-badge>
     </td>
     <td class="px-4 py-3" v-if="price === 0">رایگان</td>
     <td class="px-4 py-3" v-else>{{price.toLocaleString()}}</td>

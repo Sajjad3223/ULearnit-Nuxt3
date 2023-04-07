@@ -1,4 +1,5 @@
-import {SeoData} from "~/SeoData";
+import {SeoData} from "~/models/SeoData";
+import {ECourseLevel, ECourseStatus} from "~/models/course/courseEnums";
 
 export interface EditCourseViewModel{
     courseId: number;
@@ -17,14 +18,3 @@ export interface EditCourseViewModel{
     requirements: string;
 }
 
-export enum ECourseLevel{
-    Beginner,
-    Intermediate,
-    Advanced
-}
-export enum ECourseStatus{
-    Preparing,
-    InProgress,
-    Completed,
-    Canceled
-}

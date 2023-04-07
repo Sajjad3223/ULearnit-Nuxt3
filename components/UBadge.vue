@@ -4,12 +4,11 @@
   </span>
 </template>
 
-<script setup>
-  defineProps({
-    color:{
-      type:String,
-      default:'primary',
-    },
+<script setup lang="ts">
+  const props = withDefaults(defineProps<{
+    color:'primary' | 'success' | 'danger' | 'warning' | 'dark'
+  }>(),{
+    color:'primary'
   })
 </script>
 

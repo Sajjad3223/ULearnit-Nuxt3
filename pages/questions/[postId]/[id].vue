@@ -8,10 +8,10 @@
               ]" />
 
     <div class="mt-8">
-      <questions-question-q  :question="question"/>
+      <questions-question-q  :question="question" @reacted="loadData"/>
       <u-divider title="پاسخ ها" class="mt-4" size="base" font="light"/>
       <div v-if="question.answers.length > 0" class="flex flex-col-reverse">
-        <questions-question-a class="py-4 first-of-type:pt-0" v-for="a in question.answers" :key="a" :answer="a" @questionSolved="loadData" :is-solved="question.isResolved"/>
+        <questions-question-a @reacted="loadData" class="py-4 first-of-type:pt-0" v-for="a in question.answers" :key="a" :answer="a" @questionSolved="loadData" :is-solved="question.isResolved"/>
       </div>
       <u-alert v-else color="dark">هنوز هیچ پاسخی وجود ندارد!</u-alert>
     </div>

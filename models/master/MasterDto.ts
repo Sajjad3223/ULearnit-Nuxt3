@@ -1,4 +1,4 @@
-import {UserDto} from "~/user/userDto";
+import {UserDto} from "~/models/user/userDto";
 
 export interface MasterDto{
     id: number;

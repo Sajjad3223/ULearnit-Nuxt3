@@ -27,11 +27,12 @@
           <div class="text-justify pl-4">
             <p v-html="post.content"></p>
           </div>
+          <u-tags title="برچسب ها" :tags="tags"/>
         </article>
         <hr class="my-6 opacity-50">
         <comments :post-type="EPostType.Blog" :post-id="post.id"/>
       </div>
-      <hr class="lg:hidden my-8 opacity-30">
+      <hr class="lg:hidden my-10 opacity-30">
       <div class="p-4 border-4 border-gray-700 w-full lg:w-1/3 rounded-xl h-max">
         <u-divider title="مقالات مرتبط" />
 
@@ -55,12 +56,15 @@ import {PostDto} from "~/models/blog/postDto";
 import {GetPostBySlug} from "~/services/blog.service";
 import {EPostType} from "~/models/comment/commentDto";
 
+const tags = ref<string[]>();
+
 const post = ref<PostDto>();
 const route = useRoute();
 onMounted(async ()=>{
   const result = await GetPostBySlug(route.params.slug);
   if(result.isSuccess) {
     post.value = result.data;
+    tags.value = post.value.tags?.split(',');
   }
 })
 </script>

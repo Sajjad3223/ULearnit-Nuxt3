@@ -1,19 +1,11 @@
 <template>
   <div>
-    <course-filter />
+    <course-filter :filter-params="filterResult?.data.filterParams"/>
 
     <div class="m-4">
       <div class="grid grid-cols-4 gap-8">
-        <u-card v-for="course in courses"
-                :id="course.id"
-                :image-name="course.imageName"
-                :title="course.title"
-                :time="course.time"
-                :slug="course.slug"
-                :students-count="course.studentsCount"
-                :price="course.price"
-                :discount="course.discount"
-                :real-price="course.realPrice"/>
+        <u-card v-for="course in filterResult?.data.data"
+                :course-card="course" :key="course"/>
       </div>
     </div>
   </div>
@@ -25,9 +17,12 @@ import {useSearch} from "~/composables/search";
 const courses = ref();
 
 const search = useSearch();
-onMounted(async ()=>{
-  const result = await search.getCoursesByFilter();
-  if(result.isSuccess)
-    courses.value = result.data.data;
+
+const { data: filterResult, refresh, pending } = await useAsyncData("search", () => search.getCoursesByFilter())
+
+const route = useRoute();
+watch(() => route.query, () => {
+  refresh();
 })
+
 </script>

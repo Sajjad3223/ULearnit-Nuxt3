@@ -1,17 +1,17 @@
 <template>
   <div class="card">
     <div class="w-full relative">
-      <NuxtLink :to="`/courses/${slug}`">
-        <img :src='`${ApiUrl}/core/course/banner/${imageName}`' :alt="title" class="cardImage">
+      <NuxtLink :to="`/courses/${courseCard.slug}`">
+        <base-img :src='`/ulearnit/core/course/banner/${courseCard.imageName}`' :alt="courseCard.title" class="cardImage" />
       </NuxtLink>
       <!-- <a href="" class="absolute bottom-0 left-0" data-master-name="سجاد میرشبی">
           <img src="imgs/master.jpg" class="max-w-[70px] rounded-lg rounded-bl-none ring-4 ring-slate-900" alt="master">
       </a> -->
     </div>
     <div class="cardInfo">
-      <NuxtLink :to="`/courses/${slug}`" class="cardTitle link">
+      <NuxtLink :to="`/courses/${courseCard.slug}`" class="cardTitle link">
         <h4>
-          {{ title }}
+          {{ courseCard.title }}
         </h4>
       </NuxtLink>
       <div class="cardDetails">
@@ -20,16 +20,14 @@
             <path d="M22 12C22 17.52 17.52 22 12 22C6.48 22 2 17.52 2 12C2 6.48 6.48 2 12 2C17.52 2 22 6.48 22 12Z" stroke="white" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
             <path d="M15.71 15.18L12.61 13.33C12.07 13.01 11.63 12.24 11.63 11.61V7.51001" stroke="white" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
           </svg>
-          <span>{{time}} دقیقه</span>
+          <span>{{courseCard.time}}</span>
         </div>
         <div class="detail">
           <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-            <path d="M9.16055 11.62C9.13055 11.62 9.11055 11.62 9.08055 11.62C9.03055 11.61 8.96055 11.61 8.90055 11.62C6.00055 11.53 3.81055 9.25 3.81055 6.44C3.81055 3.58 6.14055 1.25 9.00055 1.25C11.8605 1.25 14.1905 3.58 14.1905 6.44C14.1805 9.25 11.9805 11.53 9.19055 11.62C9.18055 11.62 9.17055 11.62 9.16055 11.62ZM9.00055 2.75C6.97055 2.75 5.31055 4.41 5.31055 6.44C5.31055 8.44 6.87055 10.05 8.86055 10.12C8.92055 10.11 9.05055 10.11 9.18055 10.12C11.1405 10.03 12.6805 8.42 12.6905 6.44C12.6905 4.41 11.0305 2.75 9.00055 2.75Z" fill="white"/>
-            <path d="M16.5404 11.75C16.5104 11.75 16.4804 11.75 16.4504 11.74C16.0404 11.78 15.6204 11.49 15.5804 11.08C15.5404 10.67 15.7904 10.3 16.2004 10.25C16.3204 10.24 16.4504 10.24 16.5604 10.24C18.0204 10.16 19.1604 8.96 19.1604 7.49C19.1604 5.97 17.9304 4.74 16.4104 4.74C16.0004 4.75 15.6604 4.41 15.6604 4C15.6604 3.59 16.0004 3.25 16.4104 3.25C18.7504 3.25 20.6604 5.16 20.6604 7.5C20.6604 9.8 18.8604 11.66 16.5704 11.75C16.5604 11.75 16.5504 11.75 16.5404 11.75Z" fill="white"/>
-            <path d="M9.16961 22.55C7.20961 22.55 5.23961 22.05 3.74961 21.05C2.35961 20.13 1.59961 18.87 1.59961 17.5C1.59961 16.13 2.35961 14.86 3.74961 13.93C6.74961 11.94 11.6096 11.94 14.5896 13.93C15.9696 14.85 16.7396 16.11 16.7396 17.48C16.7396 18.85 15.9796 20.12 14.5896 21.05C13.0896 22.05 11.1296 22.55 9.16961 22.55ZM4.57961 15.19C3.61961 15.83 3.09961 16.65 3.09961 17.51C3.09961 18.36 3.62961 19.18 4.57961 19.81C7.06961 21.48 11.2696 21.48 13.7596 19.81C14.7196 19.17 15.2396 18.35 15.2396 17.49C15.2396 16.64 14.7096 15.82 13.7596 15.19C11.2696 13.53 7.06961 13.53 4.57961 15.19Z" fill="white"/>
-            <path d="M18.3402 20.75C17.9902 20.75 17.6802 20.51 17.6102 20.15C17.5302 19.74 17.7902 19.35 18.1902 19.26C18.8202 19.13 19.4002 18.88 19.8502 18.53C20.4202 18.1 20.7302 17.56 20.7302 16.99C20.7302 16.42 20.4202 15.88 19.8602 15.46C19.4202 15.12 18.8702 14.88 18.2202 14.73C17.8202 14.64 17.5602 14.24 17.6502 13.83C17.7402 13.43 18.1402 13.17 18.5502 13.26C19.4102 13.45 20.1602 13.79 20.7702 14.26C21.7002 14.96 22.2302 15.95 22.2302 16.99C22.2302 18.03 21.6902 19.02 20.7602 19.73C20.1402 20.21 19.3602 20.56 18.5002 20.73C18.4402 20.75 18.3902 20.75 18.3402 20.75Z" fill="white"/>
+            <path d="M22 12C22 6.49 17.51 2 12 2C6.49 2 2 6.49 2 12C2 14.9 3.25 17.51 5.23 19.34C5.23 19.35 5.23 19.35 5.22 19.36C5.32 19.46 5.44 19.54 5.54 19.63C5.6 19.68 5.65 19.73 5.71 19.77C5.89 19.92 6.09 20.06 6.28 20.2C6.35 20.25 6.41 20.29 6.48 20.34C6.67 20.47 6.87 20.59 7.08 20.7C7.15 20.74 7.23 20.79 7.3 20.83C7.5 20.94 7.71 21.04 7.93 21.13C8.01 21.17 8.09 21.21 8.17 21.24C8.39 21.33 8.61 21.41 8.83 21.48C8.91 21.51 8.99 21.54 9.07 21.56C9.31 21.63 9.55 21.69 9.79 21.75C9.86 21.77 9.93 21.79 10.01 21.8C10.29 21.86 10.57 21.9 10.86 21.93C10.9 21.93 10.94 21.94 10.98 21.95C11.32 21.98 11.66 22 12 22C12.34 22 12.68 21.98 13.01 21.95C13.05 21.95 13.09 21.94 13.13 21.93C13.42 21.9 13.7 21.86 13.98 21.8C14.05 21.79 14.12 21.76 14.2 21.75C14.44 21.69 14.69 21.64 14.92 21.56C15 21.53 15.08 21.5 15.16 21.48C15.38 21.4 15.61 21.33 15.82 21.24C15.9 21.21 15.98 21.17 16.06 21.13C16.27 21.04 16.48 20.94 16.69 20.83C16.77 20.79 16.84 20.74 16.91 20.7C17.11 20.58 17.31 20.47 17.51 20.34C17.58 20.3 17.64 20.25 17.71 20.2C17.91 20.06 18.1 19.92 18.28 19.77C18.34 19.72 18.39 19.67 18.45 19.63C18.56 19.54 18.67 19.45 18.77 19.36C18.77 19.35 18.77 19.35 18.76 19.34C20.75 17.51 22 14.9 22 12ZM16.94 16.97C14.23 15.15 9.79 15.15 7.06 16.97C6.62 17.26 6.26 17.6 5.96 17.97C4.44 16.43 3.5 14.32 3.5 12C3.5 7.31 7.31 3.5 12 3.5C16.69 3.5 20.5 7.31 20.5 12C20.5 14.32 19.56 16.43 18.04 17.97C17.75 17.6 17.38 17.26 16.94 16.97Z" fill="currentColor"/>
+            <path d="M12 6.92969C9.93 6.92969 8.25 8.60969 8.25 10.6797C8.25 12.7097 9.84 14.3597 11.95 14.4197C11.98 14.4197 12.02 14.4197 12.04 14.4197C12.06 14.4197 12.09 14.4197 12.11 14.4197C12.12 14.4197 12.13 14.4197 12.13 14.4197C14.15 14.3497 15.74 12.7097 15.75 10.6797C15.75 8.60969 14.07 6.92969 12 6.92969Z" fill="currentColor"/>
           </svg>
-          <span>{{ studentsCount }} دانشجو</span>
+          <span>{{ courseCard.teacherName }}</span>
         </div>
         <div class="priceDetail">
           <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -38,19 +36,19 @@
             <path d="M9.01001 10C8.45001 10 8 9.55 8 9C8 8.45 8.45 8 9 8C9.55 8 10 8.45 10 9C10 9.55 9.56001 10 9.01001 10Z" fill="white"/>
             <path d="M8.99945 15.75C8.80945 15.75 8.61945 15.68 8.46945 15.53C8.17945 15.24 8.17945 14.7599 8.46945 14.4699L14.4695 8.46994C14.7595 8.17994 15.2395 8.17994 15.5295 8.46994C15.8195 8.75994 15.8195 9.24 15.5295 9.53L9.52945 15.53C9.37945 15.68 9.18945 15.75 8.99945 15.75Z" fill="white"/>
           </svg>
-          <div class="priceDiscount" v-if="discount > 0">
+          <div class="priceDiscount" v-if="courseCard.discount > 0">
             <div>
-              <span class="discountBadge">{{ discount }}%</span>
-              <small>{{ realPrice.toLocaleString() }} تومان</small>
+              <span class="discountBadge">{{ courseCard.discount }}%</span>
+              <small>{{ courseCard.totalPrice.toLocaleString() }} تومان</small>
             </div>
-            <strong>{{ price.toLocaleString() }} <sub>تومان</sub></strong>
+            <strong>{{ courseCard.price.toLocaleString() }} <sub>تومان</sub></strong>
           </div>
-          <strong v-else-if="discount === 0 && price > 0"> {{ price.toLocaleString() }} <sub>تومان</sub></strong>
+          <strong v-else-if="courseCard.discount === 0 && courseCard.price > 0"> {{ courseCard.price.toLocaleString() }} <sub>تومان</sub></strong>
           <strong v-else> رایگان! </strong>
         </div>
       </div>
       <div class="flex w-full items-center mt-2 space-x-2 space-x-reverse">
-        <base-button is-link :link="`/courses/${slug}`" color="primary" fill-flex>مشاهده دوره</base-button>
+        <base-button is-link :link="`/courses/${courseCard.slug}`" color="primary" fill-flex>مشاهده دوره</base-button>
         <base-button color="danger" outline id="like" @click.prevent="addToFavorite" class="p-0 grid place-items-center rounded-lg btn-outline-danger w-9 h-9">
           <svg width="24" height="20" viewBox="0 0 24 20" fill="none" xmlns="http://www.w3.org/2000/svg">
             <path d="M7.6 1C9.29038 1 10.8323 1.84142 12 2.8C13.1677 1.84142 14.7096 1 16.4 1C20.0451 1 23 3.71049 23 7.05386C23 13.795 15.3274 17.721 12.7981 18.8321C12.2886 19.056 11.7114 19.056 11.2019 18.8321C8.67259 17.721 1 13.7948 1 7.0537C1 3.71033 3.95492 1 7.6 1Z" stroke="white" stroke-width="2"/>
@@ -62,48 +60,13 @@
 </template>
 
 <script setup lang="ts">
-import {ApiUrl} from "~/utilities/ApiUrls";
 import {AddFavorite} from "~/services/course.service";
 import {errorAlert, successAlert} from "~/services/alert.service";
+import {CourseCardDto} from "~/models/course/courseSearchResultDto";
 
-const props = defineProps({
-  id: {
-    type: Number,
-    required:true,
-  },
-  title: {
-    type: String,
-    required:true,
-  },
-  slug: {
-    type: String,
-    required:true,
-  },
-  imageName: {
-    type: String,
-    required:true,
-  },
-  time: {
-    type: String,
-    required:true,
-  },
-  studentsCount: {
-    type: Number,
-    required:true,
-  },
-  price: {
-    type: Number,
-    required:true,
-  },
-  discount: {
-    type: Number,
-    required:true,
-  },
-  realPrice: {
-    type: Number,
-    required:true,
-  },
-})
+const props = defineProps<{
+  courseCard:CourseCardDto
+}>()
 
 const addToFavorite = async ()=>{
   const result = await AddFavorite(props.id);

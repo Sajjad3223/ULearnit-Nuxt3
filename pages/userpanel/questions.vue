@@ -16,7 +16,7 @@
               <NuxtLink :to="`/questions/${q.postId}/${q.id}`" class="link">{{q.title}}</NuxtLink>
             </th>
             <th scope="row" class="px-4 py-3 font-medium text-gray-900 whitespace-nowrap dark:text-white">
-              <NuxtLink :to="`/questions/course?postType=0&postId=${q.postId}`" class="link">دوره آموزش آنریل انجین</NuxtLink>
+              <NuxtLink :to="`/questions/course?postType=0&postId=${q.postId}`" class="link">{{q.postTitle}}</NuxtLink>
             </th>
             <td class="px-4 py-3">
 

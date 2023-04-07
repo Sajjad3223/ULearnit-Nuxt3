@@ -1,35 +1,29 @@
 <template>
-  <form class="filter">
+  <Form class="filter" @submit="filterCourses">
     <div class="col-span-full my-2">
       <label>جستجو:</label>
-      <input type="text" class="px-4 searchbox" placeholder="دنبال چه آموزشی هستید؟">
+      <input type="text" name="q" v-model="filterData.search" class="px-4 searchbox" placeholder="دنبال چه آموزشی هستید؟">
     </div>
     <div>
       <label for="">دسته بندی</label>
-      <select class="h-14 bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full px-8 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
+      <select v-model="filterData.category" name="category" class="h-14 bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full px-8 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
         <option value="">همه دسته بندی ها</option>
-        <option value="">دسته بندی اول</option>
-        <option value="">دسته بندی دوم</option>
-        <option value="">دسته بندی سوم</option>
+        <option v-for="c in categories" :value="c.slug" >{{c.title}}</option>
       </select>
     </div>
     <div>
       <label for="">طبقه بندی بر اساس</label>
       <div>
-        <label for="all">
-          <input type="radio" name="order" id="all" class="peer" checked>
-          <span class="peer-checked:bg-slate-700" >همه</span>
-        </label>
         <label for="date" >
-          <input type="radio" name="order" id="date" class="peer"  >
+          <input type="radio" name="order" id="date" class="peer" :value="0" v-model="filterData.orderby">
           <span class="peer-checked:bg-slate-700">تاریخ</span>
         </label>
         <label for="price" >
-          <input type="radio" name="order" id="price" class="peer" >
+          <input type="radio" name="order" id="price" class="peer" :value="1" v-model="filterData.orderby">
           <span class="peer-checked:bg-slate-700">قیمت</span>
         </label>
         <label for="view" >
-          <input type="radio" name="order" id="view" class="peer" >
+          <input type="radio" name="order" id="view" class="peer" :value="2" v-model="filterData.orderby">
           <span class="peer-checked:bg-slate-700">بازدید</span>
         </label>
       </div>
@@ -38,15 +32,15 @@
       <label for="">قیمت</label>
       <div>
         <label for="allPrice" >
-          <input type="radio" name="price" id="allPrice" class="peer" checked>
+          <input type="radio" name="price" id="allPrice" class="peer" checked :value="2" v-model="filterData.price">
           <span class="peer-checked:bg-slate-700">همه</span>
         </label>
         <label for="notFree" >
-          <input type="radio" name="price" id="notFree" class="peer">
+          <input type="radio" name="price" id="notFree" class="peer" :value="0" v-model="filterData.price">
           <span class="peer-checked:bg-slate-700">نقدی</span>
         </label>
         <label for="free" >
-          <input type="radio" name="price" id="free" class="peer">
+          <input type="radio" name="price" id="free" class="peer" :value="1" v-model="filterData.price">
           <span class="peer-checked:bg-slate-700">رایگان</span>
         </label>
       </div>
@@ -57,12 +51,46 @@
         <path d="M20.5799 4.02V6.24C20.5799 7.05 20.0799 8.06 19.5799 8.57L19.3999 8.73C19.2599 8.86 19.0499 8.89 18.8699 8.83C18.6699 8.76 18.4699 8.71 18.2699 8.66C17.8299 8.55 17.3599 8.5 16.8799 8.5C13.4299 8.5 10.6299 11.3 10.6299 14.75C10.6299 15.89 10.9399 17.01 11.5299 17.97C12.0299 18.81 12.7299 19.51 13.4899 19.98C13.7199 20.13 13.8099 20.45 13.6099 20.63C13.5399 20.69 13.4699 20.74 13.3999 20.79L11.9999 21.7C10.6999 22.51 8.90992 21.6 8.90992 19.98V14.63C8.90992 13.92 8.50992 13.01 8.10992 12.51L4.31992 8.47C3.81992 7.96 3.41992 7.05 3.41992 6.45V4.12C3.41992 2.91 4.31992 2 5.40992 2H18.5899C19.6799 2 20.5799 2.91 20.5799 4.02Z" fill="white"/>
       </svg>
     </base-button>
-  </form>
+  </Form>
 </template>
 
-<script>
+<script setup lang="ts">
+import {Form} from 'vee-validate';
+import {GetCourseCategories} from "~/services/courseCategory.service";
+import {CourseFilterParams} from "~/models/course/courseSearchResultDto";
+
+const props = defineProps<{
+  filterParams:CourseFilterParams
+}>();
+
+const filterData = reactive({
+  search:props.filterParams.search,
+  category:props.filterParams.categorySlug,
+  orderby:props.filterParams.orderFilter ?? 0,
+  price:props.filterParams.priceFilter ?? 2
+});
+
+
+const categories = ref();
+onMounted(async ()=>{
+  const result = await GetCourseCategories();
+  categories.value = result.data;
+})
+
+const router = useRouter();
+const filterCourses = async ()=>{
+  let params = "?";
+  if(filterData.search != "" && filterData.search != null)
+    params += `q=${filterData.search}`;
+  if(filterData.orderby != null)
+    params += `&orderBy=${filterData.orderby}`;
+  if(filterData.price != null)
+    params += `&price=${filterData.price}`;
+  if(filterData.category != "" && filterData.category != null)
+    router.push(`/courses/search/category-${filterData.category}${params}`);
+  else
+    router.push(`/courses/search${params}`);
+
+}
+
 </script>
-
-<style scoped>
-
-</style>

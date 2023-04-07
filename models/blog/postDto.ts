@@ -12,7 +12,7 @@ export interface PostDto{
     category: CategoryDto;
     subCategory: CategoryDto;
     imageName: string;
-    tags: string;
+    tags?: string;
     postStatus: EPostStatus;
     creationDate: Date;
     seoData: SeoData;

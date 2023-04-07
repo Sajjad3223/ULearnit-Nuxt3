@@ -1,6 +1,6 @@
-import {SeoData} from "~/SeoData";
-import {MasterDto} from "~/master/MasterDto";
-import {CategoryDto} from "~/category/categoryDTO";
+import {SeoData} from "~/models/SeoData";
+import {MasterDto} from "~/models/master/MasterDto";
+import {CategoryDto} from "~/models/category/categoryDTO";
 
 export interface CourseDto{
     id: number;
@@ -24,6 +24,8 @@ export interface CourseDto{
     subCategory: CategoryDto;
     tags:string[];
     requirements:string[];
+    userHasCourse:boolean;
+    studentsCount:Number;
 }
 export interface SectionDto {
     id: number;
@@ -31,9 +33,9 @@ export interface SectionDto {
     isActive: boolean;
     title: string;
     description: string;
+    time: string;
     displayOrder: number;
     episodes: EpisodeDto[];
-    course: string;
 }
 export interface EpisodeDto {
     id: number;
@@ -44,8 +46,8 @@ export interface EpisodeDto {
     description: string;
     token: string;
     time: string;
-    videoName: string;
-    attachmentName: string;
+    /*videoName: string;
+    attachmentName: string;*/
     isFree: boolean;
-    section: string;
+    hasAttachment: boolean;
 }

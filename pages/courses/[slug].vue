@@ -27,10 +27,10 @@
               :id="course.id"
               :price="course.price"
               :real-price="course.price"
-              :discount="0"
+              :discount="course.discount"
               :teacher="course.teacher.user.fullName"
-              teacher-resume="/userpanel"
-              :students-count="879"
+              :teacher-resume="`/master/${course.teacher.teacherName}`"
+              :students-count="course.studentsCount"
               :time="course.time"
               :videos-count="getEpisodesCount"
               :status="course.courseStatus"
@@ -84,7 +84,12 @@
               <strong class="mr-4">پیش نیاز ندارد</strong>
             </div>
           </div>
-          <course-videos :time="course.time" :videos="course.sections"/>
+          <course-videos
+              :time="course.time"
+              :sections="course.sections"
+              :user-has-course="course.userHasCourse"
+              :course-price="course.totalPrice"
+              :teacher-user-id="course.teacher.user.id"/>
           <comments :post-type="EPostType.Course" :post-id="course.id" />
         </div>
       </div>
@@ -100,7 +105,6 @@ import {ApiUrl} from "~/utilities/ApiUrls";
 import {EPostType} from "~/models/comment/commentDto";
 
 const course = ref<CourseDto>();
-
 const route = useRoute();
 onMounted(async ()=>{
   const slug = route.params.slug.toString();

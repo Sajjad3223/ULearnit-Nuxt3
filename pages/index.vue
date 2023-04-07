@@ -14,15 +14,7 @@
   <div class="m-4">
     <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-8">
       <u-card v-for="course in courses"
-              :id="course.id"
-              :image-name="course.imageName"
-              :title="course.title"
-              :time="course.time"
-              :slug="course.slug"
-              :students-count="course.studentsCount"
-              :price="course.price"
-              :discount="course.discount"
-              :real-price="course.realPrice"/>
+              :course-card="course" :key="course"/>
     </div>
     <!-- <a href="" class="seeAll btn btn-cta">
         مشاهده همه دوره ها

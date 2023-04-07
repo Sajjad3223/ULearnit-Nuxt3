@@ -1,4 +1,4 @@
-export interface ReactToCommentViewModel{
+export interface ReactToCommentViewModel {
     commentId: number;
     postId: number;
     reactionType: EReactionType;

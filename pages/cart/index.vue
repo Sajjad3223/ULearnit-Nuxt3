@@ -107,7 +107,7 @@
                 <input name="paymentMethod" type="radio" checked value="gateway" id="gateway" class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600">
                 <label for="gateway" class="mr-2 text-sm font-medium text-gray-900 dark:text-gray-300">درگاه بانکی</label>
               </div>
-              <base-button w-full type="submit" color="success" class="mt-4">پرداخت و ثبت نهایی</base-button>
+              <base-button @click="finalizeOrder" w-full type="submit" color="success" class="mt-4">پرداخت و ثبت نهایی</base-button>
             </form>
           </div>
         </div>
@@ -131,7 +131,7 @@
 </template>
 
 <script setup lang="ts">
-import {GetPendingCart, RemoveOrderItem} from "~/services/cart.service";
+import {FinalizeOrder, GetPendingCart, RemoveOrderItem} from "~/services/cart.service";
 import {ApiUrl} from "~/utilities/ApiUrls";
 import {successAlert} from "~/services/alert.service";
 import {OrderItemCommand} from "~/models/cart/orderItemCommand";
@@ -165,6 +165,15 @@ const deleteOrderItem = async (id:Number,itemType:EItemType)=>{
   {
     successAlert("آیتم با موفقیت حذف شد!");
     await loadData();
+  }
+}
+
+const router = useRouter();
+const finalizeOrder = async ()=>{
+  const result = await FinalizeOrder();
+  if(result.isSuccess) {
+    successAlert();
+    router.push("/cart/paymentSucceed")
   }
 }
 </script>

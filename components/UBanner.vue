@@ -16,14 +16,15 @@
         آنریل انجین
       </h2>
       <img src="/imgs/UE-Icon.png" alt="UE-icon" class="UnrealIcon">
-      <base-button link="/courses/1" is-link color="cta" class="absolute left-4 bottom-4 text-sm lg:text-base">
+      <base-button is-link color="cta" class="absolute left-4 bottom-4 text-sm lg:text-base">
         مشاهده دوره ها
       </base-button>
     </div>
   </div>
 </template>
 
-<script setup>
+<script setup lang="ts">
+
 </script>
 
 <style scoped>

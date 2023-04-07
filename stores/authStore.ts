@@ -24,7 +24,6 @@ export const useAuthStore = defineStore('auth',()=>{
         if(currentUserData.isSuccess)
         {
             currentUser.value = currentUserData.data;
-            console.log(currentUserData.data);
         }
         else if(currentUserData.metaData.appStatusCode === AppStatusCode.UnAuthorize){
             loginResult.value = null;

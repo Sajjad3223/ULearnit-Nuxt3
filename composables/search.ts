@@ -1,4 +1,3 @@
-
 import {useRoute} from "nuxt/app";
 import {CourseFilterParams, CourseFilterResult} from "~/models/course/courseSearchResultDto";
 import {ApiResponse} from "~/models/ApiResponse";
@@ -9,12 +8,17 @@ export const useSearch = () => {
 
     const getFilterParams = ():CourseFilterParams => {
 
-        const res = {
-            pageId:Number(route.query.pageId?.toString() ?? "1"),
-            take:10,
-        } as CourseFilterParams;
+        const categorySlug = route.params?.slug[0]?.split('category-')[1];
 
-        return res;
+        return  {
+            pageId: Number(route.query.pageId?.toString() ?? "1"),
+            take: 10,
+            search: route.query?.q ?? null,
+            categorySlug: categorySlug ?? null,
+            orderFilter: route.query?.orderBy ?? null,
+            priceFilter: route.query?.price ?? null,
+            requirement: route.query?.requires ?? null,
+        } as CourseFilterParams;
     }
 
     const getCoursesByFilter = ():Promise<ApiResponse<CourseFilterResult>> => {

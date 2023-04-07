@@ -1,5 +1,5 @@
 <template>
-  <div class="col-span-full" >
+  <div class="col-span-full">
     <label class="pb-1 block dark:text-white">{{title}}</label>
     <ckeditor :editor="editor" v-model="editorData" :config="editorConfig" tag-name="textarea" @change="$emit('update:modelValue',editorData)"/>
     <span class="text-sm text-red-600 dark:text-red-400" v-if="isRequired && (editorData === '')">وارد کردن {{title}} الزامی است</span>
@@ -37,7 +37,7 @@ export default {
         ckfinder: {
           uploadUrl: `${ApiUrl}/api/course/upload-file`
         }
-      }
+      },
     };
   },
   updated() {
