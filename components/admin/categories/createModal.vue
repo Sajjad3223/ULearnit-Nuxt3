@@ -24,6 +24,7 @@ import {Form} from "vee-validate";
 import {CreateCourseCategory} from "~/services/courseCategory.service";
 import {CreateBlogCategory} from "~/services/blogCategory.service";
 import {errorAlert, successAlert} from "~/services/alert.service";
+import {CreateRoadmapCategory} from "~/services/roadmapCategory.service";
 
 const props = defineProps({
   categoryType:{
@@ -46,6 +47,8 @@ const createCategory= async ()=>{
     result = await CreateCourseCategory(createCategoryData);
   } else if (cType === 'blog') {
     result = await CreateBlogCategory(createCategoryData);
+  } else if (cType === 'roadmap') {
+    result = await CreateRoadmapCategory(createCategoryData);
   }
   if(result?.isSuccess)
   {

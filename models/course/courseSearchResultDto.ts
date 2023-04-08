@@ -17,6 +17,7 @@ export interface CourseCardDto{
     imageName: string;
     courseLevel: ECourseLevel;
     courseStatus: ECourseStatus;
+    episodesCount: number;
     price: number;
     discount: number;
     totalPrice: number;

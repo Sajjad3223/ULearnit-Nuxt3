@@ -70,7 +70,7 @@
       <template v-slot:table-body="{showOption,hideAll}">
           <master-course-row @showOption="showOption" @triggerDesc="hideAll" :index="i" v-for="(c,i) in courses"
             :id="c.id"
-            :episodes="getEpisodesCount(c)"
+            :episodes="c.episodesCount"
             :title="c.title"
             :slug="c.slug"
             :status="c.courseStatus"
@@ -84,27 +84,17 @@
 
 <script setup lang="ts">
 import {GetMasterCourses} from "~/services/course.service";
-import {CourseDto} from "~/models/course/courseDto";
+import {CourseCardDto} from "~/models/course/courseSearchResultDto";
 
 definePageMeta({
   layout:"user",
 })
 
-const courses = ref<CourseDto>();
+const courses = ref<CourseCardDto[]>();
 
 onBeforeMount( async ()=>{
   const result = await GetMasterCourses();
-  courses.value = result.data;
+  courses.value = result.data.data;
 })
-
-const getEpisodesCount = (course:CourseDto)=>{
-  if(course.sections.length > 0) {
-    const episodes = course.sections.map(c => c.episodes);
-    return episodes[0].length;
-  }
-  else{
-    return 0;
-  }
-}
 
 </script>

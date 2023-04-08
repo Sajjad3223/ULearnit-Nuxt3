@@ -33,6 +33,7 @@ export enum EPostType{
     Course,
     Blog,
     Shop,
+    Roadmap,
 }
 
 export interface CommentFilterResult extends BaseFilterResult<CommentFilterData>{}

@@ -6,10 +6,10 @@
     <td class="px-4 py-3 text-white">
       {{ category.title }}
     </td>
-    <td class="px-4 py-3 text-white">
+    <td class="px-4 py-3 text-white font-sans">
       {{ category.slug }}
     </td>
-    <td class="px-4 py-3 flex items-center justify-end">
+    <td class="px-4 py-3 flex items-center justify-end" v-if="shouldUseChild">
       <button @click.prevent="emits('showOption',index)" class="inline-flex items-center p-0.5 text-sm font-medium text-center text-gray-500 hover:text-gray-800 rounded-lg focus:outline-none dark:text-gray-400 dark:hover:text-gray-100" type="button">
         <svg class="w-5 h-5" aria-hidden="true" fill="currentColor" viewbox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
           <path d="M6 10a2 2 0 11-4 0 2 2 0 014 0zM12 10a2 2 0 11-4 0 2 2 0 014 0zM16 12a2 2 0 100-4 2 2 0 000 4z" />
@@ -25,7 +25,7 @@
       </div>
     </td>
   </tr>
-  <tr class="border-b dark:border-gray-700" v-for="(child,i) in category.children" :key="child.id">
+  <tr class="border-b dark:border-gray-700" v-if="category.children !== undefined" v-for="(child,i) in category.children" :key="child.id">
     <td class="pr-8 py-3" >
       {{ `${index+1} - ${i+1}` }}
     </td>
@@ -49,6 +49,10 @@ const props = defineProps({
     type:Number,
     required:true,
   },
+  shouldUseChild:{
+    type:Boolean,
+    default:true,
+  }
 });
 
 const thisRow = ref();

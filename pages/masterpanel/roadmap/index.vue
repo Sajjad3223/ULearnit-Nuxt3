@@ -1,16 +1,16 @@
 <template>
   <div>
-    <u-divider title="مدیریت مقالات" />
+    <u-divider title="مدیریت نقشه راه ها" />
     <div class="w-full mt-4">
       <u-table>
         <template v-slot:table-options="{showFilter,showActions}" >
           <div class="w-full md:w-auto flex flex-col md:flex-row space-y-2 md:space-y-0 items-stretch md:items-center justify-end md:space-x-3 md:space-x-reverse flex-shrink-0">
-            <NuxtLink to="/masterpanel/blog/add" class="flex items-center justify-center text-white bg-indigo-700 hover:bg-indigo-800 focus:ring-4 focus:ring-indigo-300 font-medium rounded-lg text-sm px-4 py-2 dark:bg-indigo-600 dark:hover:bg-indigo-700 focus:outline-none dark:focus:ring-indigo-800">
+            <NuxtLink to="/masterpanel/roadmap/add" class="flex items-center justify-center text-white bg-indigo-700 hover:bg-indigo-800 focus:ring-4 focus:ring-indigo-300 font-medium rounded-lg text-sm px-4 py-2 dark:bg-indigo-600 dark:hover:bg-indigo-700 focus:outline-none dark:focus:ring-indigo-800">
               <svg class="ml-2 scale-125" width="14" height="14" viewBox="0 0 14 14" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
                 <path d="M10.5 7.4375H3.5C3.26083 7.4375 3.0625 7.23917 3.0625 7C3.0625 6.76083 3.26083 6.5625 3.5 6.5625H10.5C10.7392 6.5625 10.9375 6.76083 10.9375 7C10.9375 7.23917 10.7392 7.4375 10.5 7.4375Z" fill="white"/>
                 <path d="M7 10.9375C6.76083 10.9375 6.5625 10.7392 6.5625 10.5V3.5C6.5625 3.26083 6.76083 3.0625 7 3.0625C7.23917 3.0625 7.4375 3.26083 7.4375 3.5V10.5C7.4375 10.7392 7.23917 10.9375 7 10.9375Z" fill="white"/>
               </svg>
-              مقاله جدید
+              نقشه راه جدید
             </NuxtLink>
             <div class="flex items-center space-x-3 space-x-reverse space-x-reverse w-full md:w-auto">
               <button id="filterButton" @click="showFilter" class="w-full md:w-auto flex items-center justify-center py-2 px-4 text-sm font-medium text-gray-900 focus:outline-none bg-white rounded-lg border border-gray-200 hover:bg-gray-100 hover:text-primary-700 focus:z-10 focus:ring-4 focus:ring-gray-200 dark:focus:ring-gray-700 dark:bg-gray-800 dark:text-gray-400 dark:border-gray-600 dark:hover:text-white dark:hover:bg-gray-700" type="button">
@@ -53,9 +53,9 @@
           </th>
         </template>
         <template v-slot:table-body="{showOption,hideAll}">
-          <tr class="border-b dark:border-gray-700" v-for="(b,i) in blogs">
+          <tr class="border-b dark:border-gray-700" v-for="(b,i) in roadmapPosts">
             <th scope="row" class="px-4 py-3 font-medium text-gray-900 whitespace-nowrap dark:text-white">
-              <NuxtLink :to="`/blog/${b.slug}`" class="link" >{{ b.title }}</NuxtLink>
+              <NuxtLink :to="`/roadmaps/${b.slug}`" class="link" >{{ b.title }}</NuxtLink>
             </th>
             <td class="px-4 py-3">{{ b.visit }}</td>
             <td class="px-4 py-3">{{ b.visit }}</td>
@@ -75,10 +75,10 @@
               <div class="hidden table-option z-20 w-44 bg-white rounded divide-y divide-gray-100 shadow dark:bg-gray-700 dark:divide-gray-600">
                 <ul class="py-1 text-sm text-gray-700 dark:text-gray-200" aria-labelledby="apple-imac-27-dropdown-button">
                   <li>
-                    <NuxtLink :to="`/masterpanel/blog/edit/${b.id}`" class="block py-2 px-4 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">ویرایش</NuxtLink>
+                    <NuxtLink :to="`/masterpanel/roadmap/edit/${b.id}`" class="block py-2 px-4 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">ویرایش</NuxtLink>
                   </li>
                   <li>
-                    <button @click="deleteBlog(b.id)" class="w-full text-right block py-2 px-4 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">حذف مقاله</button>
+                    <button @click="deleteRoadmapPost(b.id)" class="w-full text-right block py-2 px-4 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">حذف مقاله</button>
                   </li>
                 </ul>
               </div>
@@ -91,31 +91,30 @@
 </template>
 
 <script setup lang="ts">
-import {DeletePost, GetUserPosts, PublishPost} from "~/services/blog.service";
-import {PostDto} from "~/models/blog/postDto";
 import {errorAlert, successAlert} from "~/services/alert.service";
 import Swal from "sweetalert2";
-import {DeleteSection} from "~/services/course.service";
+import {RoadmapPostDto} from "~/models/roadmap/roadmapDto";
+import {DeleteRoadmapPost, GetUserRoadmapPosts} from "~/services/roadmap.service";
 
 definePageMeta({
   layout:"user",
 })
 
-const blogs = ref<PostDto>();
+const roadmapPosts = ref<RoadmapPostDto>();
 
 onBeforeMount( async ()=>{
   await loadData();
 })
 
 const loadData = async ()=>{
-  const result = await GetUserPosts();
+  const result = await GetUserRoadmapPosts();
   if(result.isSuccess)
   {
-    blogs.value = result.data;
+    roadmapPosts.value = result.data;
   }
 }
 
-const deleteBlog = async (id:any)=>{
+const deleteRoadmapPost = async (id:any)=>{
   await Swal.fire({
     title:`آیا از حذف این پست مطمئن هستید؟`,
     icon:'question',
@@ -125,7 +124,7 @@ const deleteBlog = async (id:any)=>{
     cancelButtonText:'انصراف',
   }).then(async (result)=>{
     if(result.isConfirmed) {
-      const result = await DeletePost(id);
+      const result = await DeleteRoadmapPost(id);
       if(result.isSuccess)
       {
         successAlert();

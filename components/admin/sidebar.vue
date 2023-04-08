@@ -179,6 +179,14 @@
               </NuxtLink>
             </li>
             <li class="mr-2 p-2">
+              <NuxtLink to="/admin/categories/roadmapCategories" class="flex items-center p-2 text-base font-normal text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700">
+                <svg class="flex-shrink-0 w-6 h-6 text-gray-500 transition duration-75 dark:text-gray-400 group-hover:text-gray-900 dark:group-hover:text-white" width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                  <path d="M16.19 2H7.81C4.17 2 2 4.17 2 7.81V16.18C2 19.83 4.17 22 7.81 22H16.18C19.82 22 21.99 19.83 21.99 16.19V7.81C22 4.17 19.83 2 16.19 2ZM19.35 8.84C19.31 8.93 19.26 9.01 19.19 9.08L17.39 10.88C17.24 11.03 17.05 11.1 16.86 11.1C16.67 11.1 16.48 11.03 16.33 10.88C16.04 10.59 16.04 10.11 16.33 9.82L16.85 9.3H16.7C14.6 9.3 12.88 11.01 12.88 13.11V15.07V17.24C12.88 17.65 12.54 17.99 12.13 17.99C11.72 17.99 11.38 17.65 11.38 17.24V15.07V13.11C11.38 11.01 9.67 9.3 7.57 9.3H7.15L7.67 9.82C7.96 10.11 7.96 10.59 7.67 10.88C7.52 11.03 7.33 11.1 7.14 11.1C6.95 11.1 6.76 11.03 6.61 10.88L4.81 9.08C4.52 8.79 4.52 8.31 4.81 8.02L6.61 6.22C6.9 5.93 7.38 5.93 7.67 6.22C7.96 6.51 7.96 6.99 7.67 7.28L7.15 7.8H7.58C9.53 7.8 11.22 8.87 12.14 10.44C13.06 8.87 14.75 7.8 16.71 7.8H16.86L16.34 7.28C16.05 6.99 16.05 6.51 16.34 6.22C16.63 5.93 17.11 5.93 17.4 6.22L19.2 8.02C19.27 8.09 19.32 8.17 19.36 8.26C19.43 8.45 19.43 8.66 19.35 8.84Z" fill="currentColor"/>
+                </svg>
+                <span class="flex-1 mr-3 whitespace-nowrap">نقشه راه</span>
+              </NuxtLink>
+            </li>
+            <li class="mr-2 p-2">
               <NuxtLink to="/admin/categories/shopCategories" class="flex items-center p-2 text-base font-normal text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700">
                 <svg class="flex-shrink-0 w-6 h-6 text-gray-500 transition duration-75 dark:text-gray-400 group-hover:text-gray-900 dark:group-hover:text-white" width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
                   <path d="M22.3596 8.27L22.0696 5.5C21.6496 2.48 20.2796 1.25 17.3497 1.25H14.9896H13.5097H10.4697H8.98965H6.58965C3.64965 1.25 2.28965 2.48 1.85965 5.53L1.58965 8.28C1.48965 9.35 1.77965 10.39 2.40965 11.2C3.16965 12.19 4.33965 12.75 5.63965 12.75C6.89965 12.75 8.10965 12.12 8.86965 11.11C9.54965 12.12 10.7097 12.75 11.9997 12.75C13.2896 12.75 14.4197 12.15 15.1096 11.15C15.8797 12.14 17.0696 12.75 18.3096 12.75C19.6396 12.75 20.8396 12.16 21.5896 11.12C22.1896 10.32 22.4597 9.31 22.3596 8.27Z" fill="currentColor"/>

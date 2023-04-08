@@ -1,7 +1,7 @@
 <template>
   <div class="max-w-sm relative bg-white border border-gray-200 rounded-lg shadow dark:bg-gray-800 dark:border-gray-700">
     <NuxtLink :to="url">
-      <base-img class="rounded-t-lg w-full object-cover" :src="`/ulearnit/blog/banner/${post.imageName}`" alt="" />
+      <base-img class="rounded-t-lg w-full object-cover" :src="`/ulearnit/roadmap/images/${post.imageName}`" alt=""/>
     </NuxtLink>
     <div class="p-5 pb-10 flex flex-col">
       <NuxtLink :to="url">
@@ -17,11 +17,11 @@
 </template>
 
 <script setup lang="ts">
-import {PostDto} from "~/models/blog/postDto";
+import {RoadmapPostDto} from "~/models/roadmap/roadmapDto";
 
 const props = defineProps<{
-  post: PostDto,
+  post: RoadmapPostDto,
 }>();
 
-const url = `/blog/${props.post.slug}`;
+const url = `/roadmaps/${props.post.slug}`;
 </script>
