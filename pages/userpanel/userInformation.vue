@@ -1,5 +1,9 @@
 <template>
   <div>
+    <Head>
+      <Title>اطلاعات حساب کاربری</Title>
+    </Head>
+
     <u-divider title="اطلاعات حساب کاربری" />
     <Form @submit="confirmEdit" class="user-info">
       <base-input name="firstName" label="نام" v-model="editUser.firstName">
@@ -77,6 +81,7 @@ import {EditUser, GetCurrentUser} from "~/services/user.service";
 
 definePageMeta({
   layout:"user",
+  middleware:'auth',
 })
 
 const authStore = useAuthStore();

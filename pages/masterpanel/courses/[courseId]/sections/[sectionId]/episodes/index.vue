@@ -1,5 +1,11 @@
 <template>
   <div v-if="section !== undefined">
+    <Head>
+      <Title>
+        قسمت های {{section.title}}
+      </Title>
+    </Head>
+
     <base-button class="self-start" is-link
                  :link="`http://localhost:3000/masterpanel/courses/${getCourseId}/sections`">بازگشت</base-button>
     <u-divider :title="`مدیریت قسمت های ${section.title}`" />
@@ -100,6 +106,7 @@ import {EpisodeDto, SectionDto} from "~/models/course/courseDto";
 
 definePageMeta({
   layout:"user",
+middleware:'master'
 })
 
 const episodes = ref<EpisodeDto[]>();

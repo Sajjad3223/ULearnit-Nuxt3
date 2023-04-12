@@ -38,9 +38,9 @@ export interface TicketFilterData{
 }
 
 export interface TicketFilterParams extends BaseFilterParams{
-    ticketStatus: ETicketStatus
-    search: string
-    userId: number
+    ticketStatus: ETicketStatus | null;
+    search: string | null;
+    userId: number | null;
 }
 
 export interface TicketFilterResult extends BaseFilterResult<TicketFilterData>{

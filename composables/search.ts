@@ -8,7 +8,9 @@ export const useSearch = () => {
 
     const getFilterParams = ():CourseFilterParams => {
 
-        const categorySlug = route.params?.slug[0]?.split('category-')[1];
+        let categorySlug = null;
+        if(route.params?.slug)
+            categorySlug = route.params?.slug[0]?.split('category-')[1];
 
         return  {
             pageId: Number(route.query.pageId?.toString() ?? "1"),

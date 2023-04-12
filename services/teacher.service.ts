@@ -45,3 +45,9 @@ export function GetMasterResume(teacherName:string):Promise<ApiResponse<MasterDt
         method:'GET',
     });
 }
+export function AmIMaster():Promise<ApiResponse<boolean>>{
+    //@ts-ignore
+    return FetchApi(`/Teacher/AmIMaster`,{
+        method:'GET',
+    });
+}

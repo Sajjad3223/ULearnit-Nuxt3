@@ -1,5 +1,11 @@
 <template>
   <div>
+    <Head>
+      <Title>
+        ثبت دوره جدید
+      </Title>
+    </Head>
+
     <u-divider title="افزودن دوره جدید"/>
     <div class="w-full">
       <div class="mt-2">
@@ -76,7 +82,7 @@
 import {Form} from "vee-validate";
 import {CreateCourse} from "~/services/course.service";
 import {CreateCourseViewModel} from "~/models/course/createCourseViewModel";
-import {GetCourseCategories, GetCourseCategory} from "~/services/courseCategory.service";
+import {GetCourseCategories, GetCourseCategory} from "~/services/admin/courseCategory.service";
 import * as Yup from "yup";
 import {ApiUrl} from "~/utilities/ApiUrls";
 import axios from "axios";
@@ -84,7 +90,8 @@ import {useAuthStore} from "~/stores/authStore";
 const authStore = useAuthStore();
 
 definePageMeta({
-  layout: "user",
+  layout:"user",
+middleware:'master'
 })
 
 const addCourseValidationSchema = Yup.object().shape({

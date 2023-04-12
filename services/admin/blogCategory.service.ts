@@ -19,14 +19,14 @@ export function AddBlogCategoryChild(command:AddCategoryChildViewModel):Promise<
         body:command
     });
 }
-export function EditRoadmapCategory(command:EditCategoryCommand):Promise<ApiResponse<undefined>>{
+export function EditBlogCategory(command:EditCategoryCommand):Promise<ApiResponse<undefined>>{
     //@ts-ignore
     return FetchApi(`/BlogCategory/Edit`,{
         method:'PUT',
         body:command
     });
 }
-export function DeleteRoadmapCategory(id:number):Promise<ApiResponse<undefined>>{
+export function DeleteBlogCategory(id:number):Promise<ApiResponse<undefined>>{
     //@ts-ignore
     return FetchApi(`/BlogCategory/Delete/${id}`,{
         method:'DELETE',

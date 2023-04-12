@@ -194,7 +194,7 @@
         </NuxtLink>
       </li>
       <li >
-        <NuxtLink to="/" class="option">
+        <NuxtLink @click="signOut" to="#" class="option">
           <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
             <path
                 d="M17.4409 15.3699C17.2509 15.3699 17.0609 15.2999 16.9109 15.1499C16.6209 14.8599 16.6209 14.3799 16.9109 14.0899L18.9409 12.0599L16.9109 10.0299C16.6209 9.73994 16.6209 9.25994 16.9109 8.96994C17.2009 8.67994 17.6809 8.67994 17.9709 8.96994L20.5309 11.5299C20.8209 11.8199 20.8209 12.2999 20.5309 12.5899L17.9709 15.1499C17.8209 15.2999 17.6309 15.3699 17.4409 15.3699Z"
@@ -210,7 +210,7 @@
         </NuxtLink>
       </li>
     </ul>
-    <user-master-sidebar />
+    <user-master-sidebar v-if="isMaster"/>
   </aside>
 </template>
 
@@ -236,6 +236,13 @@ const setUserAvatar=async (e: any)=>{
     //Toast
   }
 }
+
+const signOut = ()=>{
+  authStore.logOut();
+  navigateTo('/');
+}
+
+const isMaster = computed(()=>authStore.currentUser?.roles.some( r=>r.roleTitle === "ادمین" || r.roleTitle === "مدرس"));
 
 const getUserAvatar = computed(()=>`${ApiUrl}/user/avatars/${authStore.currentUser?.avatar}`);
 </script>

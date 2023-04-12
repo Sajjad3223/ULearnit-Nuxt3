@@ -68,6 +68,7 @@ import {errorAlert, successAlert} from "~/services/alert.service";
 
 definePageMeta({
   layout: "user",
+  middleware:'auth',
 })
 
 const authStore = useAuthStore();

@@ -1,5 +1,11 @@
 <template>
   <div>
+    <Head>
+      <Title>
+        فاکتور های من
+      </Title>
+    </Head>
+
     <u-divider title="فاکتور های من" />
     <div class="w-full mt-4">
       <u-table>
@@ -65,6 +71,7 @@ import {EOrderStatus, OrderDto} from "~/models/cart/orderDto";
 
 definePageMeta({
   layout: "user",
+  middleware:'auth',
 })
 
 const factors = ref<OrderDto>();

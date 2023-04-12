@@ -81,10 +81,11 @@
 import {successAlert} from "~/services/alert.service";
 import {PermissionDto} from "~/models/role/roleDto";
 import {CreateRoleCommand} from "~/models/role/createRoleCommand";
-import {CreatePermission, GetPermissions} from "~/services/roles.service";
+import {CreatePermission, GetPermissions} from "~/services/admin/roles.service";
 
 definePageMeta({
   layout:'admin',
+middleware:'admin'
 })
 
 const permissionsModal = ref(false);

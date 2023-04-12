@@ -1,5 +1,11 @@
 <template>
   <div>
+    <Head>
+      <Title>
+        تراکنش های من
+      </Title>
+    </Head>
+
     <u-divider title="تراکنش های من"/>
     <div class="w-full mt-4">
       <div class="cash mb-2">
@@ -51,5 +57,6 @@
 <script setup>
 definePageMeta({
   layout:"user",
+middleware:'master'
 })
 </script>

@@ -1,5 +1,10 @@
 <template>
   <div>
+    <Head>
+      <Title>
+        باندل ها
+      </Title>
+    </Head>
     <u-divider title="مدیریت باندل ها" />
     <div class="w-full mt-4">
       <u-table>
@@ -72,6 +77,7 @@ import {DeleteBundle, GetUserBundles} from "~/services/bundle.service";
 
 definePageMeta({
   layout:"user",
+middleware:'master'
 })
 
 const bundles = ref<BundleFilterData[]>();

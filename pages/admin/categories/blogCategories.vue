@@ -68,11 +68,12 @@
 
 <script setup lang="ts">
 
-import {GetBlogCategories} from "~/services/blogCategory.service";
+import {GetBlogCategories} from "~/services/admin/blogCategory.service";
 import {CategoryDto} from "~/models/category/categoryDTO";
 
 definePageMeta({
   layout:'admin',
+middleware:'admin'
 })
 const categoryModal = ref(false);
 const childCategoryModalModel = ref(false);

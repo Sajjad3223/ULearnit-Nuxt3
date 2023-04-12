@@ -1,5 +1,10 @@
 <template>
   <div>
+    <Head>
+      <Title>
+        مقالات
+      </Title>
+    </Head>
     <u-divider title="مدیریت مقالات" />
     <div class="w-full mt-4">
       <u-table>
@@ -91,14 +96,17 @@
 </template>
 
 <script setup lang="ts">
-import {DeletePost, GetUserPosts, PublishPost} from "~/services/blog.service";
+import {AmIWriter, DeletePost, GetUserPosts} from "~/services/blog.service";
 import {PostDto} from "~/models/blog/postDto";
 import {errorAlert, successAlert} from "~/services/alert.service";
 import Swal from "sweetalert2";
-import {DeleteSection} from "~/services/course.service";
+import {useAuthStore} from "~/stores/authStore";
 
 definePageMeta({
   layout:"user",
+  middleware:[
+      'auth'
+  ]
 })
 
 const blogs = ref<PostDto>();

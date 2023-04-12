@@ -54,7 +54,7 @@
           <li v-else>
             <NuxtLink to="/userpanel" class="nav-link">حساب کاربری</NuxtLink>
           </li>
-          <li>
+          <li v-if="isAdmin">
             <NuxtLink to="/admin" class="nav-link">پنل ادمین</NuxtLink>
           </li>
         </ul>
@@ -82,6 +82,7 @@ const toggleNotifs=()=>{
 
 const authStore = useAuthStore();
 const isLogin = computed(()=>authStore.isLogin);
+const isAdmin = computed(()=>authStore.currentUser?.roles.some( r=>r.roleTitle === "ادمین"));
 
 const toggleNavbar = ()=>{
   const navbarMenu = document.getElementById("navbarMenu");

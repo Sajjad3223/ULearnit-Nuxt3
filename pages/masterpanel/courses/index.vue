@@ -1,5 +1,11 @@
 <template>
   <div>
+    <Head>
+      <Title>
+        مدیریت دوره ها
+      </Title>
+    </Head>
+
     <u-divider title="مدیریت دوره ها" />
     <div class="w-full mt-4">
       <u-table>
@@ -88,6 +94,7 @@ import {CourseCardDto} from "~/models/course/courseSearchResultDto";
 
 definePageMeta({
   layout:"user",
+  middleware:'master'
 })
 
 const courses = ref<CourseCardDto[]>();

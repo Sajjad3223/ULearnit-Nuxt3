@@ -1,5 +1,10 @@
 <template>
   <div class="p-6 space-y-4 md:space-y-6 sm:p-8">
+    <Head>
+      <Title>
+        ورود به حساب
+      </Title>
+    </Head>
     <h1 class="text-xl font-bold leading-tight tracking-tight text-gray-900 md:text-2xl dark:text-white">
       ورود به حساب کاربری
     </h1>
@@ -27,9 +32,18 @@ import {Form} from "vee-validate";
 import {LoginUser} from "~/services/auth.service";
 import {LoginViewModel} from "~/models/auth/loginViewModel";
 import * as Yup from "yup";
+import {useAuthStore} from "~/stores/authStore";
 
 definePageMeta({
   layout:"auth",
+  middleware: [
+    function (to, from) {
+      const authStore = useAuthStore();
+      if (authStore.isLogin) {
+        return navigateTo('/userpanel')
+      }
+    }
+  ],
 })
 
 const loginSchema = Yup.object().shape({
@@ -44,12 +58,14 @@ const loginData : LoginViewModel = reactive({
 });
 
 const router = useRouter();
+const authStore = useAuthStore();
 const login = async (data,formEvent)=>{
   const result = await LoginUser(loginData);
   console.log(result)
   if(result.isSuccess)
   {
     localStorage.setItem("auth-data",JSON.stringify(result.data));
+    authStore.setCurrentUser();
     await router.push('/userpanel');
     // Toast
   }

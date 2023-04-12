@@ -1,5 +1,11 @@
 <template>
   <div class="w-full flex flex-col gap-4" v-if="episode !== undefined">
+    <Head>
+      <Title>
+        اطلاعات قسمت {{episode.title}}
+      </Title>
+    </Head>
+
     <base-button class="self-start" is-link
                  :link="`http://localhost:3000/masterpanel/courses/${courseId}/sections/${sectionId}/episodes`">بازگشت</base-button>
     <div class="flex items-center">
@@ -56,7 +62,8 @@ import {GetEpisode, PublishEpisode} from "~/services/course.service";
 import {EpisodeDto} from "~/models/course/courseDto";
 import {ApiUrl} from "~/utilities/ApiUrls";
 definePageMeta({
-  layout: "user",
+  layout:"user",
+middleware:'master'
 });
 
 const route = useRoute();

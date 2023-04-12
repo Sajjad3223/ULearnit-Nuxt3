@@ -1,5 +1,11 @@
 <template>
   <div>
+    <Head>
+      <Title>
+        قسمت جدید
+      </Title>
+    </Head>
+
     <div class="w-full">
       <u-divider title="افزودن قسمت جدید" />
       <div class="mt-6">
@@ -53,7 +59,8 @@ import {CreateEpisodeViewModel} from "~/models/course/createEpisodeViewModel";
 import {CreateEpisode} from "~/services/course.service";
 
 definePageMeta({
-  layout: "user",
+  layout:"user",
+middleware:'master'
 });
 
 const createEpisodeSchema = Yup.object().shape({

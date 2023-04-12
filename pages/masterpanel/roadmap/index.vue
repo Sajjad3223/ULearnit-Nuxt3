@@ -1,5 +1,11 @@
 <template>
   <div>
+    <Head>
+      <Title>
+        نقشه راه ها
+      </Title>
+    </Head>
+
     <u-divider title="مدیریت نقشه راه ها" />
     <div class="w-full mt-4">
       <u-table>
@@ -94,10 +100,25 @@
 import {errorAlert, successAlert} from "~/services/alert.service";
 import Swal from "sweetalert2";
 import {RoadmapPostDto} from "~/models/roadmap/roadmapDto";
-import {DeleteRoadmapPost, GetUserRoadmapPosts} from "~/services/roadmap.service";
+import {AmIWriter, DeleteRoadmapPost, GetUserRoadmapPosts} from "~/services/roadmap.service";
+import {useAuthStore} from "~/stores/authStore";
 
 definePageMeta({
   layout:"user",
+  middleware:[
+    'auth',
+    async function (to, from) {
+      const authStore = useAuthStore();
+      if(!authStore.isLogin)
+      {
+        return navigateTo('/auth/login');
+      }
+      const amIWriter = await AmIWriter();
+      if(!amIWriter.data)
+      {
+        return navigateTo('/userpanel');
+      }
+    }]
 })
 
 const roadmapPosts = ref<RoadmapPostDto>();

@@ -1,5 +1,12 @@
 <template>
   <div v-if="factor">
+
+    <Head>
+      <Title>
+        فاکتور شماره {{factor.id}}
+      </Title>
+    </Head>
+
     <u-divider :title="`فاکتور شماره ${ factor.id }`"/>
     <div class="flex flex-col mt-4">
       <div class="factor-details grid grid-cols-1 lg:grid-cols-3 gap-4 lg:gap-6">
@@ -55,6 +62,7 @@ import {EOrderStatus, OrderDto} from "~/models/cart/orderDto";
 
 definePageMeta({
   layout: "user",
+  middleware:'auth',
 })
 
 const factor = ref<OrderDto>();

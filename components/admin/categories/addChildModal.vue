@@ -21,8 +21,8 @@
 <script setup lang="ts">
 import {Form} from "vee-validate";
 import {AddCategoryChildViewModel} from "~/models/category/addCategoryChildViewModel";
-import {AddCourseCategoryChild} from "~/services/courseCategory.service";
-import {AddBlogCategoryChild} from "~/services/blogCategory.service";
+import {AddCourseCategoryChild} from "~/services/admin/courseCategory.service";
+import {AddBlogCategoryChild} from "~/services/admin/blogCategory.service";
 import {errorAlert, successAlert} from "~/services/alert.service";
 
 const props = defineProps({

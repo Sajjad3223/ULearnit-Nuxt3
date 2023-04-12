@@ -36,6 +36,7 @@
               :status="course.courseStatus"
               :level="course.courseLevel"
               :last-update="course.lastUpdate"
+              :user-has-course="course.userHasCourse"
           />
           <u-tags title="برچسب ها" :tags="course.tags"/>
           <a href="#comments" class="btn link">

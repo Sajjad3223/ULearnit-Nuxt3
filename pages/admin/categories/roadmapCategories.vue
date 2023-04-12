@@ -63,10 +63,11 @@
 </template>
 
 <script setup lang="ts">
-import {GetRoadmapCategories} from "~/services/roadmapCategory.service";
+import {GetRoadmapCategories} from "~/services/admin/roadmapCategory.service";
 
 definePageMeta({
   layout:'admin',
+middleware:'admin'
 })
 const categoryModal = ref(false);
 const categories = ref();

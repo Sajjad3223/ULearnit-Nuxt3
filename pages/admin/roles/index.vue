@@ -102,7 +102,7 @@
 </template>
 
 <script setup lang="ts">
-import {CreateRole, GetRoles} from "~/services/roles.service";
+import {CreateRole, GetRoles} from "~/services/admin/roles.service";
 import {RoleDto} from "~/models/role/roleDto";
 import {CreateRoleCommand} from "~/models/role/createRoleCommand";
 import {successAlert} from "~/services/alert.service";
@@ -111,6 +111,7 @@ import {successAlert} from "~/services/alert.service";
 
 definePageMeta({
   layout:'admin',
+middleware:'admin'
 })
 
 const roleModal = ref(false);

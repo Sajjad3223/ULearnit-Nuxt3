@@ -1,5 +1,10 @@
 <template>
   <div>
+    <Head>
+      <Title>
+        سبد خرید شما
+      </Title>
+    </Head>
     <div class="w-full lg:mx-auto mt-12">
       <div v-if="cart && cart.items.length > 0" class="flex flex-col lg:flex-row w-full items-start space-y-4 lg:space-y-0">
         <div class="flex-1 flex flex-col lg:ml-8">
@@ -107,7 +112,7 @@
                 <input name="paymentMethod" type="radio" checked value="gateway" id="gateway" class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600">
                 <label for="gateway" class="mr-2 text-sm font-medium text-gray-900 dark:text-gray-300">درگاه بانکی</label>
               </div>
-              <base-button @click="finalizeOrder" w-full type="submit" color="success" class="mt-4">پرداخت و ثبت نهایی</base-button>
+              <base-button @click.prevent="finalizeOrder" w-full color="success" class="mt-4">پرداخت و ثبت نهایی</base-button>
             </form>
           </div>
         </div>
@@ -131,13 +136,19 @@
 </template>
 
 <script setup lang="ts">
-import {FinalizeOrder, GetPendingCart, RemoveOrderItem} from "~/services/cart.service";
+import {FinalizeOrder, GetPendingCart, PayOrder, RemoveOrderItem} from "~/services/cart.service";
 import {ApiUrl} from "~/utilities/ApiUrls";
 import {successAlert} from "~/services/alert.service";
 import {OrderItemCommand} from "~/models/cart/orderItemCommand";
 import {EItemType} from "~/models/cart/addToCartViewModel";
+import {Ref} from "vue";
+import {OrderDto} from "~/models/cart/orderDto";
 
-const cart = ref();
+definePageMeta({
+  middleware:'auth'
+})
+
+const cart:Ref<OrderDto> = ref();
 
 onMounted(async ()=>{
   await loadData();
@@ -170,10 +181,13 @@ const deleteOrderItem = async (id:Number,itemType:EItemType)=>{
 
 const router = useRouter();
 const finalizeOrder = async ()=>{
-  const result = await FinalizeOrder();
+  const result = await PayOrder(
+      cart.value.id,
+      "http://localhost:3000/cart/paymentFailed",
+  "http://localhost:3000/cart/paymentSucceed"
+  );
   if(result.isSuccess) {
-    successAlert();
-    router.push("/cart/paymentSucceed")
+    window.location.replace(result.data);
   }
 }
 </script>

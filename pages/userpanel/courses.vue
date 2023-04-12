@@ -1,5 +1,11 @@
 <template>
   <div>
+    <Head>
+      <Title>
+        دوره های من
+      </Title>
+    </Head>
+
     <u-divider title="دوره های من"/>
     <div class="w-full mt-4">
       <u-table >
@@ -51,6 +57,7 @@ import {ECourseStatus} from "~/models/course/courseEnums";
 
 definePageMeta({
   layout:"user",
+  middleware:'auth',
 })
 
 const courses = ref<CourseFilterResult>();

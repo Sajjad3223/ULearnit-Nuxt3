@@ -30,6 +30,17 @@ export function AddToCart(addToCartViewModel:AddToCartViewModel):Promise<ApiResp
         body:addToCartViewModel
     });
 }
+export function PayOrder(orderId:number,errorCallback:string,successCallback:string):Promise<ApiResponse<string>>{
+    //@ts-ignore
+    return FetchApi('/Transaction',{
+        method:'POST',
+        body:{
+            orderId,
+            successCallBackUrl: successCallback,
+            errorCallBackUrl : errorCallback,
+        }
+    });
+}
 export function FinalizeOrder():Promise<ApiResponse<undefined>>{
     //@ts-ignore
     return FetchApi('/Cart/finalize',{

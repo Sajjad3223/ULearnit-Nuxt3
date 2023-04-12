@@ -5,7 +5,12 @@ import {CreateRoadmapPostCommand} from "~/models/roadmap/createRoadmapPostComman
 import {EditRoadmapPostViewModel} from "~/models/roadmap/editPostViewModel";
 import {RegisterRoadmapWriterViewModel} from "~/models/roadmap/registerWriterViewModel";
 
-
+export function AmIWriter():Promise<ApiResponse<boolean>>{
+    //@ts-ignore
+    return FetchApi('/Roadmap/AmIWriter',{
+        method:'GET',
+    });
+}
 export function GetRoadmapPosts():Promise<ApiResponse<RoadmapPostDto>>{
     //@ts-ignore
     return FetchApi('/Roadmap',{

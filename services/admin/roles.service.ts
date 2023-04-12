@@ -6,21 +6,21 @@ import {SetRolePermissionsCommand} from "~/models/role/setRolePermissionsCommand
 
 export function CreateRole(command:CreateRoleCommand):Promise<ApiResponse<undefined>>{
     //@ts-ignore
-    return FetchApi('/Role',{
+    return FetchApi('/admin/Role',{
         method:'POST',
         body:command
     });
 }
 export function CreatePermission(command:CreateRoleCommand):Promise<ApiResponse<undefined>>{
     //@ts-ignore
-    return FetchApi('/Role/Permissions',{
+    return FetchApi('/admin/Role/Permissions',{
         method:'POST',
         body:command
     });
 }
 export function SetRolePermissions(command:SetRolePermissionsCommand):Promise<ApiResponse<undefined>>{
     //@ts-ignore
-    return FetchApi('/Role/SetPermissions',{
+    return FetchApi('/admin/Role/SetPermissions',{
         method:'PUT',
         body:command
     });
@@ -28,7 +28,7 @@ export function SetRolePermissions(command:SetRolePermissionsCommand):Promise<Ap
 
 export function EditRole(roleId:number,title:string):Promise<ApiResponse<undefined>>{
     //@ts-ignore
-    return FetchApi('/Role',{
+    return FetchApi('/admin/Role',{
         method:'PUT',
         body:{
             roleId,
@@ -38,7 +38,7 @@ export function EditRole(roleId:number,title:string):Promise<ApiResponse<undefin
 }
 export function EditPermission(permissionId:number,title:string):Promise<ApiResponse<undefined>>{
     //@ts-ignore
-    return FetchApi('/Role/Permissions',{
+    return FetchApi('/admin/Role/Permissions',{
         method:'PUT',
         body:{
             permissionId,
@@ -48,25 +48,25 @@ export function EditPermission(permissionId:number,title:string):Promise<ApiResp
 }
 export function GetRoles():Promise<ApiResponse<RoleDto>>{
     //@ts-ignore
-    return FetchApi(`/Role`,{
+    return FetchApi(`/admin/Role`,{
         method:'GET',
     });
 }
 export function GetRole(id:Number):Promise<ApiResponse<RoleDto>>{
     //@ts-ignore
-    return FetchApi(`/Role/${id}`,{
+    return FetchApi(`/admin/Role/${id}`,{
         method:'GET',
     });
 }
 export function GetPermissions():Promise<ApiResponse<PermissionDto>>{
     //@ts-ignore
-    return FetchApi(`/Role/Permissions`,{
+    return FetchApi(`/admin/Role/Permissions`,{
         method:'GET',
     });
 }
 export function GetPermission(id:Number):Promise<ApiResponse<PermissionDto>>{
     //@ts-ignore
-    return FetchApi(`/Role/Permissions/${id}`,{
+    return FetchApi(`/admin/Role/Permissions/${id}`,{
         method:'GET',
     });
 }

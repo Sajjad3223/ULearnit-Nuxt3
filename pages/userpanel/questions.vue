@@ -1,5 +1,9 @@
 <template>
   <div>
+    <Head>
+      <Title>پرسش های من</Title>
+    </Head>
+
     <u-divider title="پرسش های من" />
     <div class="w-full mt-4">
       <u-table >
@@ -38,6 +42,7 @@ import {GetQuestionsOfUser} from "~/services/question.service";
 
 definePageMeta({
   layout: "user",
+  middleware:'auth',
 })
 
 const userQuestions = ref<QuestionFilterData>()

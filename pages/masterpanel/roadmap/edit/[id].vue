@@ -1,5 +1,11 @@
 <template>
   <div>
+    <Head>
+      <Title>
+        ویرایش مقاله
+      </Title>
+    </Head>
+
     <div class="w-full">
       <u-divider title="ویرایش مقاله" />
       <div>
@@ -48,13 +54,14 @@
 import {EditRoadmapPost, GetRoadmapPost} from "~/services/roadmap.service";
 import {Form} from "vee-validate";
 import * as Yup from "yup";
-import {GetRoadmapCategories} from "~/services/roadmapCategory.service";
+import {GetRoadmapCategories} from "~/services/admin/roadmapCategory.service";
 import {successAlert} from "~/services/alert.service";
 import {EditRoadmapPostViewModel} from "~/models/roadmap/editPostViewModel";
 
 
 definePageMeta({
-  layout: "user",
+  layout:"user",
+middleware:'master'
 })
 
 const editPostValidationSchema = Yup.object().shape({
@@ -105,7 +112,6 @@ onMounted(async ()=>{
 
   const result = await GetRoadmapPost(route.params.id);
   if(result.isSuccess) {
-    console.log(result.data)
     editPostData.id = route.params.id;
     editPostData.title = result.data.title ;
     editPostData.slug = result.data.slug ;

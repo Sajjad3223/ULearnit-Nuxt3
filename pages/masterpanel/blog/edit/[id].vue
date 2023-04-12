@@ -1,5 +1,10 @@
 <template>
   <div>
+    <Head>
+      <Title>
+        ویرایش مقاله
+      </Title>
+    </Head>
     <div class="w-full">
       <u-divider title="ویرایش مقاله" />
       <div>
@@ -57,12 +62,13 @@ import {EditPost, GetPost} from "~/services/blog.service";
 import {Form} from "vee-validate";
 import * as Yup from "yup";
 import {EditPostViewModel} from "~/models/blog/editPostViewModel";
-import {GetBlogCategories, GetBlogCategory} from "~/services/blogCategory.service";
+import {GetBlogCategories, GetBlogCategory} from "~/services/admin/blogCategory.service";
 import {successAlert} from "~/services/alert.service";
 
 
 definePageMeta({
-  layout: "user",
+  layout:"user",
+middleware:'master'
 })
 
 const editPostValidationSchema = Yup.object().shape({

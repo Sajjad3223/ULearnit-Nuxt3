@@ -1,5 +1,11 @@
 <template>
   <div v-if="course !== undefined">
+    <Head>
+      <Title>
+        سرفصل های {{course.title}}
+      </Title>
+    </Head>
+
     <base-button class="self-start" is-link
                  :link="`http://localhost:3000/masterpanel/courses`">بازگشت</base-button>
     <u-divider :title="`مدیریت سرفصل ${course.title}`" />
@@ -67,6 +73,7 @@ import Swal from "sweetalert2";
 
 definePageMeta({
   layout:"user",
+middleware:'master'
 })
 
 const createModal = ref();

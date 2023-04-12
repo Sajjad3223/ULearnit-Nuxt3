@@ -386,7 +386,7 @@
         @apply w-full bg-gray-800 p-4 rounded-lg mt-6;
     }
     .ticket > .chat-container > .chats{
-        @apply flex flex-col lg:p-8 space-y-2;
+        @apply flex flex-col lg:p-8 space-y-2 max-h-[32rem] overflow-y-auto;
     }
     .ticket > .chat-container > .chats span{
         @apply text-xs opacity-80 mr-auto mt-2;

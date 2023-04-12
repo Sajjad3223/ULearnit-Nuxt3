@@ -1,5 +1,10 @@
 <template>
   <div>
+    <Head>
+      <Title>
+        مقاله جدید
+      </Title>
+    </Head>
     <div class="w-full">
       <u-divider title="افزودن مقاله جدید" />
       <div>
@@ -56,19 +61,18 @@
 import {Form} from "vee-validate";
 import * as Yup from "yup";
 import {CreatePostViewModel} from "~/models/blog/createPostViewModel";
-import {GetBlogCategories, GetBlogCategory} from "~/services/blogCategory.service";
+import {GetBlogCategories, GetBlogCategory} from "~/services/admin/blogCategory.service";
 import {CreatePost} from "~/services/blog.service";
 import {successAlert} from "~/services/alert.service";
 
 
 definePageMeta({
-  layout: "user",
+  layout:"user",
 })
 
 const addPostValidationSchema = Yup.object().shape({
   title:Yup.string().required("عنوان الزامی است"),
   slug:Yup.string().required("اسلاگ الزامی است"),
-  content:Yup.string().required("متن وبلاگ الزامی است"),
 });
 
 const addPostData:CreatePostViewModel = reactive({

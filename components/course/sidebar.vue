@@ -87,9 +87,10 @@
         <span>آخرین به روز رسانی:</span>
         <strong>{{ lastUpdate }}</strong>
       </div>
-      <base-button w-full class="py-4" style="padding: 1.2rem 0" @click.prevent="AddOrderItem">
+      <base-button w-full class="py-4" style="padding: 1.2rem 0" @click.prevent="AddOrderItem" v-if="!userHasCourse">
         ثبت نام در دوره
       </base-button>
+      <u-alert color="success" v-if="userHasCourse">شما این دوره را خریداری کرده اید</u-alert>
       <base-button :link="`/questions/course/${id}?postType=0&postId=${id}`" is-link outline color="success">پرسش و پاسخ</base-button>
     </div>
 </template>
@@ -98,6 +99,8 @@
 import {AddToCartViewModel, EItemType} from "~/models/cart/addToCartViewModel";
 import {AddToCart} from "~/services/cart.service";
 import {successAlert} from "~/services/alert.service";
+import {useAuthStore} from "~/stores/authStore";
+import Swal from "sweetalert2";
 
 const props = defineProps({
   id:{
@@ -147,6 +150,10 @@ const props = defineProps({
   lastUpdate:{
     type:String,
     required:true
+  },
+  userHasCourse:{
+    type:Boolean,
+    required:true
   }
 })
 
@@ -156,8 +163,18 @@ const addToCartData:AddToCartViewModel = reactive({
   count : 1
 });
 
+const authStore = useAuthStore();
+
 const router = useRouter();
 const AddOrderItem = async ()=>{
+  if (!authStore.isLogin)
+  {
+    await Swal.fire({
+      icon:'warning',
+      title:'لطفا ابتدا وارد حساب شوید!',
+    });
+    router.push('/auth/login');
+  }
   const result = await AddToCart(addToCartData);
   if(result.isSuccess) {
     successAlert();

@@ -1,5 +1,11 @@
 <template>
   <div class="flex-1 flex flex-col lg:ml-6">
+    <Head>
+      <Title>
+        افزودن پرسش جدید
+      </Title>
+    </Head>
+
     <h2 class="text-2xl font-bold">افزودن پرسش جدید</h2>
     <bread-crumb :links="[
               {link:'/questions',title:'پرسش و پاسخ'},
@@ -34,6 +40,7 @@ import {errorAlert, successAlert} from "~/services/alert.service";
 
 definePageMeta({
   layout:'question',
+  middleware:'auth'
 })
 
 const addQuestionSchema = Yup.object().shape({

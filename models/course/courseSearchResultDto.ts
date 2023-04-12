@@ -22,7 +22,6 @@ export interface CourseCardDto{
     discount: number;
     totalPrice: number;
     time:string;
-    lastUpdate: Date;
     teacherName:string;
 }
 

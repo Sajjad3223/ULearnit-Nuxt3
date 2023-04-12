@@ -1,5 +1,11 @@
 <template>
   <div class="grid grid-cols-4 gap-4">
+    <Head>
+      <Title>
+        جستجوی نقشه راه ها
+      </Title>
+    </Head>
+
     <blog-roadmap-card v-for="p in posts" :post="p" :key="p"/>
   </div>
 </template>

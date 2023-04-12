@@ -5,6 +5,12 @@ import {CreatePostViewModel} from "~/models/blog/createPostViewModel";
 import {RegisterWriterViewModel} from "~/models/blog/registerWriterViewModel";
 import {EditPostViewModel} from "~/models/blog/editPostViewModel";
 
+export function AmIWriter():Promise<ApiResponse<boolean>>{
+    //@ts-ignore
+    return FetchApi('/Blog/AmIWriter',{
+        method:'GET',
+    });
+}
 export function GetPosts():Promise<ApiResponse<PostDto>>{
     //@ts-ignore
     return FetchApi('/Blog',{
@@ -52,24 +58,6 @@ export function EditPost(command:EditPostViewModel):Promise<ApiResponse<undefine
     return FetchApi('/Blog/Edit',{
         method:'PUT',
         body:command
-    });
-}
-export function PublishPost(id:BigInt):Promise<ApiResponse<undefined>>{
-    //@ts-ignore
-    return FetchApi('/Blog/accept',{
-        method:'PUT',
-        body: {
-            postId : id,
-        }
-    });
-}
-export function RejectPost(id:BigInt):Promise<ApiResponse<undefined>>{
-    //@ts-ignore
-    return FetchApi('/Blog/reject',{
-        method:'PUT',
-        body: {
-            postId : id,
-        }
     });
 }
 

@@ -1,6 +1,7 @@
 import {WriterDto} from "~/models/writerDto";
 import {CategoryDto} from "~/models/category/categoryDTO";
 import {SeoData} from "~/models/SeoData";
+import {EPostStatus} from "~/models/post/postFilterData";
 
 export interface PostDto{
     id: number;
@@ -16,11 +17,4 @@ export interface PostDto{
     postStatus: EPostStatus;
     creationDate: Date;
     seoData: SeoData;
-}
-
-export enum EPostStatus{
-    Pending,
-    Published,
-    Rejected,
-    Drafted
 }

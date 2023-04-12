@@ -1,5 +1,11 @@
 <template>
   <div>
+    <Head>
+      <Title>
+        ثبت نام نویسنده نقشه راه
+      </Title>
+    </Head>
+
     <div class="w-full">
       <h4 class="text-xl font-bold">ثبت نام نویسنده</h4>
       <hr class="my-2">
@@ -27,7 +33,8 @@ import {RegisterWriterViewModel} from "~/models/blog/registerWriterViewModel";
 import {RegisterRoadmapWriter} from "~/services/roadmap.service";
 
 definePageMeta({
-  layout: "user",
+  layout:"user",
+  middleware:'complete-user-info'
 })
 
 const registerWriterValidationSchema = Yup.object().shape({

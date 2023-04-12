@@ -6,13 +6,6 @@ import {ChangePasswordViewModel} from "~/models/user/changePasswordViewModel";
 import {UserFilterParams, UserFilterResult} from "~/models/user/userFilterParams";
 import {SetUserRolesCommand} from "~/models/user/setUserRolesCommand";
 
-export function GetUsers(filterParams?:UserFilterParams):Promise<ApiResponse<UserFilterResult>>{
-   //@ts-ignore
-    return FetchApi('/user/users',{
-        method:'GET',
-        params:filterParams
-    });
-}
 
 export function GetCurrentUser():Promise<ApiResponse<UserDto>>{
    //@ts-ignore

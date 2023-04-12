@@ -1,5 +1,10 @@
 <template>
   <div>
+    <Head>
+      <Title>
+        ویرایش قسمت
+      </Title>
+    </Head>
     <div class="w-full">
       <u-divider :title="`ویرایش قسمت`" />
       <div class="mt-6">
@@ -52,7 +57,8 @@ import * as Yup from "yup";
 import {EditEpisode, GetEpisode} from "~/services/course.service";
 
 definePageMeta({
-  layout: "user",
+  layout:"user",
+middleware:'master'
 });
 
 const editEpisodeSchema = Yup.object().shape({

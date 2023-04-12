@@ -1,6 +1,10 @@
 <template>
   <div>
-    <u-divider title="اطلاعات حساب کاربری" />
+    <Head>
+      <Title>ثبت نام مدرس جدید</Title>
+    </Head>
+
+    <u-divider title="ثبت نام مدرس جدید" />
     <Form @submit="registerMaster" class="user-info">
       <base-input name="teacherName" label="نام کاربری" v-model="teacherName">
         <template #icon>
@@ -33,9 +37,11 @@
 <script setup lang="ts">
 import {Form} from "vee-validate";
 import {RegisterMaster} from "~/services/teacher.service";
+import {successAlert} from "~/services/alert.service";
 
 definePageMeta({
   layout:"user",
+  middleware:'complete-user-info'
 })
 
 const teacherName =ref("");
@@ -50,8 +56,10 @@ const registerMaster = async ()=>{
   }
 
   const result = await RegisterMaster(registerData);
-
-  console.log(result);
-  // TODO Create Service
+  if(result.isSuccess)
+  {
+    successAlert("درخواست شما با موفقیت ثبت شد","درخواست شما بررسی و در صورت تایید به شما اطلاع رسانی خواهد شد");
+    router.push('/userpanel');
+  }
 }
 </script>

@@ -21,10 +21,10 @@
 <script setup lang="ts">
 import {CreateCategoryViewModel} from "~/models/category/createCategoryViewModel";
 import {Form} from "vee-validate";
-import {CreateCourseCategory} from "~/services/courseCategory.service";
-import {CreateBlogCategory} from "~/services/blogCategory.service";
+import {CreateCourseCategory} from "~/services/admin/courseCategory.service";
+import {CreateBlogCategory} from "~/services/admin/blogCategory.service";
 import {errorAlert, successAlert} from "~/services/alert.service";
-import {CreateRoadmapCategory} from "~/services/roadmapCategory.service";
+import {CreateRoadmapCategory} from "~/services/admin/roadmapCategory.service";
 
 const props = defineProps({
   categoryType:{

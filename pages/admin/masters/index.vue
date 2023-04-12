@@ -57,18 +57,19 @@
 </template>
 
 <script setup lang="ts">
-import {GetAllMasters} from "~/services/teacher.service";
 import {ApiUrl} from "~/utilities/ApiUrls";
+import {GetMastersByAdmin} from "~/services/admin/teachers.admin.service";
 
 definePageMeta({
   layout:'admin',
+middleware:'admin'
 })
 
 const requests = ref();
 const dataTable = ref();
 
 onMounted(async ()=>{
-  const result = await GetAllMasters();
+  const result = await GetMastersByAdmin();
   requests.value = result.data;
 })
 

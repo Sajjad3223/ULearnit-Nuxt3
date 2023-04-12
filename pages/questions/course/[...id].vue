@@ -1,5 +1,11 @@
 <template>
   <div class="flex-1 flex flex-col lg:ml-6" v-if="course !== undefined">
+    <Head>
+      <Title>
+        پرسش و پاسخ دوره {{course.title}}
+      </Title>
+    </Head>
+
     <h2 class="text-2xl font-bold">پرسش و پاسخ: <span class="font-medium">آموزش کار با موتور بازی سازی آنریل انجین</span></h2>
     <bread-crumb :links="[
               {link:'/questions',title:'پرسش و پاسخ'},

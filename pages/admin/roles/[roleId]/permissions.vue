@@ -16,7 +16,7 @@
 
 <script setup lang="ts">
 import {PermissionDto, RoleDto} from "~/models/role/roleDto";
-import {GetPermissions, GetRole, SetRolePermissions} from "~/services/roles.service";
+import {GetPermissions, GetRole, SetRolePermissions} from "~/services/admin/roles.service";
 import {SetRolePermissionsCommand} from "~/models/role/setRolePermissionsCommand";
 import {successAlert} from "~/services/alert.service";
 

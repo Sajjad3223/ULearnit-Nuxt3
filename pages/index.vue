@@ -1,6 +1,9 @@
 <template>
-
 <div>
+  <Head>
+    <Title>یولرنیت - مرجع تخصصی آموزش بازی سازی</Title>
+  </Head>
+
   <u-banner />
 
   <div class="flex justify-between mb-2 items-end">
@@ -28,7 +31,6 @@
 useHead({
   title:"صفحه اصلی"
 })
-
 import {GetCourseFilter} from "~/services/course.service";
 import {CourseFilterParams} from "~/models/course/courseSearchResultDto";
 

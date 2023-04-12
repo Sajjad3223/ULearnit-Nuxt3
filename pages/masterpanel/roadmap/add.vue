@@ -1,5 +1,11 @@
 <template>
   <div>
+    <Head>
+      <Title>
+        نقشه راه جدید
+      </Title>
+    </Head>
+
     <div class="w-full">
       <u-divider title="افزودن نقشه راه جدید" />
       <div>
@@ -50,11 +56,12 @@ import * as Yup from "yup";
 import {successAlert} from "~/services/alert.service";
 import {CreateRoadmapPost} from "~/services/roadmap.service";
 import {CreateRoadmapPostCommand} from "~/models/roadmap/createRoadmapPostCommand";
-import {GetRoadmapCategories} from "~/services/roadmapCategory.service";
+import {GetRoadmapCategories} from "~/services/admin/roadmapCategory.service";
 
 
 definePageMeta({
-  layout: "user",
+  layout:"user",
+middleware:'master'
 })
 
 const addPostValidationSchema = Yup.object().shape({

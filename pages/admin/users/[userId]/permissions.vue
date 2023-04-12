@@ -1,5 +1,11 @@
 <template>
   <div v-if="user !== undefined">
+    <Head>
+      <Title>
+        دسترسی های {{user.fullName}}
+      </Title>
+    </Head>
+
     <u-divider :title="`دسترسی های ${user.fullName}`"/>
 
     <form @submit.prevent="SetPermissions" >
@@ -16,7 +22,7 @@
 
 <script setup lang="ts">
 import {RoleDto} from "~/models/role/roleDto";
-import {GetRoles} from "~/services/roles.service";
+import {GetRoles} from "~/services/admin/roles.service";
 import {successAlert} from "~/services/alert.service";
 import {UserDto} from "~/models/user/userDto";
 import {SetUserRolesCommand} from "~/models/user/setUserRolesCommand";

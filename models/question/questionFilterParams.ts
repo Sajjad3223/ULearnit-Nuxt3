@@ -3,13 +3,13 @@ import {BaseFilterResult} from "~/models/baseFilterResult";
 import {SenderDto} from "~/models/comment/commentDto";
 
 export interface QuestionFilterParams extends BaseFilterParams{
-    postId: number
-    postType: number
-    startDate: Date
-    endDate: Date
-    isResolved: boolean
-    userId: number
-    userRequested: number
+    postId: number | null;
+    postType: number | null;
+    startDate: Date | null;
+    endDate: Date | null;
+    isResolved: boolean | null;
+    userId: number | null;
+    userRequested: number | null;
 }
 
 export interface QuestionFilterData{

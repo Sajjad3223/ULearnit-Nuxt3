@@ -1,5 +1,10 @@
 <template>
   <div v-if="masterResume !== undefined">
+    <Head>
+      <Title>
+        رزومه استاد {{masterResume.user.fullName}}
+      </Title>
+    </Head>
     <div class="p-8 px-16 w-full rounded-lg bg-gray-800 flex items-start">
       <base-img :src="`/ulearnit/user/avatars/${masterResume.user.avatar}`" class="rounded-full max-w-[170px] ring-4 ring-indigo-300"/>
       <div class="flex flex-col mr-12 flex-1">

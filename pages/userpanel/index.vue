@@ -101,9 +101,12 @@
         <user-favorites />
       </div>
     </div>
-    <div class="w-full mt-8">
+    <div class="w-full mt-8" v-if="false">
       <user-progresses />
     </div>
+    <Head>
+      <Title>داشبورد</Title>
+    </Head>
   </div>
 </template>
 
@@ -112,6 +115,7 @@ import {useAuthStore} from "~/stores/authStore";
 
 definePageMeta({
   layout:"user",
+  middleware:'auth',
 })
 
 const authStore = useAuthStore();

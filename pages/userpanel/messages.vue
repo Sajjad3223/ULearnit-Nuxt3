@@ -1,5 +1,11 @@
 <template>
   <div>
+    <Head>
+      <Title><Head>
+        <Title>یولرنیت - مرجع تخصصی آموزش بازی سازی</Title>
+    </Head></Title>
+    </Head>
+
     <u-divider title="اطلاعیه ها" />
     <div className="w-full mt-4">
       <u-alert color="primary">
@@ -41,5 +47,6 @@
 <script setup>
 definePageMeta({
   layout: "user",
+  middleware:'auth',
 })
 </script>

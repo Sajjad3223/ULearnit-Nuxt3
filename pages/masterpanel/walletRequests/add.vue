@@ -1,5 +1,11 @@
 <template>
   <div>
+    <Head>
+      <Title>
+        ثبت درخواست جدید
+      </Title>
+    </Head>
+
     <u-divider title="ثبت درخواست جدید" />
     <span class="block mb-4">موجودی قابل برداشت کیف پول: <strong>6,250,000 تومان</strong></span>
     <u-alert color="warning">
@@ -92,5 +98,6 @@
 <script setup>
 definePageMeta({
   layout:"user",
+middleware:'master'
 })
 </script>

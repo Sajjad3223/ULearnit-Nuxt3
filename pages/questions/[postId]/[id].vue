@@ -19,6 +19,12 @@
     <u-divider title="ارسال پاسخ" class="mt-8 mb-0" size="base" font="light"/>
 
     <send-answer :question-id="question.id" @answerSent="loadData"/>
+
+    <Head>
+      <Title>
+        {{question.title}}
+      </Title>
+    </Head>
   </div>
 </template>
 

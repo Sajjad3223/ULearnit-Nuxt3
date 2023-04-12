@@ -1,5 +1,9 @@
 <template>
   <div>
+    <Head>
+      <Title>کیف پول من</Title>
+    </Head>
+
     <u-divider title="کیف پول من" />
     <div class="w-full mt-4">
       <div class="cash mb-2">
@@ -54,6 +58,7 @@
 <script setup lang="ts">
 definePageMeta({
   layout: "user",
+  middleware:'auth',
 })
 
 

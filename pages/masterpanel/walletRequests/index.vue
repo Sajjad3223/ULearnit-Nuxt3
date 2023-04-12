@@ -1,5 +1,11 @@
 <template>
   <div>
+    <Head>
+      <Title>
+        درخواست های کیف پول
+      </Title>
+    </Head>
+
     <u-divider title="درخواست های کیف پول مدرس" />
     <div class="w-full mt-4">
       <u-table>
@@ -70,5 +76,6 @@
 <script setup>
 definePageMeta({
   layout:"user",
+middleware:'master'
 })
 </script>

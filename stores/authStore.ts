@@ -4,6 +4,8 @@ import {Ref} from "vue";
 import {UserDto} from "~/models/user/userDto";
 import {GetCurrentUser} from "~/services/user.service";
 import {AppStatusCode} from "~/models/ApiResponse";
+import {FetchApi} from "~/utilities/CustomFetchApi";
+import {errorAlert, successAlert} from "~/services/alert.service";
 
 
 export const useAuthStore = defineStore('auth',()=>{
@@ -33,5 +35,24 @@ export const useAuthStore = defineStore('auth',()=>{
         loading.value = false;
     }
 
-    return {isLogin, loading, loginResult, currentUser, setCurrentUser}
+    const logOut = async ()=>{
+        const localStorageData = localStorage.getItem('auth-data');
+        if(localStorageData == null)
+            return;
+        localStorage.removeItem('auth-data');
+
+        const result = await FetchApi('/auth/logout',{
+            method:'DELETE',
+        });
+        if(result.isSuccess){
+            successAlert();
+        }else{
+            errorAlert(result.metaData.message);
+        }
+
+        loginResult.value = null;
+        currentUser.value = null;
+    }
+
+    return {isLogin, loading, loginResult, currentUser, setCurrentUser, logOut}
 })

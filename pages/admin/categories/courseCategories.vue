@@ -67,11 +67,12 @@
 </template>
 
 <script setup lang="ts">
-import {GetCourseCategories} from "~/services/courseCategory.service";
+import {GetCourseCategories} from "~/services/admin/courseCategory.service";
 import {CategoryDto} from "~/models/category/categoryDTO";
 
 definePageMeta({
   layout:'admin',
+middleware:'admin'
 })
 const categoryModal = ref(false);
 const childCategoryModalModel = ref(false);

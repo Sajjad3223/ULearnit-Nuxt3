@@ -1,5 +1,11 @@
 <template>
   <div>
+    <Head>
+      <Title>
+        ویرایش دوره
+      </Title>
+    </Head>
+
     <div class="w-full">
       <h4 class="text-xl font-bold">ویرایش دوره</h4>
       <hr class="my-2">
@@ -109,12 +115,13 @@ import {EditCourse, GetCourse} from "~/services/course.service";
 import {CourseDto} from "~/models/course/courseDto";
 import * as Yup from "yup";
 import {EditCourseViewModel} from "~/models/course/editCourseViewModel";
-import {GetCourseCategories, GetCourseCategory} from "~/services/courseCategory.service";
+import {GetCourseCategories, GetCourseCategory} from "~/services/admin/courseCategory.service";
 import {ApiUrl} from "~/utilities/ApiUrls";
 import axios from "axios";
 
 definePageMeta({
-  layout: "user",
+  layout:"user",
+middleware:'master'
 })
 
 const editCourseValidationSchema = Yup.object().shape({

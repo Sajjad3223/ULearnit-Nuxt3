@@ -37,6 +37,9 @@
         </ul>
       </div>
     </footer>
+    <u-alert color="warning" v-if="comment.commentStatus === ECommentStatus.Pending">
+      نظر شما ثبت شده و پس از تایید ادمین نمایش داده میشود.
+    </u-alert>
     <p class="text-gray-500 dark:text-gray-200">{{comment.text}}</p>
     <div class="flex items-center mt-4 space-x-4 space-x-reverse" v-if="!isChild">
       <button type="button" @click.prevent="emits('setParentId',comment.id)"
@@ -82,7 +85,7 @@
 </template>
 
 <script setup lang="ts">
-  import {CommentFilterData} from "~/models/comment/commentDto";
+import {CommentFilterData, ECommentStatus} from "~/models/comment/commentDto";
   import {ApiUrl} from "~/utilities/ApiUrls";
   import {EReactionType, ReactToCommentViewModel} from "~/models/comment/reactToCommentViewModel";
   import {DeleteReaction, ReactToComment} from "~/services/comment.service";

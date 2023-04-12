@@ -61,6 +61,7 @@ import {ApiUrl} from "~/utilities/ApiUrls";
 
 definePageMeta({
   layout:'admin',
+middleware:'admin'
 })
 
 const requests = ref();

@@ -1,5 +1,11 @@
 <template>
   <div>
+    <Head>
+      <Title>
+        اطلاعات حساب بانکی
+      </Title>
+    </Head>
+
     <u-divider title="اطلاعات حساب بانکی"/>
     <form action="" class="grid grid-cols-1 lg:grid-cols-2 gap-6 mt-4">
       <div class="flex flex-col space-y-2">
@@ -75,5 +81,6 @@
 <script setup>
 definePageMeta({
   layout:"user",
+middleware:'master'
 })
 </script>

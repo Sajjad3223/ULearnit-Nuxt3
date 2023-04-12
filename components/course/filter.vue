@@ -56,7 +56,7 @@
 
 <script setup lang="ts">
 import {Form} from 'vee-validate';
-import {GetCourseCategories} from "~/services/courseCategory.service";
+import {GetCourseCategories} from "~/services/admin/courseCategory.service";
 import {CourseFilterParams} from "~/models/course/courseSearchResultDto";
 
 const props = defineProps<{

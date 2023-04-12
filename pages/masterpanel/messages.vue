@@ -1,5 +1,11 @@
 <template>
   <div>
+    <Head>
+      <Title>
+        اطلاعیه ها
+      </Title>
+    </Head>
+
     <u-divider title="اطلاعیه ها"/>
     <div className="w-full mt-4">
       <u-alert>
@@ -42,5 +48,6 @@
 <script setup>
 definePageMeta({
   layout:"user",
+middleware:'master'
 })
 </script>

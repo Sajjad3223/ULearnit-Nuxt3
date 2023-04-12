@@ -1,5 +1,10 @@
 <template>
   <div class="p-6 space-y-4 md:space-y-6 sm:p-8">
+    <Head>
+      <Title>
+        ساخت حساب کاربری
+      </Title>
+    </Head>
     <h1 class="text-xl font-bold leading-tight tracking-tight text-gray-900 md:text-2xl dark:text-white">
       ساخت حساب کاربری
     </h1>
@@ -21,9 +26,18 @@ import {Form} from "vee-validate";
 import {RegisterUser} from "~/services/auth.service";
 import {RegisterViewModel} from "~/models/auth/registerViewModel";
 import * as Yup from 'yup';
+import {useAuthStore} from "~/stores/authStore";
 
 definePageMeta({
   layout:"auth",
+  middleware: [
+    function (to, from) {
+      const authStore = useAuthStore();
+      if (authStore.isLogin) {
+        return navigateTo('/userpanel')
+      }
+    }
+  ],
 });
 
 const registerSchema = Yup.object().shape({

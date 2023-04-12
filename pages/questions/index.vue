@@ -1,5 +1,11 @@
 <template>
   <div class="flex-1 flex flex-col lg:ml-6" >
+    <Head>
+      <Title>
+        پرسش و پاسخ
+      </Title>
+    </Head>
+
     <h2 class="text-2xl font-bold">پرسش و پاسخ</h2>
     <bread-crumb :links="[
               {link:'',title:'پرسش و پاسخ'},

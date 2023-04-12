@@ -1,5 +1,9 @@
 <template>
   <div>
+    <Head>
+      <Title>علاقه مندی های من</Title>
+    </Head>
+
     <u-divider title="علاقه مندی های من" />
     <div class="w-full mt-4">
       <u-table :has-filter="false">
@@ -52,6 +56,7 @@ import {successAlert} from "~/services/alert.service";
 
 definePageMeta({
   layout: "user",
+  middleware:'auth',
 })
 
 const favorites = ref<FavoriteDto>();

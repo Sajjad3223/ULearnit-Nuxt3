@@ -1,5 +1,10 @@
 <template>
   <div class="grid grid-cols-4 gap-4">
+    <Head>
+      <Title>
+        جستجوی مقالات
+      </Title>
+    </Head>
     <blog-card v-for="p in posts" :post="p" :key="p"/>
   </div>
 </template>

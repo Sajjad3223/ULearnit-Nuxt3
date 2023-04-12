@@ -1,5 +1,10 @@
 <template>
   <div>
+    <Head>
+      <Title>
+        جستجوی دوره ها
+      </Title>
+    </Head>
     <course-filter :filter-params="filterResult?.data.filterParams"/>
 
     <div class="m-4">

@@ -1,5 +1,11 @@
 <template>
   <div>
+    <Head>
+      <Title>
+        تیکت های من
+      </Title>
+    </Head>
+
     <u-divider title="تیکت های من" />
 
     <u-modal title="افزودن تیکت جدید" v-model="ticketModal">
@@ -112,6 +118,7 @@ import {TicketFilterData} from "~/models/ticket/ticketDto";
 
 definePageMeta({
   layout: "user",
+  middleware:'auth',
 })
 
 const tickets = ref<TicketFilterData[]>();

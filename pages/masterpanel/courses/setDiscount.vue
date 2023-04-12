@@ -1,5 +1,11 @@
 <template>
   <div>
+    <Head>
+      <Title>
+        ثبت تخفیف
+      </Title>
+    </Head>
+
     <u-divider title="ثبت تخفیف برای همه دوره ها"/>
 
     <u-alert color="dark">
@@ -34,5 +40,6 @@
 <script setup>
 definePageMeta({
   layout:"user",
+middleware:'master'
 })
 </script>
