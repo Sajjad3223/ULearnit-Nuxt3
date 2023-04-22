@@ -10,7 +10,7 @@
           <slot />
 
           <div class="w-full lg:w-1/3">
-            <div class="p-4 border-2 rounded-lg border-gray-800">
+            <div class="p-4 border-2 rounded-lg border-gray-300 dark:border-gray-800">
               <u-divider title="آخرین پرسش ها"/>
 
               <ul class="max-w-md divide-y divide-gray-200 dark:divide-gray-700">

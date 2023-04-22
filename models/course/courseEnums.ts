@@ -9,3 +9,9 @@ export enum ECourseStatus{
     Completed,
     Canceled
 }
+export enum EEpisodeStatus{
+    Pending,
+    Checked,
+    Published,
+    Rejected
+}

@@ -7,7 +7,7 @@
     <div>
       <label for="">دسته بندی</label>
       <select v-model="filterData.category" name="category" class="h-14 bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full px-8 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
-        <option value="">همه دسته بندی ها</option>
+        <option selected>همه دسته بندی ها</option>
         <option v-for="c in categories" :value="c.slug" >{{c.title}}</option>
       </select>
     </div>
@@ -16,15 +16,15 @@
       <div>
         <label for="date" >
           <input type="radio" name="order" id="date" class="peer" :value="0" v-model="filterData.orderby">
-          <span class="peer-checked:bg-slate-700">تاریخ</span>
+          <span class="dark:peer-checked:bg-slate-700 peer-checked:text-white peer-checked:bg-indigo-700">تاریخ</span>
         </label>
         <label for="price" >
           <input type="radio" name="order" id="price" class="peer" :value="1" v-model="filterData.orderby">
-          <span class="peer-checked:bg-slate-700">قیمت</span>
+          <span class="dark:peer-checked:bg-slate-700 peer-checked:text-white peer-checked:bg-indigo-700">قیمت</span>
         </label>
         <label for="view" >
           <input type="radio" name="order" id="view" class="peer" :value="2" v-model="filterData.orderby">
-          <span class="peer-checked:bg-slate-700">بازدید</span>
+          <span class="dark:peer-checked:bg-slate-700 peer-checked:text-white  peer-checked:bg-indigo-700">بازدید</span>
         </label>
       </div>
     </div>
@@ -33,15 +33,15 @@
       <div>
         <label for="allPrice" >
           <input type="radio" name="price" id="allPrice" class="peer" checked :value="2" v-model="filterData.price">
-          <span class="peer-checked:bg-slate-700">همه</span>
+          <span class="dark:peer-checked:bg-slate-700 peer-checked:text-white peer-checked:bg-indigo-700">همه</span>
         </label>
         <label for="notFree" >
           <input type="radio" name="price" id="notFree" class="peer" :value="0" v-model="filterData.price">
-          <span class="peer-checked:bg-slate-700">نقدی</span>
+          <span class="dark:peer-checked:bg-slate-700 peer-checked:text-white peer-checked:bg-indigo-700">نقدی</span>
         </label>
         <label for="free" >
           <input type="radio" name="price" id="free" class="peer" :value="1" v-model="filterData.price">
-          <span class="peer-checked:bg-slate-700">رایگان</span>
+          <span class="dark:peer-checked:bg-slate-700 peer-checked:text-white peer-checked:bg-indigo-700">رایگان</span>
         </label>
       </div>
     </div>
@@ -65,7 +65,7 @@ const props = defineProps<{
 
 const filterData = reactive({
   search:props.filterParams.search,
-  category:props.filterParams.categorySlug,
+  category:props.filterParams.categorySlug ?? null,
   orderby:props.filterParams.orderFilter ?? 0,
   price:props.filterParams.priceFilter ?? 2
 });

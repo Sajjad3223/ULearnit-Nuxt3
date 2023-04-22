@@ -15,7 +15,8 @@ module.exports = {
   theme: {
     extend: {
       fontFamily:{
-        "Vaizr":"Vazir FD-UI"
+        "Vaizr":"Vazir FD-UI",
+        "Negaar":"A Negaar",
       }
     },
   },

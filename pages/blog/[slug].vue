@@ -5,7 +5,7 @@
         {{post.title}}
       </Title>
     </Head>
-    <main class="flex flex-col lg:flex-row pt-8 pb-16 lg:pt-16 lg:pb-24 bg-white dark:bg-gray-900">
+    <main class="flex flex-col lg:flex-row pt-8 pb-16 lg:pt-16 lg:pb-24 bg-gray-50 dark:bg-gray-900">
       <div class="flex flex-col px-4 mx-auto max-w-screen-xl ">
         <article class="mx-auto w-full max-w-screen-xl format format-sm sm:format-base lg:format-lg format-blue dark:format-invert">
 
@@ -38,7 +38,7 @@
         <comments :post-type="EPostType.Blog" :post-id="post.id"/>
       </div>
       <hr class="lg:hidden my-10 opacity-30">
-      <div class="p-4 border-4 border-gray-700 w-full lg:w-1/3 rounded-xl h-max">
+      <div class="p-4 border-4 border-gray-300 dark:border-gray-700 w-full lg:w-1/3 rounded-xl h-max">
         <u-divider title="مقالات مرتبط" />
 
         <article :class="['w-full flex flex-col p-4 border-gray-700',{'border-b':i !== 3}]" v-for="i in 3">

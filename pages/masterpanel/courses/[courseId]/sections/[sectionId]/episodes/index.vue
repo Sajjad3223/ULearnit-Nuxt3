@@ -66,12 +66,14 @@
             </th>
             <td class="px-4 py-3">{{e.time}}</td>
             <td class="px-4 py-3">
-              <u-badge color="success" v-if="e.isActive">منتشر شده</u-badge>
-              <u-badge color="dark" v-else>منتشر نشده</u-badge>
+              <u-badge color="warning" v-if="e.episodeStatus === EEpisodeStatus.Pending">در انتظار بررسی</u-badge>
+              <u-badge color="dark" v-if="e.episodeStatus === EEpisodeStatus.Checked">بررسی شده</u-badge>
+              <u-badge color="success" v-if="e.episodeStatus === EEpisodeStatus.Published">منتشر شده</u-badge>
+              <u-badge color="danger" v-if="e.episodeStatus === EEpisodeStatus.Rejected">رد شده</u-badge>
             </td>
             <td class="px-4 py-3">
               <u-badge v-if="e.isFree">رایگان</u-badge>
-              <u-badge v-else>نقدی</u-badge>
+              <u-badge color="dark" v-else>نقدی</u-badge>
             </td>
             <td class="px-4 py-3 flex items-center justify-end">
               <button @click="showOption(i)" class="inline-flex items-center p-0.5 text-sm font-medium text-center text-gray-500 hover:text-gray-800 rounded-lg focus:outline-none dark:text-gray-400 dark:hover:text-gray-100" type="button">
@@ -103,6 +105,7 @@
 <script setup lang="ts">
 import {GetCourse, PublishEpisode} from "~/services/course.service";
 import {EpisodeDto, SectionDto} from "~/models/course/courseDto";
+import {EEpisodeStatus} from "~/models/course/courseEnums";
 
 definePageMeta({
   layout:"user",

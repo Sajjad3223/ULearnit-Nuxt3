@@ -105,7 +105,7 @@
                 </div>
                 <div class="mr-2 text-sm">
                   <label for="wallet" class="font-medium text-gray-900 dark:text-gray-300">کیف پول</label>
-                  <span class="mr-2 text-xs font-normal text-gray-500 dark:text-gray-300">( 0 تومان)</span>
+                  <span class="mr-2 text-xs font-normal text-gray-500 dark:text-gray-300">( {{cash.toLocaleString()}} تومان)</span>
                 </div>
               </div>
               <div class="flex items-center mt-2 mr-4">
@@ -143,12 +143,14 @@ import {OrderItemCommand} from "~/models/cart/orderItemCommand";
 import {EItemType} from "~/models/cart/addToCartViewModel";
 import {Ref} from "vue";
 import {OrderDto} from "~/models/cart/orderDto";
+import {GetCash} from "~/services/user.service";
 
 definePageMeta({
   middleware:'auth'
 })
 
-const cart:Ref<OrderDto> = ref();
+const cart = ref<OrderDto>();
+const cash = ref<number>(0);
 
 onMounted(async ()=>{
   await loadData();
@@ -159,6 +161,10 @@ const loadData = async ()=>{
   if(result.isSuccess)
   {
     cart.value = result.data;
+  }
+  const cashResult = await GetCash();
+  if(cashResult.isSuccess){
+    cash.value = cashResult.data;
   }
 }
 

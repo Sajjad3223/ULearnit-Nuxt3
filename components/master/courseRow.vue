@@ -1,7 +1,7 @@
 <template>
   <tr class="border-b dark:border-gray-700">
     <th scope="row" class="px-4 py-3 font-medium text-gray-900 whitespace-nowrap dark:text-white">
-      <NuxtLink :to="`/courses/${slug}`" class="link" >{{ title }}</NuxtLink>
+      <NuxtLink :to="`/masterpanel/courses/${id}/sections`" class="link" >{{ title }}</NuxtLink>
     </th>
     <td class="px-4 py-3">{{ episodes }}</td>
     <td class="px-4 py-3">
@@ -20,6 +20,9 @@
       </button>
       <div class="hidden table-option z-20 w-44 bg-white rounded divide-y divide-gray-100 shadow dark:bg-gray-700 dark:divide-gray-600">
         <ul class="py-1 text-sm text-gray-700 dark:text-gray-200" aria-labelledby="apple-imac-27-dropdown-button">
+          <li>
+            <NuxtLink :to="`/courses/${slug}`" class="block py-2 px-4 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">مشاهده دوره</NuxtLink>
+          </li>
           <li>
             <NuxtLink :to="`/masterpanel/courses/${id}/sections`" class="block py-2 px-4 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">مدیریت سرفصل ها</NuxtLink>
           </li>

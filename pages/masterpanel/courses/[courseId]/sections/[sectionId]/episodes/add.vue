@@ -9,26 +9,16 @@
     <div class="w-full">
       <u-divider title="افزودن قسمت جدید" />
       <div class="mt-6">
-        <Form @submit="addEpisode" :validation-schema="createEpisodeSchema">
+        <Form @submit="addEpisode" :validation-schema="createEpisodeSchema" v-slot="{valid}">
           <div class="grid gap-4 sm:grid-cols-2 sm:gap-6">
             <base-input label="عنوان قسمت" name="title" v-model="createEpisodeData.title" placeholder="عنوان را وارد کنید" />
             <base-input label="عنوان انگلیسی قسمت" name="englishTitle" v-model="createEpisodeData.englishTitle" placeholder="عنوان انگلیسی را وارد کنید" dir="ltr"/>
             <base-input label="توضیحات قسمت" name="description" v-model="createEpisodeData.description" multiline placeholder="توضیحات را وارد کنید" class="sm:col-span-2"/>
 
-            <div>
-              <label class="block mb-2 text-sm font-medium text-gray-900 dark:text-white" for="file_input">ویدئوی این قسمت (فرمت mp4)</label>
-              <input @input="UploadVideo"
-                  class="block w-full text-sm text-gray-900 border border-gray-300 rounded-lg cursor-pointer bg-gray-50 dark:text-gray-400 focus:outline-none dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400"
-                  id="file_input" type="file">
-              <master-upload-progress :value="uploadVideoPercentage">{{uploadVideoPercentage}}</master-upload-progress>
-            </div>
-            <div>
-              <label class="block mb-2 text-sm font-medium text-gray-900 dark:text-white" for="file_input">فایل ضمیمه (فرمت rar)</label>
-              <input @input="UploadAttachment"
-                  class="block w-full text-sm text-gray-900 border border-gray-300 rounded-lg cursor-pointer bg-gray-50 dark:text-gray-400 focus:outline-none dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400"
-                  id="file_input" type="file">
-              <master-upload-progress :value="uploadAttachPercentage">{{uploadAttachPercentage}}</master-upload-progress>
-            </div>
+
+            <base-file-uploader :upload-url="`/course/upload-episode?courseId=${courseId}&sectionId=${sectionId}`" title="ویدئوی این قسمت* (فرمت mp4)" v-model="createEpisodeData.videoFile" accept-format="video"/>
+            <base-file-uploader :upload-url="`/course/upload-attach?courseId=${courseId}&sectionId=${sectionId}`" title="فایل ضمیمه (فرمت rar)" v-model="createEpisodeData.attachmentFile" accept-format="compressed"/>
+
 
             <base-input label="زمان ویدئو" name="time" v-model="createEpisodeData.time" placeholder="02:15:23" dir="ltr"/>
 
@@ -43,7 +33,7 @@
 
           </div>
 
-          <base-button type="submit" class="w-1/3 flex mr-auto justify-center mt-4" :disabled="!canSubmit">
+          <base-button type="submit" class="w-1/3 flex mr-auto justify-center mt-4" :disabled="valid">
             ثبت قسمت جدید
           </base-button>
         </Form>
@@ -57,10 +47,11 @@ import {Form} from "vee-validate";
 import * as Yup from "yup";
 import {CreateEpisodeViewModel} from "~/models/course/createEpisodeViewModel";
 import {CreateEpisode} from "~/services/course.service";
+import {successAlert} from "~/services/alert.service";
 
 definePageMeta({
   layout:"user",
-middleware:'master'
+  middleware:'master'
 });
 
 const createEpisodeSchema = Yup.object().shape({
@@ -82,7 +73,6 @@ const createEpisodeData:CreateEpisodeViewModel = reactive({
   isFree: false,
 });
 
-const canSubmit = ref(false);
 
 const route = useRoute();
 const router = useRouter();
@@ -96,73 +86,8 @@ const addEpisode = async ()=>{
   const result = await CreateEpisode(createEpisodeData);
   if(result.isSuccess)
   {
-    alert("قسمت با موفقیت اضافه شد")
+    successAlert("قسمت جدید با موفقیت افزوده شد.");
     router.push(`/masterpanel/courses/${courseId.value}/sections/${sectionId.value}/episodes/`);
-  }
-}
-
-
-import axios from "axios";
-import {useAuthStore} from "~/stores/authStore";
-import {ApiUrl} from "~/utilities/ApiUrls";
-const uploadAttachPercentage = ref(0);
-const UploadAttachment = async (e)=>{
-  const file = e.target.files[0];
-  const url = `${ApiUrl}/api/Course/upload-attach`;
-  const form = new FormData()
-  form.append('file', file)
-  form.append('courseId', courseId.value.toString());
-  form.append('sectionId', sectionId.value.toString());
-
-  if(confirm("آیا از آپلود فایل انتخاب شده اطمینان دارید؟"))
-  {
-    const authStore = useAuthStore();
-    const data = await axios.post(url,form,{
-      headers: {
-        'Content-Type': 'multipart/form-data',
-        'Authorization': `Bearer ${authStore?.loginResult?.token}`,
-      },
-      onUploadProgress: function( progressEvent ) {
-        uploadAttachPercentage.value = parseInt( Math.round( ( progressEvent.loaded / progressEvent.total ) * 100 ) );
-      }.bind(this)
-    }).then(function(response){
-      createEpisodeData.attachmentFile = response.data.data;
-      canSubmit.value = true;
-    })
-    .catch(function(){
-      alert('در آپلود فایل مشکلی پیش آمده است');
-    });
-  }
-}
-
-const uploadVideoPercentage = ref(0);
-const UploadVideo = async (e)=> {
-  canSubmit.value = false;
-  const file = e.target.files[0];
-  const url = `${ApiUrl}/api/Course/upload-episode`;
-  const form = new FormData()
-  form.append('file', file)
-  form.append('courseId', courseId.value.toString());
-  form.append('sectionId', sectionId.value.toString());
-
-  if(confirm("آیا از آپلود فایل انتخاب شده اطمینان دارید؟"))
-  {
-    const authStore = useAuthStore();
-    const data = await axios.post(url,form,{
-      headers: {
-        'Content-Type': 'multipart/form-data',
-        'Authorization': `Bearer ${authStore?.loginResult?.token}`,
-      },
-      onUploadProgress: function( progressEvent ) {
-        uploadVideoPercentage.value = parseInt( Math.round( ( progressEvent.loaded / progressEvent.total ) * 100 ) );
-      }.bind(this)
-    }).then(function(response){
-      createEpisodeData.videoFile = response.data.data;
-      canSubmit.value = true;
-    })
-    .catch(function(){
-      alert('در آپلود فایل مشکلی پیش آمده است');
-    });
   }
 }
 </script>

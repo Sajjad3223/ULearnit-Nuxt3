@@ -4,7 +4,6 @@ import {QuestionFilterParams, QuestionFilterResult} from "~/models/question/ques
 import {QuestionDto} from "~/models/question/questionDto";
 import {AddQuestionViewModel} from "~/models/question/addQuestionViewModel";
 import {AddAnswerViewModel} from "~/models/question/addAnswerViewModel";
-import {ReactToCommentViewModel} from "~/models/comment/reactToCommentViewModel";
 import {ReactToQuestionViewModel} from "~/models/question/reactToQuestionViewModel";
 
 export function GetQuestions(filterParams:QuestionFilterParams):Promise<ApiResponse<QuestionFilterResult>>{
@@ -33,6 +32,12 @@ export function GetQuestionsOfUser():Promise<ApiResponse<QuestionFilterResult>>{
 export function GetQuestion(questionId:Number):Promise<ApiResponse<QuestionDto>>{
    //@ts-ignore
     return FetchApi(`/Question/${questionId}`,{
+        method:'GET',
+    });
+}
+export function GetQuestionByShortLink(shortLink:string):Promise<ApiResponse<QuestionDto>>{
+   //@ts-ignore
+    return FetchApi(`/Question/shortLink/${shortLink}`,{
         method:'GET',
     });
 }

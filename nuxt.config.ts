@@ -16,7 +16,7 @@ export default defineNuxtConfig({
     modules:[
         '@pinia/nuxt',
         '@nuxtjs/tailwindcss',
-        '@nuxt/image-edge'
+        '@nuxt/image-edge',
     ],
     image:{
         domains:[
@@ -26,5 +26,10 @@ export default defineNuxtConfig({
         alias:{
             ulearnit:'http://localhost:5161',
         }
-    }
+    },
+    /*vite: {
+       server: {
+         proxy: { "/api": "http://api.ulearnit.ir/" },
+       },
+    },*/
 })

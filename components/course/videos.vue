@@ -33,7 +33,7 @@
       </li>
 
       <div>
-        <div v-for="(s,i) in sections">
+        <div v-for="(s,i) in sections" v-if="episodesCount != 0">
           <h2 >
             <button @click.prevent="toggleSection(i)" type="button"
                     :class="['flex items-center justify-between w-full p-5 font-medium text-left text-gray-500 border border-gray-200 focus:ring-4 focus:ring-gray-200 dark:focus:ring-gray-800 dark:border-gray-700 dark:text-gray-400 hover:bg-gray-100 dark:hover:bg-gray-800'
@@ -49,8 +49,9 @@
             <div :class="['p-2 font-light border border-gray-200 dark:border-gray-700 dark:bg-gray-900'
                         ,{'border-b-0':i < 3}
                         ,{'rounded-b-xl':i === 3}]">
-              <course-video v-for="(e,i) in s.episodes.filter(e=>e.isActive)"
-                            :index="i + 1"
+              <course-video v-for="(e,j) in s.episodes.filter(e=>e.isActive)"
+                            :index="j + 1"
+                            :section-index="i + 1"
                             :episode="e"
                             :user-has-course="userHasCourse"
                             :course-price="coursePrice"
@@ -58,6 +59,7 @@
             </div>
           </div>
         </div>
+        <u-alert class="text-center" v-else color="warning">هنوز قسمتی بارگزاری نشده است!</u-alert>
       </div>
 
     </ul>
@@ -72,7 +74,8 @@ const props = defineProps<{
   sections:SectionDto[],
   userHasCourse:boolean,
   coursePrice:Number,
-  teacherUserId:Number
+  teacherUserId:Number,
+  episodesCount:Number
 }>();
 const section = ref();
 

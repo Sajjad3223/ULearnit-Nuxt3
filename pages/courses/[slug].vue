@@ -8,14 +8,14 @@
         <div class="flex-1 flex flex-col ">
           <h2 class="text-2xl font-bold">{{ course.title }}</h2>
           <bread-crumb :links="[
-              {title:'دوره های آموزشی',link:`/courses`},
+              {title:'دوره های آموزشی',link:`/courses/search`},
               {link:`/courses/category-${course.category.slug}`,title: course.category.title},
               {link: `/courses/category-${course.subCategory.slug}`,title: course.subCategory.title},
               {title: course.title ,link: ''}
               ]" />
         </div>
         <div class="w-full lg:w-1/3">
-          <short-link link="https://ULearnit.ir/c/Z4ZR"/>
+          <short-link :link="`https://ULearnit.ir/c/${course.shortLink}`"/>
         </div>
       </div>
     </div>
@@ -71,12 +71,12 @@
         </div>
         <div class="w-24"></div>
         <div class="flex flex-col flex-1  mt-8 lg:mt-0">
-<!--          <img :src="`${ApiUrl}/core/course/banner/${course.imageName}`" alt="unreal engine course" class="w-full rounded-lg">-->
-          <video :poster="`${ApiUrl}/core/course/banner/${course.imageName}`" controls class="w-full rounded-lg" >
-            <source :src="`${ApiUrl}/core/course/intro/${course.introVideo}`" type="video/mp4">
+<!--          <img :src="`${ApiUrl}/core/course/banner/${course.imageName}`" alt="unreal engine course" class="w-full rounded-lg" v-if="course.introVideo === ''">-->
+          <video id="videoPlayer" :poster="`${ApiUrl}/core/course/banner/${course.imageName}`" controls class="w-full rounded-lg" >
+            <source id="videoSource" :src="`${ApiUrl}/core/course/intro/${course.introVideo}`" type="video/mp4">
             Your browser does not support the video tag.
           </video>
-          <div class="course-description p-4 border-2 border-slate-700 rounded-lg mt-2">
+          <div class="course-description p-4 border-2 border-slate-200 dark:border-slate-700 rounded-lg mt-2">
             <h3 class="text-xl font-semibold my-4">{{course.title}}</h3>
             <p class="p-1 lg:p-4 text-justify text-sm lg:text-base" v-html="course.description"></p>
             <u-tags title="نیازمندی ها" :tags="course.requirements" v-if="course.requirements.length > 0 && course.requirements[0] !== ''"/>
@@ -86,6 +86,7 @@
             </div>
           </div>
           <course-videos
+              :episodes-count="getEpisodesCount"
               :time="course.time"
               :sections="course.sections"
               :user-has-course="course.userHasCourse"
@@ -120,31 +121,6 @@ const getEpisodesCount = computed(()=>{
   }
   else{
     return 0;
-  }
-})
-
-const getCourseStatus=computed(()=>{
-  switch (course.value.courseStatus)
-  {
-    case 0:
-      return 'مقدماتی';
-    case 1:
-      return 'متوسط';
-    case 2:
-      return 'پیشرفته';
-  }
-})
-const getCourseLevel=computed(()=>{
-  switch (course.value.courseStatus)
-  {
-    case 0:
-      return 'شروع به زودی...';
-    case 1:
-      return 'در حال برگزاری';
-    case 2:
-      return 'به اتمام رسیده';
-    case 3:
-      return 'متوقف شده';
   }
 })
 </script>

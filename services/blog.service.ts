@@ -4,6 +4,7 @@ import {FetchApi} from "~/utilities/CustomFetchApi";
 import {CreatePostViewModel} from "~/models/blog/createPostViewModel";
 import {RegisterWriterViewModel} from "~/models/blog/registerWriterViewModel";
 import {EditPostViewModel} from "~/models/blog/editPostViewModel";
+import {PostFilterResult} from "~/models/post/postFilterData";
 
 export function AmIWriter():Promise<ApiResponse<boolean>>{
     //@ts-ignore
@@ -17,7 +18,7 @@ export function GetPosts():Promise<ApiResponse<PostDto>>{
         method:'GET',
     });
 }
-export function GetPostsByFilter(slug:string,search:string):Promise<ApiResponse<PostDto>>{
+export function GetPostsByFilter(slug:string,search:string):Promise<ApiResponse<PostFilterResult>>{
     //@ts-ignore
     return FetchApi('/Blog/search',{
         method:'GET',
@@ -42,6 +43,12 @@ export function GetPost(postId:Number):Promise<ApiResponse<PostDto>>{
 export function GetPostBySlug(postSlug:string):Promise<ApiResponse<PostDto>>{
     //@ts-ignore
     return FetchApi(`/Blog/b/${postSlug}`,{
+        method:'GET',
+    });
+}
+export function GetPostByShortLink(shortLink:string):Promise<ApiResponse<PostDto>>{
+    //@ts-ignore
+    return FetchApi(`/Blog/shortLink/${shortLink}`,{
         method:'GET',
     });
 }

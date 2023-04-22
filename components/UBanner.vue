@@ -32,10 +32,10 @@
   @apply w-full mt-4 lg:m-4 flex flex-col lg:flex-row;
 }
 .banner{
-  @apply relative flex w-full lg:w-1/2 min-h-[12rem] border-2 rounded-lg border-white items-center my-4 lg:m-8 justify-center p-4 lg:space-x-4 lg:space-x-reverse bg-gradient-to-br from-slate-700 to-slate-900;
+  @apply relative flex w-full lg:w-1/2 min-h-[12rem] border-2 rounded-lg dark:border-white border-red-300 items-center my-4 lg:m-8 justify-center p-4 lg:space-x-4 lg:space-x-reverse bg-gradient-to-br dark:from-slate-700 dark:to-slate-900 from-red-200 to-blue-400;
 }
 .banner > h2{
-  @apply text-2xl lg:text-3xl font-bold;
+  @apply text-2xl lg:text-5xl font-medium;
 }
 .banner > img.UnityIcon{
   @apply w-28 lg:w-36 drop-shadow-lg;

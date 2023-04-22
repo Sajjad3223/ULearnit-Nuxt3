@@ -40,6 +40,12 @@ export function GetCourseBySlug(slug:string):Promise<ApiResponse<CourseDto>>{
         method:'GET',
     });
 }
+export function GetCourseByShortLink(shortLink:string):Promise<ApiResponse<CourseDto>>{
+    //@ts-ignore
+    return FetchApi(`/Course/shortLink/${shortLink}`,{
+        method:'GET',
+    });
+}
 export function GetCourseFilter(filterParams:CourseFilterParams):Promise<ApiResponse<CourseFilterResult>>{
     //@ts-ignore
     return FetchApi(`/Course/search`,{
@@ -128,6 +134,25 @@ export function PublishEpisode(courseId:Number,episodeId:Number):Promise<ApiResp
             courseId,
             episodeId
         },
+    });
+}
+
+export function GetEpisodeVideo(token:string):Promise<ApiResponse<string>>{
+    //@ts-ignore
+    return FetchApi(`/Course/GetEpisodeVideo?token=${token}`,{
+        method:'GET',
+    });
+}
+export function GetEpisodeVideoFile(token:string):Promise<any>{
+    //@ts-ignore
+    return FetchApi(`/Course/GetEpisodeVideoFile?token=${token}`,{
+        method:'GET',
+    });
+}
+export function GetEpisodeAttachmentFile(token:string):Promise<any>{
+    //@ts-ignore
+    return FetchApi(`/Course/GetEpisodeAttachFile?token=${token}`,{
+        method:'GET',
     });
 }
 

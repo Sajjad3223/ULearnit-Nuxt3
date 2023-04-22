@@ -1,39 +1,40 @@
 <template>
   <footer class="footer">
     <div class="col-span-2">
-      <div class="newsletter">
-        <input type="email" name="email" id="email" placeholder="ایمیل شما">
+      <form @submit="subscribe" class="newsletter">
+        <input type="email" v-model="email" name="email" id="email" placeholder="ایمیل شما" required>
         <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-          <path d="M17 21.25H7C3.35 21.25 1.25 19.15 1.25 15.5V8.5C1.25 4.85 3.35 2.75 7 2.75H17C20.65 2.75 22.75 4.85 22.75 8.5V15.5C22.75 19.15 20.65 21.25 17 21.25ZM7 4.25C4.14 4.25 2.75 5.64 2.75 8.5V15.5C2.75 18.36 4.14 19.75 7 19.75H17C19.86 19.75 21.25 18.36 21.25 15.5V8.5C21.25 5.64 19.86 4.25 17 4.25H7Z" fill="white"/>
-          <path d="M11.9988 12.87C11.1588 12.87 10.3088 12.61 9.6588 12.08L6.5288 9.57997C6.2088 9.31997 6.14881 8.84997 6.4088 8.52997C6.66881 8.20997 7.13881 8.14997 7.45881 8.40997L10.5888 10.91C11.3488 11.52 12.6388 11.52 13.3988 10.91L16.5288 8.40997C16.8488 8.14997 17.3288 8.19997 17.5788 8.52997C17.8388 8.84997 17.7888 9.32997 17.4588 9.57997L14.3288 12.08C13.6888 12.61 12.8388 12.87 11.9988 12.87Z" fill="white"/>
+          <path d="M17 21.25H7C3.35 21.25 1.25 19.15 1.25 15.5V8.5C1.25 4.85 3.35 2.75 7 2.75H17C20.65 2.75 22.75 4.85 22.75 8.5V15.5C22.75 19.15 20.65 21.25 17 21.25ZM7 4.25C4.14 4.25 2.75 5.64 2.75 8.5V15.5C2.75 18.36 4.14 19.75 7 19.75H17C19.86 19.75 21.25 18.36 21.25 15.5V8.5C21.25 5.64 19.86 4.25 17 4.25H7Z" fill="currentColor"/>
+          <path d="M11.9988 12.87C11.1588 12.87 10.3088 12.61 9.6588 12.08L6.5288 9.57997C6.2088 9.31997 6.14881 8.84997 6.4088 8.52997C6.66881 8.20997 7.13881 8.14997 7.45881 8.40997L10.5888 10.91C11.3488 11.52 12.6388 11.52 13.3988 10.91L16.5288 8.40997C16.8488 8.14997 17.3288 8.19997 17.5788 8.52997C17.8388 8.84997 17.7888 9.32997 17.4588 9.57997L14.3288 12.08C13.6888 12.61 12.8388 12.87 11.9988 12.87Z" fill="currentColor"/>
         </svg>
         <base-button color="primary" outline class="w-max mt-4 lg:mt-0">
           عضویت در خبرنامه
         </base-button>
-      </div>
+      </form>
       <div class="footerLinks">
         <ul>
           <li><NuxtLink to="/" exact-active-class="footerActiveLink">صفحه اصلی</NuxtLink></li>
           <li><NuxtLink to="/courses/search" exact-active-class="footerActiveLink">آموزش ها</NuxtLink></li>
-          <li><a href="">وبلاگ</a></li>
+          <li><NuxtLink to="/blog/search" exact-active-class="footerActiveLink">وبلاگ</NuxtLink></li>
         </ul>
         <ul>
-          <li><a href="">پروژه های آماده</a></li>
-          <li><a href="">درباره ما</a></li>
-          <li><a href="">تماس با ما</a></li>
-        </ul>
-        <ul>
+          <li><NuxtLink to="aboutus" exact-active-class="footerActiveLink">درباره ما</NuxtLink></li>
+          <li><NuxtLink to="contactus" exact-active-class="footerActiveLink">تماس با ما</NuxtLink></li>
           <li>
-            <NuxtLink to="/userpanel/registerMaster">
-            تدریس در یولرن
+            <NuxtLink to="/userpanel/registerMaster" exact-active-class="footerActiveLink">
+              تدریس در یولرن
             </NuxtLink>
           </li>
         </ul>
       </div>
     </div>
     <div></div>
-    <div class="left">
-      <img src="/imgs/enamad.png" class="rounded-lg" alt="e namad">
+    <div class="left flex items-center w-max mx-auto">
+      <a referrerpolicy="origin" target="_blank" href="https://trustseal.enamad.ir/?id=334343&code=x7COTsKUYkIcVow14bQQ">
+        <img referrerpolicy="origin" src="https://trustseal.enamad.ir/Content/Images/Star2/81.png?v=5.0.0.3777" alt="" style="cursor:pointer" id="x7COTsKUYkIcVow14bQQ">
+<!--        <img referrerpolicy="origin" src="https://Trustseal.eNamad.ir/logo.aspx?id=334343&amp;Code=x7COTsKUYkIcVow14bQQ" alt="" style="cursor:pointer" id="x7COTsKUYkIcVow14bQQ">-->
+      </a>
+      <img referrerpolicy='origin' id = 'rgvjwlaofukzesgtrgvjapfu' style = 'cursor:pointer' onclick = 'window.open("https://logo.samandehi.ir/Verify.aspx?id=346035&p=xlaoaodsgvkaobpdxlaodshw", "Popup","toolbar=no, scrollbars=no, location=no, statusbar=no, menubar=no, resizable=0, width=450, height=630, top=30")' alt = 'logo-samandehi' src = 'https://logo.samandehi.ir/logo.aspx?id=346035&p=qftishwlwlbqlymaqftiujyn' />
     </div>
     <div class="col-start-4 my-4">
       <div class="socialNetworks">
@@ -78,10 +79,23 @@
       </div>
     </div>
     <h4 class="copyright">
-      تمام حقوق این وبسایت متعلق به <a href="" class="link">سجاد میرشبی</a> میباشد
+      تمام حقوق این وبسایت متعلق به <a href="https://ulearnit.ir" class="link text-lg font-bold">یولرنیت</a> میباشد
     </h4>
   </footer>
 </template>
 
-<script setup>
+<script setup lang="ts">
+import {SubscribeNewsletter} from "~/services/admin/contactus.service";
+import {errorAlert, successAlert} from "~/services/alert.service";
+
+const email = ref();
+
+const subscribe = async ()=>{
+  const result = await SubscribeNewsletter(email.value);
+  if(result.isSuccess){
+    successAlert('شما به خبرنامه اضافه شدید!','اطلاعیه ها و اخبار برای شما ایمیل خواهد شد!');
+  }else{
+    errorAlert();
+  }
+}
 </script>

@@ -50,7 +50,7 @@
       </template>
       <template #table-body>
         <tr v-for="q in questions">
-          <td class="p-2 bg-gray-50 dark:bg-gray-900 py-3 border border-transparent border-b-gray-700">
+          <td class="p-2 bg-gray-50 dark:bg-gray-900 py-3 border border-transparent border-b-gray-300 dark:border-b-gray-700">
 
             <div class="flex items-center space-x-4 space-x-reverse px-4 ">
               <img class="w-10 h-10 rounded-full" :src="`${ApiUrl}/user/avatars/${q.sender.avatar}`" alt="">

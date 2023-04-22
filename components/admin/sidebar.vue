@@ -29,7 +29,7 @@
               </NuxtLink>
             </li>
             <li class="mr-2 p-2">
-              <NuxtLink to="#" class="flex items-center p-2 text-base font-normal text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700">
+              <NuxtLink to="/admin/courses/checkEpisodes" class="flex items-center p-2 text-base font-normal text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700">
                 <svg class="w-6 h-6 text-gray-500 transition duration-75 dark:text-gray-400 group-hover:text-gray-900 dark:group-hover:text-white" width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
                   <path d="M21.98 15.65C21.16 14.64 19.91 14 18.5 14C17.44 14 16.46 14.37 15.69 14.99C14.65 15.81 14 17.08 14 18.5C14 19.34 14.24 20.14 14.65 20.82C14.92 21.27 15.26 21.66 15.66 21.98H15.67C16.44 22.62 17.43 23 18.5 23C19.64 23 20.67 22.58 21.46 21.88C21.81 21.58 22.11 21.22 22.35 20.82C22.76 20.14 23 19.34 23 18.5C23 17.42 22.62 16.42 21.98 15.65ZM20.76 17.94L18.36 20.16C18.22 20.29 18.03 20.36 17.85 20.36C17.66 20.36 17.47 20.29 17.32 20.14L16.21 19.03C15.92 18.74 15.92 18.26 16.21 17.97C16.5 17.68 16.98 17.68 17.27 17.97L17.87 18.57L19.74 16.84C20.04 16.56 20.52 16.58 20.8 16.88C21.09 17.19 21.07 17.66 20.76 17.94Z" fill="currentColor"/>
                   <path d="M14.7295 5.86V2.5C14.7295 2.22 14.5095 2 14.2295 2H9.76953C9.48953 2 9.26953 2.22 9.26953 2.5V5.86C9.26953 6.14 9.48953 6.36 9.76953 6.36H14.2295C14.5095 6.36 14.7295 6.14 14.7295 5.86Z" fill="currentColor"/>

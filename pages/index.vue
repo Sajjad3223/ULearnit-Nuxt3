@@ -28,6 +28,8 @@
 </template>
 
 <script setup lang="ts">
+import {FetchApi} from "~/utilities/CustomFetchApi";
+
 useHead({
   title:"صفحه اصلی"
 })
@@ -45,4 +47,6 @@ onMounted(async ()=>{
   if(result.isSuccess)
     courses.value = result.data.data;
 })
+
+
 </script>

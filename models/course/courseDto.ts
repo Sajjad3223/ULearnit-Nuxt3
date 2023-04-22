@@ -1,6 +1,7 @@
 import {SeoData} from "~/models/SeoData";
 import {MasterDto} from "~/models/master/MasterDto";
 import {CategoryDto} from "~/models/category/categoryDTO";
+import {EEpisodeStatus} from "~/models/course/courseEnums";
 
 export interface CourseDto{
     id: number;
@@ -26,9 +27,11 @@ export interface CourseDto{
     requirements:string[];
     userHasCourse:boolean;
     studentsCount:Number;
+    shortLink:string;
 }
 export interface SectionDto {
     id: number;
+    courseId: number;
     creationDate: Date;
     isActive: boolean;
     title: string;
@@ -39,6 +42,8 @@ export interface SectionDto {
 }
 export interface EpisodeDto {
     id: number;
+    courseId: number;
+    sectionId: number;
     creationDate: Date;
     isActive: boolean;
     title: string;
@@ -50,4 +55,5 @@ export interface EpisodeDto {
     attachmentName: string;*/
     isFree: boolean;
     hasAttachment: boolean;
+    episodeStatus:EEpisodeStatus;
 }

@@ -17,10 +17,11 @@
       لطفا سوالات خود را راجع به این آموزش در این بخش پرسش و پاسخ مطرح کنید به سوالات در قسمت نظرات  پاسخ داده نخواهد شد و آن نظر حذف میشود.
     </div>
     <send-comment ref="sendComment" :post-type="postType" :post-id="postId" @commentSent="loadData"/>
-    <section class="bg-white dark:bg-gray-900 py-8 ">
-      <div class="w-full mx-auto px-4">
+    <section class="bg-white dark:bg-gray-900 ">
+      <div class="w-full mx-auto px-4" v-if="comments && comments.length > 0">
         <comment v-for="c in comments" :key="c" :comment="c" @setParentId="setParentId" @reacted="loadData"/>
       </div>
+      <u-alert color="primary" v-else>نظری ثبت نشده است، شما اولین نفر باشید!</u-alert>
     </section>
   </div>
 </template>
@@ -28,9 +29,10 @@
 <script setup lang="ts">
 import SendComment from "~/components/comments/send-comment.vue";
 import Comment from "~/components/comments/comment.vue";
-import {EPostType} from "~/models/comment/commentDto";
+import {CommentFilterData, EPostType} from "~/models/comment/commentDto";
 import {CommentFilterParams} from "~/models/comment/commentFilterParams";
 import {GetComments} from "~/services/comment.service";
+import {Ref} from "vue";
 
 const props = defineProps<{
   postType:EPostType,
@@ -46,7 +48,7 @@ const getCommentsData:CommentFilterParams = {
   userRequested: null,
 }
 
-const comments = ref();
+const comments = ref<CommentFilterData[]>();
 const sendComment = ref();
 
 onMounted(async ()=>{

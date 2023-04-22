@@ -4,7 +4,7 @@
       <div class="px-3 py-3 lg:px-5 lg:pr-3">
         <div class="flex items-center justify-between">
           <NuxtLink to="/" class="flex mr-2 md:ml-32">
-            <img src="/imgs/light-ULearnit.png" class="h-12 mr-3" alt="ULearnit Logo" />
+            <img src="~/assets/images/light-ULearnit.png" class="h-12 mr-3" alt="ULearnit Logo" />
           </NuxtLink>
 
           <div class="flex items-center justify-end">

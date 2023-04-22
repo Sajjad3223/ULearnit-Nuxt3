@@ -10,9 +10,9 @@
     <span class="sr-only">Info</span>
     <div>
       <slot></slot>
-      <ul class="mt-1.5 mr-4 list-disc list-inside">
+      <div class="mt-1.5 mr-4">
         <slot name="list"/>
-      </ul>
+      </div>
     </div>
   </div>
 </template>
