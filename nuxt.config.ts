@@ -21,10 +21,12 @@ export default defineNuxtConfig({
     image:{
         domains:[
             'http://localhost:5161',
-            'http://localhost:3000'
+            'http://localhost:3000',
+            'http://dl.ulearnit.ir'
         ],
         alias:{
             ulearnit:'http://localhost:5161',
+            //ulearnit:'http://dl.ulearnit.ir',
         }
     },
     /*vite: {

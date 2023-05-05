@@ -2,7 +2,7 @@
   <div>
     <u-divider title="وبلاگ"/>
     <div class="w-full mt-4">
-      <u-table>
+      <u-table :pagination-data="paginationData">
         <template #table-options="{showFilter}">
           <div class="w-full md:w-auto flex flex-col md:flex-row space-y-2 md:space-y-0 items-stretch md:items-center justify-end md:space-x-3 md:space-x-reverse flex-shrink-0">
             <div class="flex items-center space-x-3 space-x-reverse space-x-reverse w-full md:w-auto">
@@ -52,10 +52,10 @@
             </th>
             <td class="px-4 py-3">{{ b.writerName }}</td>
             <td class="px-4 py-3">
-              <u-badge v-if="b.postStatus === 0" color="warning">در حال بررسی</u-badge>
-              <u-badge v-if="b.postStatus === 1" color="success">منتشر شده</u-badge>
-              <u-badge v-if="b.postStatus === 2" color="danger">رد شده</u-badge>
-              <u-badge v-if="b.postStatus === 3" color="dark">پیش نویس</u-badge>
+              <u-badge v-if="b.postStatus === EPostStatus.Pending" color="warning">در حال بررسی</u-badge>
+              <u-badge v-if="b.postStatus === EPostStatus.Published" color="success">منتشر شده</u-badge>
+              <u-badge v-if="b.postStatus === EPostStatus.Rejected" color="danger">رد شده</u-badge>
+              <u-badge v-if="b.postStatus === EPostStatus.Drafted" color="dark">پیش نویس</u-badge>
             </td>
             <td class="px-4 py-3">{{new Date(b.creationDate).toLocaleDateString('fa-IR')}}</td>
             <td class="px-4 py-3">
@@ -71,13 +71,18 @@
               <div class="hidden table-option z-20 w-44 bg-white rounded divide-y divide-gray-100 shadow dark:bg-gray-700 dark:divide-gray-600">
                 <ul class="py-1 text-sm text-gray-700 dark:text-gray-200" aria-labelledby="apple-imac-27-dropdown-button">
                   <li v-if="b.postStatus === 0">
-                    <button @click="publishPost(b.id)" class="w-full text-right block py-2 px-4 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">انتشار</button>
+                    <button @click="publish(b.id)" class="w-full text-right block py-2 px-4 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">انتشار</button>
                   </li>
                   <li v-if="b.postStatus === 0 || b.postStatus === 1">
-                    <button @click="rejectPost(b.id)" class="w-full text-right block py-2 px-4 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">رد مقاله</button>
+                    <button @click="reject(b.id)" class="w-full text-right block py-2 px-4 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">رد مقاله</button>
                   </li>
                   <li v-if="b.postStatus === 2">
-                    <button @click="publishPost(b.id)" class="w-full text-right block py-2 px-4 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">انتشار</button>
+                    <button @click="publish(b.id)" class="w-full text-right block py-2 px-4 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">انتشار</button>
+                  </li>
+                </ul>
+                <ul class="py-1 text-sm text-gray-700 dark:text-gray-200" aria-labelledby="apple-imac-27-dropdown-button">
+                  <li v-if="b.isActive">
+                    <button @click="deletePost(b.id)" class="w-full text-right block py-2 px-4 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">حذف مقاله</button>
                   </li>
                 </ul>
               </div>
@@ -91,8 +96,10 @@
 
 <script setup lang="ts">
 import {errorAlert, successAlert} from "~/services/alert.service";
-import {GetBlogPostsByAdmin, PublishPost, RejectPost} from "~/services/admin/blogPosts.admin.service";
-import {PostFilterData} from "~/models/post/postFilterData";
+import {EPostStatus, PostFilterData, PostFilterParams} from "~/models/post/postFilterData";
+import {PaginationData} from "~/models/baseFilterResult";
+import {FillPaginationData} from "~/utilities/FillPaginationData";
+import {DeletePost, GetBlogPostsByAdmin, PublishPost, RejectPost} from "~/services/admin/blogPosts.admin.service";
 
 definePageMeta({
   layout:'admin',
@@ -100,20 +107,48 @@ middleware:'admin'
 })
 
 const posts = ref<PostFilterData[]>();
+const paginationData = ref<PaginationData>();
+
+
+const route = useRoute();
+const filterParams:PostFilterParams = reactive({
+  pageId:Number(route.query?.pageId ?? '1'),
+  take:Number(route.query?.take ?? '10'),
+  search:route.query?.q?.toString() ?? null,
+  categorySlug:null,
+  postStatus:null,
+  writerId:null
+})
+const setFilters = ()=>{
+  filterParams.pageId = Number(route.query?.pageId ?? '1');
+  filterParams.take = Number(route.query?.take ?? '10');
+  filterParams.search = route.query?.q?.toString() ?? null;
+}
+
+watch(
+    ()=>route.query,
+    async ()=> {
+      setFilters();
+      await loadData();
+    }
+);
+
 onMounted(async ()=>{
   await loadData();
 })
 
 const loadData = async()=>{
-  const result = await GetBlogPostsByAdmin();
-  if(result.isSuccess)
+  const result = await GetBlogPostsByAdmin(filterParams);
+  if(result.isSuccess) {
     posts.value = result.data.data;
+    paginationData.value = FillPaginationData(result.data);
+  }
   else{
     errorAlert();
   }
 }
 
-const publishPost = async (id:any)=>{
+const publish = async (id:number)=>{
   const result = await PublishPost(id);
   if(result.isSuccess)
   {
@@ -124,8 +159,19 @@ const publishPost = async (id:any)=>{
     errorAlert();
   }
 }
-const rejectPost = async (id:any)=>{
+const reject = async (id:number )=>{
   const result = await RejectPost(id);
+  if(result.isSuccess)
+  {
+    successAlert();
+    await loadData();
+  }
+  else{
+    errorAlert();
+  }
+}
+const deletePost = async (id:number )=>{
+  const result = await DeletePost(id);
   if(result.isSuccess)
   {
     successAlert();

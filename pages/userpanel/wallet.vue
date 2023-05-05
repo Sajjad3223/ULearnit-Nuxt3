@@ -18,7 +18,7 @@
         <input type="number" v-model="chargeWalletData.price" class="searchbox w-1/2 ">
         <base-button type="submit">پرداخت</base-button>
       </Form>
-      <u-table >
+      <u-table :has-header="false">
         <template #table-header>
           <th scope="col" class="px-4 py-3">نوع تراکنش</th>
           <th scope="col" class="px-4 py-3">مبلغ (تومان)</th>

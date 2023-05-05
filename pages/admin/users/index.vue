@@ -8,7 +8,7 @@
 
     <u-divider title="کاربران"/>
 
-    <u-table ref="dataTable">
+    <u-table ref="dataTable" :pagination-data="paginationData">
       <template v-slot:table-options="{showFilter}">
         <div class="w-full md:w-auto flex flex-col md:flex-row space-y-2 md:space-y-0 items-stretch md:items-center justify-end md:space-x-3 md:space-x-reverse flex-shrink-0">
           <button  class="flex items-center justify-center text-white bg-indigo-700 hover:bg-indigo-800 focus:ring-4 focus:ring-indigo-300 font-medium rounded-lg text-sm px-4 py-2 dark:bg-indigo-600 dark:hover:bg-indigo-700 focus:outline-none dark:focus:ring-indigo-800">
@@ -91,8 +91,10 @@
               </ul>
               <ul class="py-1 text-sm text-gray-700 dark:text-gray-200">
                 <li>
-                  <button @click="inActivate(u.id)"
+                  <button v-if="u.isActive" @click="setActive(u.id,!u.isActive)"
                           class="w-full text-right block py-2 px-4 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">غیر فعال کردن حساب</button>
+                  <button v-else @click="setActive(u.id,!u.isActive)"
+                          class="w-full text-right block py-2 px-4 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">فعال کردن حساب</button>
                 </li>
               </ul>
             </div>
@@ -105,7 +107,11 @@
 
 <script setup lang="ts">
 import {UserFilterData, UserFilterParams} from "~/models/user/userFilterParams";
-import {GetUsersByAdmin} from "~/services/admin/users.admin.service";
+import {GetUsersByAdmin, SetUserActivity} from "~/services/admin/users.admin.service";
+import {PaginationData} from "~/models/baseFilterResult";
+import {FillPaginationData} from "~/utilities/FillPaginationData";
+import {SetUserActivityViewModel} from "~/models/user/setUserActivityViewModel";
+import {successAlert} from "~/services/alert.service";
 
 definePageMeta({
   layout:'admin',
@@ -113,23 +119,52 @@ definePageMeta({
 })
 
 const users = ref<UserFilterData[]>();
+const paginationData = ref<PaginationData>();
 
-const userFilterParams:UserFilterParams = reactive({
-  pageId:1,
-  take:10,
+const route = useRoute();
+const filterParams:UserFilterParams = reactive({
+  pageId:Number(route.query?.pageId ?? '1'),
+  take:Number(route.query?.take ?? '10'),
+  search:route.query?.q?.toString() ?? null,
   id:null,
   phoneNumber:null,
   email:null
 })
+const setFilters = ()=>{
+  filterParams.pageId = Number(route.query?.pageId ?? '1');
+  filterParams.take = Number(route.query?.take ?? '10');
+  filterParams.search = route.query?.q?.toString() ?? null;
+}
+
+watch(
+    ()=>route.query,
+    async ()=> {
+      setFilters();
+      await loadData();
+    }
+);
 
 onMounted( async ()=>{
-  const result = await GetUsersByAdmin(userFilterParams);
-  if(result.isSuccess)
-    users.value = result.data.data;
+  await loadData();
 })
 
-const inActivate=(id:any)=>{
+const loadData = async ()=>{
+  const result = await GetUsersByAdmin(filterParams);
+  if(result.isSuccess) {
+    users.value = result.data.data;
+    paginationData.value = FillPaginationData(result.data);
+  }
+}
 
+const setActive= async (id:any,activity:boolean)=>{
+  const result = await SetUserActivity({
+    userId:id,
+    activity:activity
+  } as SetUserActivityViewModel);
+  if(result.isSuccess){
+    successAlert()
+    await loadData();
+  }
 }
 
 </script>

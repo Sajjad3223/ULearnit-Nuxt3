@@ -2,7 +2,7 @@
   <div>
     <u-divider title="باندل ها"/>
     <div class="w-full mt-4">
-      <u-table>
+      <u-table :pagination-data="paginationData">
         <template #table-options="{showFilter}">
           <div class="w-full md:w-auto flex flex-col md:flex-row space-y-2 md:space-y-0 items-stretch md:items-center justify-end md:space-x-3 md:space-x-reverse flex-shrink-0">
             <div class="flex items-center space-x-3 space-x-reverse space-x-reverse w-full md:w-auto">
@@ -65,9 +65,10 @@
               </button>
               <div class="hidden table-option z-20 w-44 bg-white rounded divide-y divide-gray-100 shadow dark:bg-gray-700 dark:divide-gray-600">
                 <ul class="py-1 text-sm text-gray-700 dark:text-gray-200" aria-labelledby="apple-imac-27-dropdown-button">
-              <!--<li v-if="c.commentStatus === ECourseStatus.Preparing">
-                    <button @click="publishComment(c.id)" class="w-full text-right block py-2 px-4 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">انتشار</button>
-                  </li>-->
+                  <li>
+                      <button v-if="b.isActive" @click="setActivity(b.id,!b.isActive)" class="w-full text-right block py-2 px-4 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">غیر فعال کردن</button>
+                      <button v-else @click="setActivity(b.id,!b.isActive)" class="w-full text-right block py-2 px-4 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">فعال کردن</button>
+                  </li>
                 </ul>
               </div>
             </td>
@@ -80,7 +81,11 @@
 
 <script setup lang="ts">
 import {BundleFilterData, BundleFilterParams} from "~/models/bundle/bundleFilterResult";
-import {GetBundlesByAdmin} from "~/services/admin/bundles.admin.service";
+import {GetBundlesByAdmin, SetBundleActivity} from "~/services/admin/bundles.admin.service";
+import {PaginationData} from "~/models/baseFilterResult";
+import {FillPaginationData} from "~/utilities/FillPaginationData";
+import {SetBundleActivityViewModel} from "~/models/bundle/SetBundleActivityViewModel";
+import {errorAlert, successAlert} from "~/services/alert.service";
 
 definePageMeta({
   layout:'admin',
@@ -88,23 +93,54 @@ definePageMeta({
 })
 
 const bundles = ref<BundleFilterData[]>();
+const paginationData = ref<PaginationData>();
+
+
+const route = useRoute();
+const filterParams:BundleFilterParams = reactive({
+  pageId:Number(route.query?.pageId ?? '1'),
+  take:Number(route.query?.take ?? '10'),
+  search:route.query?.q?.toString() ?? null,
+  userId:null,
+  minPrice:null,
+  justActiveBundles:false
+})
+const setFilters = ()=>{
+  filterParams.pageId = Number(route.query?.pageId ?? '1');
+  filterParams.take = Number(route.query?.take ?? '10');
+  filterParams.search = route.query?.q?.toString() ?? null;
+}
+
+watch(
+    ()=>route.query,
+    async ()=> {
+      setFilters();
+      await loadData();
+    }
+);
 
 onMounted(async ()=>{
   await loadData();
 })
 
 const loadData = async ()=>{
-  const filterParams:BundleFilterParams = {
-    justActiveBundles:false,
-    minPrice:null,
-    search:null,
-    userId:null,
-    take : 10,
-    pageId : 1
-  };
   const result = await GetBundlesByAdmin(filterParams);
   if(result.isSuccess){
     bundles.value = result.data.data;
+    paginationData.value = FillPaginationData(result.data);
+  }
+}
+
+const setActivity = async (id:number,activity:boolean) =>{
+  const result = await SetBundleActivity({
+    bundleId:id,
+    activity:activity
+  } as SetBundleActivityViewModel);
+  if(result.isSuccess){
+    successAlert();
+    await loadData();
+  }else{
+    errorAlert()
   }
 }
 </script>

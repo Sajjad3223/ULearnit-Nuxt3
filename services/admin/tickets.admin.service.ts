@@ -9,3 +9,9 @@ export function GetTicketsByAdmin(filterParams?:TicketFilterParams):Promise<ApiR
         params:filterParams
     });
 }
+export function CloseTicket(id:number):Promise<ApiResponse<undefined>>{
+    //@ts-ignore
+    return FetchApi(`/admin/Tickets/close/${id}`,{
+        method:'PUT',
+    });
+}

@@ -1,7 +1,14 @@
 <template>
   <div>
     <span>{{title}}</span>
-    <div ref="fileDropArea" class="file-drop-area">
+    <div class="flex items-center space-x-2 space-x-reverse mt-2 " v-show="isUploading">
+      <svg class="animate-spin -mr-1 mr-3 h-5 w-5 text-indigo-500 dark:text-indigo-300" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+        <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+        <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+      </svg>
+      <span class="animate-pulse"> در حال آپلود ...</span>
+    </div>
+    <div ref="fileDropArea" class="file-drop-area" v-show="!isUploading">
       <span class="fake-btn">انتخاب فایل</span>
       <span ref="fileName" class="file-msg">یا بکشید و اینجا رها کنید</span>
       <input @input="Upload" class="file-input" type="file"
@@ -13,7 +20,7 @@
              @blur="fileDropArea.classList.remove('is-active')"
              @drop="fileDropArea.classList.remove('is-active')">
     </div>
-    <master-upload-progress :value="uploadPercentage">{{ uploadPercentage }}</master-upload-progress>
+<!--    <master-upload-progress :value="uploadPercentage">{{ uploadPercentage }}</master-upload-progress>-->
   </div>
 </template>
 
@@ -41,10 +48,11 @@ const props = defineProps<{
   acceptFormat: 'video' | 'image' | 'compressed'
 }>()
 
-const emits = defineEmits(['update:modelValue'])
+const emits = defineEmits(['update:modelValue','setIsUploading'])
 
 const fileDropArea = ref();
 const fileName = ref();
+const isUploading = ref(false);
 
 const getAcceptFormat = computed(()=>{
   if(props.acceptFormat === 'video')
@@ -73,6 +81,8 @@ const Upload = async (e:any)=>{
     cancelButtonText:'انصراف',
   }).then(async (result)=>{
     if(result.isConfirmed) {
+        isUploading.value = true;
+        emits('setIsUploading',isUploading.value);
         await axios.post(url,form,{
           headers: {
             'Content-Type': 'multipart/form-data',
@@ -82,10 +92,14 @@ const Upload = async (e:any)=>{
             uploadPercentage.value = Number( Math.round( ( progressEvent.loaded / progressEvent.total ) * 100 ) );
           }.bind(this)
         }).then(function(response){
+          isUploading.value = false;
+          emits('setIsUploading',isUploading.value);
           emits('update:modelValue',response.data.data);
           successAlert('فایل با موفقیت آپلود شد!');
         })
         .catch(function(){
+          isUploading.value = false;
+          emits('setIsUploading',isUploading.value);
           errorAlert('در آپلود فایل مشکلی پیش آمده است');
         });
       }

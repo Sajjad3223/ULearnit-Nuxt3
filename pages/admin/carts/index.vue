@@ -2,7 +2,7 @@
   <div>
     <u-divider title="سفارشات"/>
     <div class="w-full mt-4">
-      <u-table>
+      <u-table :pagination-data="paginationData">
         <template #table-options="{showFilter}">
           <div class="w-full md:w-auto flex flex-col md:flex-row space-y-2 md:space-y-0 items-stretch md:items-center justify-end md:space-x-3 md:space-x-reverse flex-shrink-0">
             <div class="flex items-center space-x-3 space-x-reverse space-x-reverse w-full md:w-auto">
@@ -66,10 +66,10 @@
                 </svg>
               </button>
               <div class="hidden table-option z-20 w-44 bg-white rounded divide-y divide-gray-100 shadow dark:bg-gray-700 dark:divide-gray-600">
-                <ul class="py-1 text-sm text-gray-700 dark:text-gray-200" aria-labelledby="apple-imac-27-dropdown-button">
-              <!--<li v-if="c.commentStatus === ECourseStatus.Preparing">
-                    <button @click="publishComment(c.id)" class="w-full text-right block py-2 px-4 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">انتشار</button>
-                  </li>-->
+                <ul class="py-1 text-sm text-gray-700 dark:text-gray-200">
+                  <li v-if="o.orderStatus === EOrderStatus.Pending">
+                    <button @click="finalize(o.id)" class="w-full text-right block py-2 px-4 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">نهایی سازی</button>
+                  </li>
                 </ul>
               </div>
             </td>
@@ -82,8 +82,11 @@
 
 <script setup lang="ts">
 import {OrderFilterData, OrderFilterParams} from "~/models/cart/orderFilterData";
-import {GetOrdersByAdmin} from "~/services/admin/carts.admin.service";
+import {FinalizeOrder, GetOrdersByAdmin} from "~/services/admin/carts.admin.service";
 import {EOrderStatus} from "~/models/cart/orderDto";
+import {PaginationData} from "~/models/baseFilterResult";
+import {successAlert} from "~/services/alert.service";
+import {FillPaginationData} from "~/utilities/FillPaginationData";
 
 definePageMeta({
   layout:'admin',
@@ -91,15 +94,29 @@ definePageMeta({
 })
 
 const orders = ref<OrderFilterData[]>();
+const paginationData = ref<PaginationData>();
 
+const route = useRoute();
 const filterParams:OrderFilterParams = reactive({
+  pageId:Number(route.query?.pageId ?? '1'),
+  take:Number(route.query?.take ?? '10'),
   userId:null,
-  status:null,
   endDate:null,
   startDate:null,
-  take : 10,
-  pageId : 1
-});
+  status:null
+})
+const setFilters = ()=>{
+  filterParams.pageId = Number(route.query?.pageId ?? '1');
+  filterParams.take = Number(route.query?.take ?? '10');
+}
+
+watch(
+    ()=>route.query,
+    async ()=> {
+      setFilters();
+      await loadData();
+    }
+);
 
 onMounted(async ()=>{
   await loadData();
@@ -109,6 +126,14 @@ const loadData = async ()=>{
   const result = await GetOrdersByAdmin(filterParams);
   if(result.isSuccess){
     orders.value = result.data.data;
+    paginationData.value = FillPaginationData(result.data);
+  }
+}
+const finalize = async (id:number)=>{
+  const result = await FinalizeOrder(id);
+  if(result.isSuccess){
+    successAlert()
+    await loadData();
   }
 }
 </script>

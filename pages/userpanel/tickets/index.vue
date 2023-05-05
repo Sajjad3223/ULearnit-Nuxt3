@@ -27,7 +27,7 @@
     </u-modal>
 
     <div class="w-full mt-4">
-      <u-table>
+      <u-table v-if="tickets !== undefined && tickets.length > 0" :pagination-data="paginationData" >
         <template v-slot:table-options="{showFilter,showActions}" >
           <div class="w-full md:w-auto flex flex-col md:flex-row space-y-2 md:space-y-0 items-stretch md:items-center justify-end md:space-x-3 md:space-x-reverse flex-shrink-0">
             <base-button @click="ticketModal = true" class="flex items-center justify-center text-white bg-indigo-700 hover:bg-indigo-800 focus:ring-4 focus:ring-indigo-300 font-medium rounded-lg text-sm px-4 py-2 dark:bg-indigo-600 dark:hover:bg-indigo-700 focus:outline-none dark:focus:ring-indigo-800">
@@ -98,7 +98,7 @@
                     <NuxtLink :to="`/userpanel/tickets/${t.id}`" class="block py-2 px-4 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">نمایش</NuxtLink>
                   </li>
                   <li>
-                    <NuxtLink to="/" class="block py-2 px-4 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">بستن تیکت</NuxtLink>
+                    <button v-if="t.ticketStatus !== 2" @click="closeTicket(t.id)" class="block w-full text-right py-2 px-4 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">بستن تیکت</button>
                   </li>
                 </ul>
               </div>
@@ -106,15 +106,19 @@
           </tr>
         </template>
       </u-table>
+      <u-alert v-else>
+        شما هیچ تیکتی ثبت نکرده اید!
+      </u-alert>
     </div>
   </div>
 </template>
 
 <script setup lang="ts">
 import {CreateTicketCommand} from "~/models/ticket/createTicketCommand";
-import {CreateTicket, GetUserTickets} from "~/services/ticket.service";
+import {CloseTickets, CreateTicket, GetUserTickets} from "~/services/ticket.service";
 import {errorAlert, successAlert} from "~/services/alert.service";
-import {TicketFilterData} from "~/models/ticket/ticketDto";
+import {TicketFilterData, TicketFilterParams} from "~/models/ticket/ticketDto";
+import {PaginationData} from "~/models/baseFilterResult";
 
 definePageMeta({
   layout: "user",
@@ -122,16 +126,20 @@ definePageMeta({
 })
 
 const tickets = ref<TicketFilterData[]>();
-onMounted(async ()=>{
-  const result = await GetUserTickets();
-  if(result.isSuccess){
-    tickets.value = result.data.data;
-  }
-})
+const paginationData = ref<PaginationData>();
 
 const addTicketData:CreateTicketCommand = reactive({
   title:"",
   text:"",
+})
+
+const route = useRoute();
+const filterParams:TicketFilterParams = reactive({
+  take: Number(route.query?.take ?? '10'),
+  pageId: Number(route.query?.pageId ?? '1'),
+  search: route.query?.q?.toString() ?? null,
+  userId: null,
+  ticketStatus:null
 })
 
 const ticketModal = ref(false);
@@ -145,6 +153,42 @@ const createTicket = async ()=>{
     router.push(`/userpanel/tickets/${result.data}`);
   }
   else{
+    errorAlert();
+  }
+}
+
+watch(
+    ()=>route.query,
+    async ()=>{
+      await loadData();
+    }
+)
+
+onMounted(async ()=>{
+  await loadData();
+})
+
+const setFilters = ()=> {
+  filterParams.take = Number(route.query?.take ?? '10');
+  filterParams.pageId = Number(route.query?.pageId ?? '1');
+  filterParams.search = route.query?.q?.toString() ?? null;
+}
+
+const loadData = async ()=>{
+  setFilters();
+  const result = await GetUserTickets(filterParams);
+  if(result.isSuccess){
+    tickets.value = result.data.data;
+    paginationData.value = result.data;
+  }
+}
+
+const closeTicket = async (id:number)=>{
+  const result = await CloseTickets(id);
+  if(result.isSuccess){
+    successAlert();
+    await loadData();
+  }else{
     errorAlert();
   }
 }

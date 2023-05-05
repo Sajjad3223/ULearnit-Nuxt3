@@ -1,12 +1,6 @@
 <template>
   <div>
-    <Head>
-      <Title>
-        ثبت تخفیف
-      </Title>
-    </Head>
-
-    <u-divider title="ثبت تخفیف برای همه دوره ها"/>
+    <u-divider title="ثبت تخفیف برای دوره"/>
 
     <u-alert color="dark">
       <template #icon>
@@ -20,26 +14,47 @@
     </u-alert>
 
 
-    <form class="mt-6">
+    <Form @submit="setDiscount" class="mt-6">
       <div class="grid md:grid-cols-2 md:gap-6">
-        <div class="relative z-0 w-full mb-6 group">
-          <input type="number" name="floating_phone" id="floating_phone" class="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer" placeholder=" " required />
-          <label for="floating_phone" class="peer-focus:font-medium absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-right peer-focus:right-0 peer-focus:text-blue-700 peer-focus:dark:text-blue-300 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6">مبلغ تخفیف به درصد</label>
-        </div>
-        <div class="relative z-0 w-full mb-6 group">
-          <input type="number" name="floating_company" id="floating_company" class="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer" placeholder=" " required />
-          <label for="floating_company" class="peer-focus:font-medium absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-right peer-focus:right-0 peer-focus:text-blue-700 peer-focus:dark:text-blue-300 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6">تعداد روز در دسترس</label>
-        </div>
+        <base-input name="percent" type="number" label="درصد تخفیف" v-model="setDiscountData.discountPercent" />
+        <base-input name="days" type="number" label="دروزهای در دسترس" v-model="setDiscountData.discountDays" />
+        <div></div>
+        <base-button type="submit" class="flex mr-auto w-1/2 justify-center">ثبت تخفیف</base-button>
       </div>
-      <base-button type="submit" class="flex mr-auto w-1/3 justify-center">ثبت تخفیف</base-button>
-    </form>
+    </Form>
 
+    <Head>
+      <Title>
+        ثبت تخفیف
+      </Title>
+    </Head>
   </div>
 </template>
 
-<script setup>
+<script setup lang="ts">
+import {Form} from 'vee-validate';
+import {SetDiscountViewModel} from "~/models/course/setDiscountViewModel";
+import {SetCourseDiscount} from "~/services/course.service";
+import {successAlert} from "~/services/alert.service";
+
 definePageMeta({
   layout:"user",
-middleware:'master'
+  middleware:'master'
 })
+
+const route = useRoute();
+const setDiscountData:SetDiscountViewModel = reactive({
+  courseId : Number(route.params.courseId),
+  discountDays:0,
+  discountPercent:0
+});
+
+const router = useRouter();
+const setDiscount = async()=>{
+  const result = await SetCourseDiscount(setDiscountData);
+  if(result.isSuccess){
+    successAlert();
+    router.push('/masterpanel/courses');
+  }
+}
 </script>

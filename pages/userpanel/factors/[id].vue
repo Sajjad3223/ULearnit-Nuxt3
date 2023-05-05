@@ -29,7 +29,7 @@
           <strong class="mr-2">{{ factor.totalPrice.toLocaleString() }}<sub class="mr-1">تومان</sub></strong>
         </div>
       </div>
-      <u-table :has-filter="false" :has-footer="false">
+      <u-table :has-filter="false" :has-footer="false" :has-header="false">
         <template #table-header>
           <th scope="col" class="px-4 py-3">#</th>
           <th scope="col" class="px-4 py-3">نام دوره</th>

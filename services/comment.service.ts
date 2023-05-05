@@ -35,18 +35,6 @@ export function DeleteComment(commentId:BigInt):Promise<ApiResponse<undefined>>{
         method:'DELETE',
     });
 }
-export function VerifyComment(commentId:BigInt):Promise<ApiResponse<undefined>>{
-   //@ts-ignore
-    return FetchApi(`/Comment/verify/${commentId}`,{
-        method:'PUT',
-    });
-}
-export function RejectComment(commentId:BigInt):Promise<ApiResponse<undefined>>{
-   //@ts-ignore
-    return FetchApi(`/Comment/reject/${commentId}`,{
-        method:'PUT',
-    });
-}
 
 // Reactions //
 export function ReactToComment(command:ReactToCommentViewModel):Promise<ApiResponse<undefined>>{

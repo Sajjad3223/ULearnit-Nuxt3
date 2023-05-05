@@ -54,7 +54,7 @@
           در صورتی که مشکل شما نیاز به پیگیری و دریافت پاسخ دارد، لطفا تیکت ثبت کنید.
         </u-alert>
         <base-input name="fullName" v-model="contactUsData.fullName" label="نام و نام خانوادگی" />
-        <base-input name="phoneNumber" v-model="contactUsData.phoneNumber" label="شماره تلفن" />
+        <base-input name="phoneNumber" v-model="contactUsData.phoneNumber" label="شماره تلفن" max-length="11"/>
         <base-input name="email" v-model="contactUsData.email" label="ایمیل" />
         <base-input name="text" v-model="contactUsData.text" label="پیام شما" multiline />
         <base-button type="submit" class="w-1/2 mr-auto">ارسال پیام</base-button>
@@ -71,10 +71,10 @@ import {CreateContact} from "~/services/admin/contactus.service";
 import {errorAlert, successAlert} from "~/services/alert.service";
 
 const contactUsSchema = Yup.object().shape({
-  fullName:Yup.string().required(),
-  phoneNumber:Yup.string().required().max(11),
-  email:Yup.string().email(),
-  text:Yup.string().required()
+  fullName:Yup.string().required('نام و نام خانوادگی را وارد کنید'),
+  phoneNumber:Yup.string().required('شماره تلفن را وارد کنید').max(11,'شماره تلفن نامعتبر است'),
+  email:Yup.string().email('ایمیل نامعتبر است').required('ایمیل را وارد کنید'),
+  text:Yup.string().required('پیام خود را وارد کنید')
 });
 
 const contactUsData:ContactUsCommand = reactive({

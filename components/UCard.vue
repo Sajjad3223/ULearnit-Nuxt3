@@ -4,9 +4,6 @@
       <NuxtLink :to="`/courses/${courseCard.slug}`">
         <base-img :src='`/ulearnit/core/course/banner/${courseCard.imageName}`' :alt="courseCard.title" class="cardImage" />
       </NuxtLink>
-      <!-- <a href="" class="absolute bottom-0 left-0" data-master-name="سجاد میرشبی">
-          <img src="imgs/master.jpg" class="max-w-[70px] rounded-lg rounded-bl-none ring-4 ring-slate-900" alt="master">
-      </a> -->
     </div>
     <div class="cardInfo">
       <NuxtLink :to="`/courses/${courseCard.slug}`" class="cardTitle link">
@@ -39,9 +36,9 @@
           <div class="priceDiscount" v-if="courseCard.discount > 0">
             <div>
               <span class="discountBadge">{{ courseCard.discount }}%</span>
-              <small>{{ courseCard.totalPrice.toLocaleString() }} تومان</small>
+              <s class="text-xs opacity-75">{{ courseCard.price.toLocaleString() }} تومان</s>
             </div>
-            <strong>{{ courseCard.price.toLocaleString() }} <sub>تومان</sub></strong>
+            <strong>{{ courseCard.totalPrice.toLocaleString() }} <sub>تومان</sub></strong>
           </div>
           <strong v-else-if="courseCard.discount === 0 && courseCard.price > 0"> {{ courseCard.price.toLocaleString() }} <sub>تومان</sub></strong>
           <strong v-else> رایگان! </strong>
@@ -69,7 +66,7 @@ const props = defineProps<{
 }>()
 
 const addToFavorite = async ()=>{
-  const result = await AddFavorite(props.id);
+  const result = await AddFavorite(props.courseCard.id);
   if(result.isSuccess)
     successAlert();
   else

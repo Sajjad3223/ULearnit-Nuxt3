@@ -8,7 +8,7 @@
 
     <u-divider title="مدیریت دوره ها" />
     <div class="w-full mt-4">
-      <u-table>
+      <u-table :pagination-data="paginationData">
       <template v-slot:table-options="{showFilter,showActions}" >
         <div class="w-full md:w-auto flex flex-col md:flex-row space-y-2 md:space-y-0 items-stretch md:items-center justify-end md:space-x-3 md:space-x-reverse flex-shrink-0">
           <NuxtLink to="courses/add" class="flex items-center justify-center text-white bg-indigo-700 hover:bg-indigo-800 focus:ring-4 focus:ring-indigo-300 font-medium rounded-lg text-sm px-4 py-2 dark:bg-indigo-600 dark:hover:bg-indigo-700 focus:outline-none dark:focus:ring-indigo-800">
@@ -90,18 +90,53 @@
 
 <script setup lang="ts">
 import {GetMasterCourses} from "~/services/course.service";
-import {CourseCardDto} from "~/models/course/courseSearchResultDto";
+import {CourseCardDto, CourseFilterParams, CourseFilterResult} from "~/models/course/courseSearchResultDto";
+import {FillPaginationData} from "~/utilities/FillPaginationData";
+import {PaginationData} from "~/models/baseFilterResult";
 
 definePageMeta({
   layout:"user",
-  middleware:'master'
+  //middleware:'master'
 })
 
 const courses = ref<CourseCardDto[]>();
+const paginationData = ref<PaginationData>();
 
-onBeforeMount( async ()=>{
-  const result = await GetMasterCourses();
-  courses.value = result.data.data;
+const route = useRoute();
+const filterParams:CourseFilterParams = reactive({
+  pageId:Number(route.query?.pageId ?? '1'),
+  take:Number(route.query?.take ?? '10'),
+  search:route.query?.q?.toString() ?? null,
+  orderFilter:null,
+  priceFilter:null,
+  categorySlug:null,
+  requirement:null
 })
+
+const setFilters = ()=>{
+  filterParams.pageId = Number(route.query?.pageId ?? '1');
+  filterParams.take = Number(route.query?.take ?? '10');
+  filterParams.search = route.query?.q?.toString() ?? null;
+}
+
+watch(
+    ()=>route.query,
+    async ()=> {
+      setFilters();
+      await loadData();
+    }
+);
+
+onMounted( async ()=>{
+  await loadData();
+})
+
+const loadData = async ()=>{
+  const result = await GetMasterCourses(filterParams);
+  if(result.isSuccess) {
+    courses.value = result.data.data;
+    paginationData.value = FillPaginationData(result.data);
+  }
+}
 
 </script>

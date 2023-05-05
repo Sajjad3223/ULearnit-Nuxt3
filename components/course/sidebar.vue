@@ -6,7 +6,7 @@
         </svg>
         <span >قیمت دوره:</span>
         <div v-if="price > 0">
-          <strong>{{ price.toLocaleString() }} تومان</strong>
+          <strong class="text-xl">{{ price.toLocaleString() }} تومان</strong>
           <div v-if="discount > 0">
             <s>{{ realPrice.toLocaleString() }} تومان</s>
             <span>{{discount}}%</span>

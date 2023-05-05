@@ -1,7 +1,7 @@
 import {SeoData} from "~/models/SeoData";
 import {MasterDto} from "~/models/master/MasterDto";
 import {CategoryDto} from "~/models/category/categoryDTO";
-import {EEpisodeStatus} from "~/models/course/courseEnums";
+import {ECourseLevel, ECourseStatus, EEpisodeStatus} from "~/models/course/courseEnums";
 
 export interface CourseDto{
     id: number;
@@ -12,8 +12,8 @@ export interface CourseDto{
     description: string;
     imageName: string;
     introVideo: string;
-    courseLevel: number;
-    courseStatus: number;
+    courseLevel: ECourseLevel;
+    courseStatus: ECourseStatus;
     seoData: SeoData;
     price: number;
     discount: number;

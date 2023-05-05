@@ -56,7 +56,7 @@ import {EpisodeDto} from "~/models/course/courseDto";
 import {useAuthStore} from "~/stores/authStore";
 import {GetEpisodeAttachmentFile, GetEpisodeVideo, GetEpisodeVideoFile} from "~/services/course.service";
 import {errorAlert} from "~/services/alert.service";
-import {ApiUrl} from "~/utilities/ApiUrls";
+import {FtpUrl} from "~/utilities/ApiUrls";
 
 const props = defineProps<{
   episode:EpisodeDto,
@@ -87,7 +87,7 @@ const playOnline= async ()=>{
       let source = document.getElementsByTagName('source')[0];
       if(source === null)
         source = document.createElement('source');
-      source?.setAttribute('src',`${ApiUrl}/core/course/${props.episode.courseId}/${props.episode.sectionId}/${result.data}`);
+      source?.setAttribute('src',`${FtpUrl}/core/course/${props.episode.courseId}/${props.episode.sectionId}/${result.data}`);
       source?.setAttribute('type','video/mp4');
       videoPlayer?.appendChild(source);
       videoPlayer?.load();

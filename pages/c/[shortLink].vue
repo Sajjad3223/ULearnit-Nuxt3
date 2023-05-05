@@ -2,6 +2,12 @@
   <div v-if="course !== undefined">
     <Head>
       <Title>{{course.title}}</Title>
+      <Meta name="title" :content="course.seoData.metaTitle" />
+      <Meta name="og:title" :content="course.seoData.metaTitle" />
+      <Meta name="description" :content="course.seoData.metaDescription" />
+      <Meta name="og:description" :content="course.seoData.metaDescription" />
+      <Meta name="og:site_name" content="ULearnit" />
+      <Meta name="keywords" :content="course.seoData.metaKeyWords" />
     </Head>
     <div class="w-full lg:mx-auto mt-8" >
       <div class="flex flex-col lg:flex-row w-full items-center lg:items-end space-y-4 lg:space-y-0">
@@ -71,11 +77,7 @@
         </div>
         <div class="w-24"></div>
         <div class="flex flex-col flex-1  mt-8 lg:mt-0">
-          <!--          <img :src="`${ApiUrl}/core/course/banner/${course.imageName}`" alt="unreal engine course" class="w-full rounded-lg" v-if="course.introVideo === ''">-->
-          <video id="videoPlayer" :poster="`${ApiUrl}/core/course/banner/${course.imageName}`" controls class="w-full rounded-lg" >
-            <source id="videoSource" :src="`${ApiUrl}/core/course/intro/${course.introVideo}`" type="video/mp4">
-            Your browser does not support the video tag.
-          </video>
+          <course-video-player :image-name="course.imageName" :video-name="course.introVideo" />
           <div class="course-description p-4 border-2 border-slate-700 rounded-lg mt-2">
             <h3 class="text-xl font-semibold my-4">{{course.title}}</h3>
             <p class="p-1 lg:p-4 text-justify text-sm lg:text-base" v-html="course.description"></p>
@@ -95,6 +97,29 @@
           <comments :post-type="EPostType.Course" :post-id="course.id" />
         </div>
       </div>
+    </div>
+  </div>
+  <div class="relative flex flex-col justify-center space-y-4" v-else>
+    <div class="w-full flex gap-6 items-start animate-pulse">
+      <div class="flex-1 flex flex-col gap-4">
+        <div class="p-3 rounded-full bg-gray-800"></div>
+        <div class="p-1 rounded-full bg-gray-800"></div>
+        <div class="h-[400px] rounded-lg bg-gray-800"></div>
+        <div class="p-1 rounded-full bg-gray-800"></div>
+        <div class="p-1 rounded-full bg-gray-800"></div>
+        <div class="p-1 rounded-full bg-gray-800"></div>
+      </div>
+      <div class="w-1/3 flex flex-col gap-4">
+        <div class="h-[100px] rounded-lg bg-gray-800"></div>
+        <div class="p-1 rounded-full bg-gray-800"></div>
+        <div class="h-[500px] rounded-lg bg-gray-800"></div>
+      </div>
+    </div>
+    <div class="absolute left-1/2 scale-[200%] flex items-center space-x-2 space-x-reverse mt-2 mx-auto">
+      <svg class="animate-spin -mr-1 mr-3 h-5 w-5 text-indigo-500 dark:text-indigo-300" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+        <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+        <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+      </svg>
     </div>
   </div>
 </template>

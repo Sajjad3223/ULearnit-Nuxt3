@@ -12,9 +12,9 @@ export function AmIWriter():Promise<ApiResponse<boolean>>{
         method:'GET',
     });
 }
-export function GetPosts():Promise<ApiResponse<PostDto>>{
+export function GetRelatedPosts(postId:number):Promise<ApiResponse<PostFilterResult>>{
     //@ts-ignore
-    return FetchApi('/Blog',{
+    return FetchApi(`/Blog/related/${postId}`,{
         method:'GET',
     });
 }

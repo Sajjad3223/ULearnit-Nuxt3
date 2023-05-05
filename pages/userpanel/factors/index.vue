@@ -8,7 +8,7 @@
 
     <u-divider title="فاکتور های من" />
     <div class="w-full mt-4">
-      <u-table>
+      <u-table :has-header="false" v-if="factors !== undefined && factors.length > 0" :pagination-data="paginationData">
         <template #table-header>
           <th scope="col" class="px-4 py-3">شماره فاکتور</th>
           <th scope="col" class="px-4 py-3">تعداد دوره</th>
@@ -61,6 +61,9 @@
           </tr>
         </template>
       </u-table>
+      <u-alert v-else>
+        شما هیچ فاکتوری ندارید!
+      </u-alert>
     </div>
   </div>
 </template>
@@ -68,20 +71,22 @@
 <script setup lang="ts">
 import {GetUserOrders} from "~/services/cart.service";
 import {EOrderStatus, OrderDto} from "~/models/cart/orderDto";
+import {PaginationData} from "~/models/baseFilterResult";
 
 definePageMeta({
   layout: "user",
   middleware:'auth',
 })
 
-const factors = ref<OrderDto>();
+const factors = ref<OrderDto[]>();
+const paginationData = ref<PaginationData>();
 
 onMounted(async ()=>{
   const result = await GetUserOrders();
   if(result.isSuccess)
   {
     factors.value = result.data.data;
-    console.log(factors.value)
+    paginationData.value = result.data;
   }
 })
 </script>

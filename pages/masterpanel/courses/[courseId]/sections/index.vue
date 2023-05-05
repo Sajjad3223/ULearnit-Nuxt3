@@ -1,18 +1,18 @@
 <template>
-  <div v-if="course !== undefined">
+  <div v-if="sections !== undefined">
     <Head>
       <Title>
-        سرفصل های {{course.title}}
+        سرفصل های {{courseTitle}}
       </Title>
     </Head>
 
     <base-button class="self-start" is-link
                  :link="`http://localhost:3000/masterpanel/courses`">بازگشت</base-button>
-    <u-divider :title="`مدیریت سرفصل ${course.title}`" />
+    <u-divider :title="`مدیریت سرفصل ${courseTitle}`" />
     <master-sections-create ref="createModal" :courseId="getCourseId" @sectionCreated="loadSections"/>
     <master-sections-edit ref="editModal" :courseId="getCourseId" @sectionUpdated="loadSections"/>
     <div class="w-full mt-4">
-      <u-table ref="dataTable">
+      <u-table ref="dataTable" v-if="sections.length > 0" :pagination-data="paginationData">
         <template #table-options>
           <div class="w-full md:w-auto flex flex-col md:flex-row space-y-2 md:space-y-0 items-stretch md:items-center justify-end md:space-x-3 md:space-x-reverse flex-shrink-0">
             <button @click="addSection"  class="flex items-center justify-center text-white bg-indigo-700 hover:bg-indigo-800 focus:ring-4 focus:ring-indigo-300 font-medium rounded-lg text-sm px-4 py-2 dark:bg-indigo-600 dark:hover:bg-indigo-700 focus:outline-none dark:focus:ring-indigo-800">
@@ -62,14 +62,20 @@
           </tr>
         </template>
       </u-table>
+      <u-alert v-else>
+        هنوز قسمتی ثبت نشده است!
+      </u-alert>
     </div>
   </div>
 </template>
 
 <script setup lang="ts">
 import {CourseDto, SectionDto} from "~/models/course/courseDto";
-import {DeleteSection, GetCourse} from "~/services/course.service";
+import {DeleteSection, GetCourse, GetSectionsByFilter} from "~/services/course.service";
 import Swal from "sweetalert2";
+import {SectionFilterParams} from "~/models/course/courseSearchResultDto";
+import {PaginationData} from "~/models/baseFilterResult";
+import {FillPaginationData} from "~/utilities/FillPaginationData";
 
 definePageMeta({
   layout:"user",
@@ -80,23 +86,34 @@ const createModal = ref();
 const editModal = ref();
 const dataTable = ref();
 const route = useRoute();
-const course = ref<CourseDto>();
+
+const courseTitle = ref("");
+const paginationData = ref<PaginationData>();
 const sections = ref<SectionDto[]>();
 
-onBeforeMount( async ()=>{
+onMounted( async ()=>{
   await loadSections();
 })
 
-const loadSections = async ()=>{
-  const courseId = getCourseId.value;
-  const result = await GetCourse(courseId);
-  course.value = result.data;
-  sections.value = result.data.sections;
-}
-
-const getCourseId = computed(()=>{
+const getCourseId = computed(():number=>{
   return Number.parseInt(route.params['courseId'].toString());
 })
+
+const filterParams:SectionFilterParams = reactive({
+  courseId:getCourseId.value,
+  pageId:Number(route.query?.pageId?.toString() ?? '1'),
+  take:Number(route.query?.take?.toString() ?? '10'),
+  search:route.query?.q?.toString() ?? null
+});
+
+const loadSections = async ()=>{
+  const result = await GetSectionsByFilter(filterParams);
+  if(result.isSuccess){
+    sections.value = result.data.data;
+    courseTitle.value = result.data.courseTitle;
+    paginationData.value = FillPaginationData(result.data);
+  }
+}
 
 const addSection = ()=> {
   createModal.value.showModal = true;

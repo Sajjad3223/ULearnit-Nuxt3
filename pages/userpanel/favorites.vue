@@ -6,7 +6,7 @@
 
     <u-divider title="علاقه مندی های من" />
     <div class="w-full mt-4">
-      <u-table :has-filter="false">
+      <u-table :has-filter="false" :has-header="false" v-if="favorites !== undefined && favorites.length > 0">
         <template #table-header>
           <th scope="col" class="px-4 py-3">نام دوره</th>
           <th scope="col" class="px-4 py-3">نوع پست</th>
@@ -44,6 +44,9 @@
         </template>
 
       </u-table>
+      <u-alert v-else>
+        شما هیچ علاقه مندی ثبت نکرده اید!
+      </u-alert>
     </div>
   </div>
 </template>
@@ -53,6 +56,7 @@ import {FavoriteDto} from "~/models/favoriteDto";
 import {DeleteFavorite, GetUserFavorites} from "~/services/course.service";
 import {EPostType} from "~/models/question/addQuestionViewModel";
 import {successAlert} from "~/services/alert.service";
+import {PaginationData} from "~/models/baseFilterResult";
 
 definePageMeta({
   layout: "user",
@@ -60,6 +64,7 @@ definePageMeta({
 })
 
 const favorites = ref<FavoriteDto>();
+
 onMounted(async ()=>{
   await loadData();
 })

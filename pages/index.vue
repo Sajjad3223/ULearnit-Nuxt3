@@ -16,8 +16,9 @@
 
   <div class="m-4">
     <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-8">
-      <u-card v-for="course in courses"
+      <u-card v-if="courses != undefined" v-for="course in courses"
               :course-card="course" :key="course"/>
+      <card-skeleton v-for="i in 4" v-else/>
     </div>
     <!-- <a href="" class="seeAll btn btn-cta">
         مشاهده همه دوره ها

@@ -31,9 +31,16 @@ export function GetTickets(filterParams:TicketFilterParams):Promise<ApiResponse<
         params:filterParams
     })
 }
-export function GetUserTickets():Promise<ApiResponse<TicketFilterResult>>{
+export function GetUserTickets(filterParams:TicketFilterParams):Promise<ApiResponse<TicketFilterResult>>{
     // @ts-ignore
     return FetchApi('/Ticket/user',{
         method:'GET',
+        params:filterParams
+    })
+}
+export function CloseTickets(ticketId:number):Promise<ApiResponse<undefined>>{
+    // @ts-ignore
+    return FetchApi(`/Ticket/close/${ticketId}`,{
+        method:'PUT',
     })
 }

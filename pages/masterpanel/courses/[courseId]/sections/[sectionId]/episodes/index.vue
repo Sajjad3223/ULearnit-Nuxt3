@@ -1,19 +1,19 @@
 <template>
-  <div v-if="section !== undefined">
+  <div v-if="episodes !== undefined">
     <Head>
       <Title>
-        قسمت های {{section.title}}
+        قسمت های {{sectionTitle}}
       </Title>
     </Head>
 
     <base-button class="self-start" is-link
                  :link="`http://localhost:3000/masterpanel/courses/${getCourseId}/sections`">بازگشت</base-button>
-    <u-divider :title="`مدیریت قسمت های ${section.title}`" />
+    <u-divider :title="`مدیریت قسمت های ${sectionTitle}`" />
     <div class="w-full mt-4">
-      <u-table>
+      <u-table :pagination-data="paginationData" v-if="episodes.length > 0">
         <template v-slot:table-options="{showFilter}">
           <div class="w-full md:w-auto flex flex-col md:flex-row space-y-2 md:space-y-0 items-stretch md:items-center justify-end md:space-x-3 md:space-x-reverse flex-shrink-0">
-            <NuxtLink :to="`/masterpanel/courses/${getCourseId}/sections/${section.id}/episodes/add`" class="flex items-center justify-center text-white bg-indigo-700 hover:bg-indigo-800 focus:ring-4 focus:ring-indigo-300 font-medium rounded-lg text-sm px-4 py-2 dark:bg-indigo-600 dark:hover:bg-indigo-700 focus:outline-none dark:focus:ring-indigo-800">
+            <NuxtLink :to="`/masterpanel/courses/${getCourseId}/sections/${getSectionId}/episodes/add`" class="flex items-center justify-center text-white bg-indigo-700 hover:bg-indigo-800 focus:ring-4 focus:ring-indigo-300 font-medium rounded-lg text-sm px-4 py-2 dark:bg-indigo-600 dark:hover:bg-indigo-700 focus:outline-none dark:focus:ring-indigo-800">
               <svg class="ml-2 scale-125" width="14" height="14" viewBox="0 0 14 14" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
                 <path d="M10.5 7.4375H3.5C3.26083 7.4375 3.0625 7.23917 3.0625 7C3.0625 6.76083 3.26083 6.5625 3.5 6.5625H10.5C10.7392 6.5625 10.9375 6.76083 10.9375 7C10.9375 7.23917 10.7392 7.4375 10.5 7.4375Z" fill="white"/>
                 <path d="M7 10.9375C6.76083 10.9375 6.5625 10.7392 6.5625 10.5V3.5C6.5625 3.26083 6.76083 3.0625 7 3.0625C7.23917 3.0625 7.4375 3.26083 7.4375 3.5V10.5C7.4375 10.7392 7.23917 10.9375 7 10.9375Z" fill="white"/>
@@ -98,40 +98,57 @@
           </tr>
         </template>
       </u-table>
+      <u-alert v-else>
+        هنوز قسمتی ثبت نشده است!
+      </u-alert>
     </div>
   </div>
 </template>
 
 <script setup lang="ts">
-import {GetCourse, PublishEpisode} from "~/services/course.service";
+import {GetCourse, GetEpisodesByFilter, PublishEpisode} from "~/services/course.service";
 import {EpisodeDto, SectionDto} from "~/models/course/courseDto";
 import {EEpisodeStatus} from "~/models/course/courseEnums";
+import {PaginationData} from "~/models/baseFilterResult";
+import {EpisodeFilterParams, SectionFilterParams} from "~/models/course/courseSearchResultDto";
+import {FillPaginationData} from "~/utilities/FillPaginationData";
 
 definePageMeta({
   layout:"user",
 middleware:'master'
 })
 
+const sectionTitle = ref("");
+const paginationData = ref<PaginationData>();
 const episodes = ref<EpisodeDto[]>();
-const section = ref<SectionDto>();
 const route = useRoute();
 
-const getCourseId = computed(()=>{
+const getCourseId = computed(():number=>{
   return Number.parseInt(route.params['courseId'].toString());
 })
-const getSectionId = computed(()=>{
+const getSectionId = computed(():number=>{
   return Number.parseInt(route.params['sectionId'].toString());
 })
 
-onBeforeMount( async ()=>{
+onMounted( async ()=>{
   await loadEpisodes();
 })
 
+const filterParams:EpisodeFilterParams = reactive({
+  courseId:getCourseId.value,
+  sectionId:getSectionId.value,
+  pageId:Number(route.query?.pageId?.toString() ?? '1'),
+  take:Number(route.query?.take?.toString() ?? '10'),
+  search:route.query?.q?.toString() ?? null,
+});
+
 const loadEpisodes = async ()=>{
-  const courseId = getCourseId.value;
-  const result = await GetCourse(courseId);
-  section.value = result.data.sections.filter(s=>s.id === getSectionId.value)[0];
-  episodes.value = section.value.episodes;
+  const result = await GetEpisodesByFilter(filterParams);
+  if(result.isSuccess){
+    episodes.value = result.data.data;
+    paginationData.value = FillPaginationData(result.data);
+    sectionTitle.value = result.data.sectionTitle;
+  }
 }
 
 const publish= async (id:any)=>{

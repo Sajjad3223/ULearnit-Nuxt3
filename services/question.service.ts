@@ -23,10 +23,11 @@ export function GetLastQuestions(take:Number):Promise<ApiResponse<QuestionFilter
         }
     });
 }
-export function GetQuestionsOfUser():Promise<ApiResponse<QuestionFilterResult>>{
+export function GetQuestionsOfUser(filterParams:QuestionFilterParams):Promise<ApiResponse<QuestionFilterResult>>{
    //@ts-ignore
     return FetchApi('/Question/user',{
         method:'GET',
+        params:filterParams
     });
 }
 export function GetQuestion(questionId:Number):Promise<ApiResponse<QuestionDto>>{

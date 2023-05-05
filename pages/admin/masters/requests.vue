@@ -1,8 +1,8 @@
 <template>
   <div>
-    <u-divider title="مدرسین"/>
+    <u-divider title="درخواست های مدرسین"/>
 
-    <u-table ref="dataTable">
+    <u-table ref="dataTable" :pagination-data="paginationData">
       <template #table-header>
         <th scope="col" class="px-4 py-3">آواتار مدرس</th>
         <th scope="col" class="px-4 py-3">نام مدرس</th>
@@ -41,7 +41,7 @@
             <div class="table-option absolute hidden z-10 w-44 bg-white rounded divide-y divide-gray-100 shadow dark:bg-gray-700 dark:divide-gray-600">
               <ul class="py-1 text-sm text-gray-700 dark:text-gray-200" aria-labelledby="apple-imac-27-dropdown-button">
                 <li>
-                  <button @click.prevent="accept(r.id)" class="w-full text-right block py-2 px-4 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">قبول درخواست</button>
+                  <button @click.prevent="accept(r.id,r.user.id)" class="w-full text-right block py-2 px-4 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">قبول درخواست</button>
                 </li>
                 <li>
                   <button @click.prevent="reject(r.id)" class="w-full text-right block py-2 px-4 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">رد درخواست</button>
@@ -56,31 +56,76 @@
 </template>
 
 <script setup lang="ts">
-import {AcceptMasterRequest, GetRequests, RejectMasterRequest} from "~/services/teacher.service";
 import {ApiUrl} from "~/utilities/ApiUrls";
+import {AcceptMasterRequest,RejectMasterRequest, GetMastersRequests} from "~/services/admin/teachers.admin.service";
+import {MasterDto, MasterFilterParams} from "~/models/master/MasterDto";
+import {PaginationData} from "~/models/baseFilterResult";
+import {FillPaginationData} from "~/utilities/FillPaginationData";
+import {errorAlert, successAlert} from "~/services/alert.service";
 
 definePageMeta({
   layout:'admin',
 middleware:'admin'
 })
 
-const requests = ref();
+const requests = ref<MasterDto[]>();
 const dataTable = ref();
+const paginationData = ref<PaginationData>();
+
+const route = useRoute();
+const filterParams:MasterFilterParams = reactive({
+  pageId:Number(route.query?.pageId ?? '1'),
+  take:Number(route.query?.take ?? '10'),
+  search:route.query?.q?.toString() ?? null,
+  teacherStatus:null
+})
+const setFilters = ()=>{
+  filterParams.pageId = Number(route.query?.pageId ?? '1');
+  filterParams.take = Number(route.query?.take ?? '10');
+  filterParams.search = route.query?.q?.toString() ?? null;
+}
+
+watch(
+    ()=>route.query,
+    async ()=> {
+      setFilters();
+      await loadData();
+    }
+);
 
 onMounted(async ()=>{
-  const result = await GetRequests();
-  requests.value = result.data;
+  await loadData();
 })
+
+const loadData = async ()=>{
+  const result = await GetMastersRequests(filterParams);
+  if(result.isSuccess){
+    requests.value = result.data.data;
+    paginationData.value = FillPaginationData(result.data);
+  }
+}
 
 const getUserAvatar = (avatarName:string)=>`${ApiUrl}/user/avatars/${avatarName}`;
 const getUserResume = (cvName:string)=>`${ApiUrl}/core/Teacher/${cvName}`;
 
-const accept=async (masterId:any)=>{
+const router= useRouter();
+const accept=async (masterId:any,userId:number)=>{
   const result = await AcceptMasterRequest(masterId);
-  dataTable.value.hideAll();
-
+  if(result.isSuccess) {
+    successAlert();
+    dataTable.value.hideAll();
+    router.push(`/admin/users/${userId}/permissions`)
+  }else{
+    errorAlert();
+  }
 }
 const reject= async (masterId:any)=>{
-  const result = await RejectMasterRequest(masterId,"");
+  const result = await RejectMasterRequest(masterId);
+  if(result.isSuccess) {
+    successAlert();
+    dataTable.value.hideAll();
+  }else{
+    errorAlert();
+  }
 }
 </script>

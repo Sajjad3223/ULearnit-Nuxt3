@@ -2,7 +2,7 @@
   <div>
     <u-divider title="دوره ها"/>
     <div class="w-full mt-4">
-      <u-table>
+      <u-table :pagination-data="paginationData">
         <template #table-options="{showFilter}">
           <div class="w-full md:w-auto flex flex-col md:flex-row space-y-2 md:space-y-0 items-stretch md:items-center justify-end md:space-x-3 md:space-x-reverse flex-shrink-0">
             <div class="flex items-center space-x-3 space-x-reverse space-x-reverse w-full md:w-auto">
@@ -95,6 +95,8 @@
 import {CourseCardDto, CourseFilterParams} from "~/models/course/courseSearchResultDto";
 import {GetCoursesByAdmin} from "~/services/admin/courses.admin.service";
 import {ECourseStatus} from "~/models/course/courseEnums";
+import {PaginationData} from "~/models/baseFilterResult";
+import {CommentFilterParams} from "~/models/comment/commentFilterParams";
 
 definePageMeta({
   layout:'admin',
@@ -103,6 +105,16 @@ definePageMeta({
 
 const courses = ref<CourseCardDto[]>();
 const course = useSearch();
+const paginationData = ref<PaginationData>();
+
+const route = useRoute();
+watch(
+    ()=>route.query,
+    async ()=> {
+      await loadData();
+    }
+);
+
 onMounted(async ()=>{
   await loadData();
 })
@@ -112,6 +124,7 @@ const loadData = async ()=>{
   const result = await GetCoursesByAdmin(filterParams);
   if(result.isSuccess){
     courses.value = result.data.data;
+    paginationData.value = result.data;
   }
 }
 </script>

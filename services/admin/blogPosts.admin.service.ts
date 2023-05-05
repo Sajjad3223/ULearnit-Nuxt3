@@ -12,19 +12,19 @@ export function GetBlogPostsByAdmin(filterParams?:PostFilterParams):Promise<ApiR
 
 export function PublishPost(id:BigInt):Promise<ApiResponse<undefined>>{
     //@ts-ignore
-    return FetchApi('/Blog/accept',{
+    return FetchApi(`/admin/BlogPosts/publish/${id}`,{
         method:'PUT',
-        body: {
-            postId : id,
-        }
     });
 }
 export function RejectPost(id:BigInt):Promise<ApiResponse<undefined>>{
     //@ts-ignore
-    return FetchApi('/Blog/reject',{
+    return FetchApi(`/admin/BlogPosts/reject/${id}`,{
         method:'PUT',
-        body: {
-            postId : id,
-        }
+    });
+}
+export function DeletePost(id:BigInt):Promise<ApiResponse<undefined>>{
+    //@ts-ignore
+    return FetchApi(`/admin/BlogPosts/delete/${id}`,{
+        method:'DELETE',
     });
 }

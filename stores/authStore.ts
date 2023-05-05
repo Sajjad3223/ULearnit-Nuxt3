@@ -11,17 +11,18 @@ import {errorAlert, successAlert} from "~/services/alert.service";
 export const useAuthStore = defineStore('auth',()=>{
     const loginResult:Ref<LoginResultDto | null> = ref(null);
     const currentUser:Ref<UserDto | null> = ref(null);
-    const loading = ref(false);
+    const loading = ref(true);
 
     const isLogin = computed(()=>loginResult.value != null);
 
     const setCurrentUser = async ()=>{
+        loading.value = true;
+
         const localStorageData = localStorage.getItem('auth-data');
         if(localStorageData == null)
             return;
 
         loginResult.value = JSON.parse(localStorageData);
-        loading.value = true;
         const currentUserData = await GetCurrentUser();
         if(currentUserData.isSuccess)
         {

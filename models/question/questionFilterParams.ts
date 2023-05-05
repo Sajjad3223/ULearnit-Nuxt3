@@ -10,6 +10,7 @@ export interface QuestionFilterParams extends BaseFilterParams{
     isResolved: boolean | null;
     userId: number | null;
     userRequested: number | null;
+    search: string | null;
 }
 
 export interface QuestionFilterData{

@@ -9,3 +9,15 @@ export function GetQuestionsByAdmin(filterParams?:QuestionFilterParams):Promise<
         params:filterParams
     });
 }
+export function DeleteQuestion(id:number):Promise<ApiResponse<undefined>>{
+    //@ts-ignore
+    return FetchApi(`/admin/Questions/question/${id}`,{
+        method:'DELETE',
+    });
+}
+export function DeleteAnswer(id:number):Promise<ApiResponse<undefined>>{
+    //@ts-ignore
+    return FetchApi(`/admin/Questions/answer/${id}`,{
+        method:'DELETE',
+    });
+}

@@ -44,13 +44,14 @@
           <li>
             <NuxtLink to="/aboutus" class="nav-link" active-class="active-nav-link">درباره ما</NuxtLink>
           </li>
-          <li v-if="!isLogin">
+          <li class="w-24 p-2 bg-gray-700 rounded-full animate-pulse" v-if="authStore.loading"></li>
+          <li v-if="!isLogin && !authStore.loading" >
             <NuxtLink to="/auth/login" class="nav-link">ورود / ثبت نام</NuxtLink>
           </li>
-          <li v-else>
+          <li v-if="isLogin && !authStore.loading" >
             <NuxtLink to="/userpanel" class="nav-link">حساب کاربری</NuxtLink>
           </li>
-          <li v-if="isAdmin">
+          <li v-if="isAdmin && !authStore.loading">
             <NuxtLink to="/admin" class="nav-link">پنل ادمین</NuxtLink>
           </li>
         </ul>

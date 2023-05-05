@@ -1,25 +1,27 @@
 <template>
   <div class="banners">
-    <div class="banner">
 
+    <div class="banner">
       <h2>
         یونیتی
       </h2>
       <img src="/imgs/Unity-Icon.png" alt="unity-icon" class="UnityIcon">
-      <base-button link="/courses/1" is-link color="cta" class="absolute left-4 bottom-4 text-sm lg:text-base">
+      <base-button link="/courses/search/category-unity" is-link color="cta" class="absolute left-4 bottom-4 text-sm lg:text-base">
         مشاهده دوره ها
       </base-button>
     </div>
+
     <div class="banner">
 
       <h2>
         آنریل انجین
       </h2>
       <img src="/imgs/UE-Icon.png" alt="UE-icon" class="UnrealIcon">
-      <base-button is-link color="cta" class="absolute left-4 bottom-4 text-sm lg:text-base">
+      <base-button is-link link="/courses/search/category-unrealEngine" color="cta" class="absolute left-4 bottom-4 text-sm lg:text-base">
         مشاهده دوره ها
       </base-button>
     </div>
+
   </div>
 </template>
 

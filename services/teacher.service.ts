@@ -1,6 +1,6 @@
 import {ApiResponse} from "~/models/ApiResponse";
 import {FetchApi} from "~/utilities/CustomFetchApi";
-import {MasterDto} from "~/models/master/MasterDto";
+import {MasterDto, MasterFilterParams, MasterFilterResult} from "~/models/master/MasterDto";
 import FormData from "form-data";
 
 export function RegisterMaster(registerData:FormData):Promise<ApiResponse<undefined>>{
@@ -10,33 +10,11 @@ export function RegisterMaster(registerData:FormData):Promise<ApiResponse<undefi
         body:registerData
     });
 }
-export function GetAllMasters():Promise<ApiResponse<MasterDto>>{
+export function GetAllMasters(filterParams:MasterFilterParams):Promise<ApiResponse<MasterFilterResult>>{
     //@ts-ignore
-    return FetchApi('/Teacher',{
+    return FetchApi('/Teacher/masters',{
         method:'GET',
-    });
-}
-export function GetRequests():Promise<ApiResponse<MasterDto>>{
-    //@ts-ignore
-    return FetchApi('/Teacher/requests',{
-        method:'GET',
-    });
-}
-export function AcceptMasterRequest(masterId:Number):Promise<ApiResponse<MasterDto>>{
-    //@ts-ignore
-    return FetchApi(`/Teacher/Accept?teacherId=${masterId}`,{
-        method:'PUT',
-    });
-}
-
-export function RejectMasterRequest(masterId:Number,reason:String):Promise<ApiResponse<MasterDto>>{
-    //@ts-ignore
-    return FetchApi(`/Teacher/Reject`,{
-        method:'PUT',
-        body:{
-            teacherId: masterId,
-            reason: reason
-        }
+        params:filterParams
     });
 }
 export function GetMasterResume(teacherName:string):Promise<ApiResponse<MasterDto>>{

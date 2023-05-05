@@ -1,11 +1,5 @@
 <template>
   <div>
-    <Head>
-      <Title>
-        ثبت دوره جدید
-      </Title>
-    </Head>
-
     <u-divider title="افزودن دوره جدید"/>
     <div class="w-full">
       <div class="mt-2">
@@ -75,6 +69,11 @@
         </form>
       </div>
     </div>
+    <Head>
+      <Title>
+        ثبت دوره جدید
+      </Title>
+    </Head>
   </div>
 </template>
 
@@ -87,6 +86,7 @@ import * as Yup from "yup";
 import {ApiUrl} from "~/utilities/ApiUrls";
 import axios from "axios";
 import {useAuthStore} from "~/stores/authStore";
+import {errorAlert, successAlert} from "~/services/alert.service";
 const authStore = useAuthStore();
 
 definePageMeta({
@@ -134,11 +134,11 @@ const AddCourse= async ()=>{
   const result = await CreateCourse(addCourseData);
   if(result.isSuccess)
   {
-    alert("دوره با موفقیت ثبت شد")
+    successAlert("دوره با موفقیت ثبت شد")
     router.push("/masterpanel/courses");
   }
   else{
-    alert(result.metaData.message)
+    errorAlert(result.metaData.message)
   }
 }
 

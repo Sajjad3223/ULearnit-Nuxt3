@@ -6,7 +6,7 @@
       <path d="M8 12H16" stroke="white" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
     </svg>
     <strong class="text-sm lg:text-base">لینک کوتاه:</strong>
-    <span ref="shortLink" class="link mx-auto font-mono">{{link}}</span>
+    <span ref="shortLink" class="link mx-auto font-mono" dir="ltr">{{link}}</span>
 
     <button @click.prevent="copyLink"
             id="copyLink" data-tooltip-target="copy-link-tooltip"

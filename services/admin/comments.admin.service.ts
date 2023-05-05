@@ -10,3 +10,15 @@ export function GetCommentsByAdmin(filterParams?:CommentFilterParams):Promise<Ap
         params:filterParams
     });
 }
+export function PublishComment(id:number):Promise<ApiResponse<undefined>>{
+    //@ts-ignore
+    return FetchApi(`/admin/Comments/publish/${id}`,{
+        method:'PUT',
+    });
+}
+export function RejectComment(id:number):Promise<ApiResponse<undefined>>{
+    //@ts-ignore
+    return FetchApi(`/admin/Comments/reject/${id}`,{
+        method:'PUT',
+    });
+}

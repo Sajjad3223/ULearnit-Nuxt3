@@ -13,6 +13,7 @@ export interface PostDto{
     category: CategoryDto;
     subCategory: CategoryDto;
     imageName: string;
+    shortLink:string;
     tags?: string;
     postStatus: EPostStatus;
     creationDate: Date;

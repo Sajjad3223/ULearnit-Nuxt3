@@ -6,7 +6,7 @@
 
     <u-divider title="پرسش های من" />
     <div class="w-full mt-4">
-      <u-table >
+      <u-table v-if="userQuestions !== undefined && userQuestions.length > 0" :pagination-data="paginationData">
         <template #table-header>
           <th scope="col" class="px-4 py-3">عنوان پرسش</th>
           <th scope="col" class="px-4 py-3">دوره مربوطه</th>
@@ -32,24 +32,57 @@
           </tr>
         </template>
       </u-table>
+      <u-alert v-else>
+        شما هیچ پرسشی ثبت نکرده اید!
+      </u-alert>
     </div>
   </div>
 </template>
 
 <script setup lang="ts">
-import {QuestionFilterData} from "~/models/question/questionFilterParams";
+import {QuestionFilterData, QuestionFilterParams} from "~/models/question/questionFilterParams";
 import {GetQuestionsOfUser} from "~/services/question.service";
+import {FillPaginationData} from "~/utilities/FillPaginationData";
+import {PaginationData} from "~/models/baseFilterResult";
 
 definePageMeta({
   layout: "user",
   middleware:'auth',
 })
 
-const userQuestions = ref<QuestionFilterData>()
+const userQuestions = ref<QuestionFilterData[]>();
+const paginationData = ref<PaginationData>();
 
-onMounted( async ()=>{
-  const result = await GetQuestionsOfUser();
-  if(result.isSuccess)
-    userQuestions.value = result.data.data;
+const route = useRoute();
+const filterParams:QuestionFilterParams = reactive({
+  take: Number(route.query?.take ?? '10'),
+  pageId: Number(route.query?.pageId ?? '1'),
+  search: route.query?.q?.toString() ?? null
 })
+
+watch(
+    ()=>route.query,
+    async ()=>{
+      await loadData();
+    }
+)
+
+onMounted(async ()=>{
+  await loadData();
+})
+
+const setFilters = ()=> {
+  filterParams.take = Number(route.query?.take ?? '10');
+  filterParams.pageId = Number(route.query?.pageId ?? '1');
+  filterParams.search = route.query?.q?.toString() ?? null;
+}
+
+const loadData = async ()=>{
+  setFilters();
+  const result = await GetQuestionsOfUser(filterParams);
+  if(result.isSuccess) {
+    userQuestions.value = result.data.data;
+    paginationData.value = FillPaginationData(result.data);
+  }
+}
 </script>

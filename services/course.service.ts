@@ -7,8 +7,15 @@ import {CreateEpisodeViewModel} from "~/models/course/createEpisodeViewModel";
 import {EditCourseViewModel} from "~/models/course/editCourseViewModel";
 import {EditSectionViewModel} from "~/models/course/editSectionViewModel";
 import {EditEpisodeViewModel} from "~/models/course/editEpisodeViewModel";
-import {CourseFilterParams, CourseFilterResult} from "~/models/course/courseSearchResultDto";
+import {
+    CourseFilterParams,
+    CourseFilterResult, EpisodeFilterParams, EpisodeFilterResult,
+    SectionFilterParams,
+    SectionFilterResult
+} from "~/models/course/courseSearchResultDto";
 import {FavoriteDto} from "~/models/favoriteDto";
+import {SetDiscountViewModel} from "~/models/course/setDiscountViewModel";
+import {CourseStudentsFilterParams, UserCoursesFilterParams, UserFilterResult} from "~/models/user/userFilterParams";
 
 export function GetCourses():Promise<ApiResponse<CourseDto>>{
     //@ts-ignore
@@ -16,10 +23,11 @@ export function GetCourses():Promise<ApiResponse<CourseDto>>{
         method:'GET',
     });
 }
-export function GetMasterCourses():Promise<ApiResponse<CourseFilterResult>>{
+export function GetMasterCourses(filterParams:CourseFilterParams):Promise<ApiResponse<CourseFilterResult>>{
     //@ts-ignore
     return FetchApi('/Course/masterCourses',{
         method:'GET',
+        params:filterParams
     });
 }
 export function GetCoursesOfMaster(masterId:number):Promise<ApiResponse<CourseFilterResult>>{
@@ -49,6 +57,20 @@ export function GetCourseByShortLink(shortLink:string):Promise<ApiResponse<Cours
 export function GetCourseFilter(filterParams:CourseFilterParams):Promise<ApiResponse<CourseFilterResult>>{
     //@ts-ignore
     return FetchApi(`/Course/search`,{
+        method:'GET',
+        params:filterParams,
+    });
+}
+export function GetSectionsByFilter(filterParams:SectionFilterParams):Promise<ApiResponse<SectionFilterResult>>{
+    //@ts-ignore
+    return FetchApi(`/Course/sections/${filterParams.courseId}`,{
+        method:'GET',
+        params:filterParams,
+    });
+}
+export function GetEpisodesByFilter(filterParams:EpisodeFilterParams):Promise<ApiResponse<EpisodeFilterResult>>{
+    //@ts-ignore
+    return FetchApi(`/Course/section/episodes/${filterParams.courseId}`,{
         method:'GET',
         params:filterParams,
     });
@@ -156,10 +178,11 @@ export function GetEpisodeAttachmentFile(token:string):Promise<any>{
     });
 }
 
-export function GetUserCourses():Promise<ApiResponse<CourseFilterResult>>{
+export function GetUserCourses(filterParams:UserCoursesFilterParams):Promise<ApiResponse<CourseFilterResult>>{
     //@ts-ignore
     return FetchApi('/Course/userCourses',{
         method:'GET',
+        params:filterParams
     });
 }
 export function GetUserFavorites():Promise<ApiResponse<FavoriteDto>>{
@@ -179,5 +202,31 @@ export function DeleteFavorite(postId:Number):Promise<ApiResponse<undefined>>{
     //@ts-ignore
     return FetchApi(`/Course/Favorites/${postId}`,{
         method:'DELETE',
+    });
+}
+export function SetCourseDiscount(command:SetDiscountViewModel):Promise<ApiResponse<undefined>>{
+    //@ts-ignore
+    return FetchApi('/Course/discount',{
+        method:'POST',
+        body:command
+    });
+}
+export function GetStudentsCount(courseId:number):Promise<ApiResponse<number>>{
+    //@ts-ignore
+    return FetchApi(`/Course/studentsCount/${courseId}`,{
+        method:'GET',
+    });
+}
+export function GetTotalSell(courseId:number):Promise<ApiResponse<number>>{
+    //@ts-ignore
+    return FetchApi(`/Course/totalSell/${courseId}`,{
+        method:'GET',
+    });
+}
+export function GetStudents(filterParams:CourseStudentsFilterParams):Promise<ApiResponse<UserFilterResult>>{
+    //@ts-ignore
+    return FetchApi(`/Course/students`,{
+        method:'GET',
+        params:filterParams
     });
 }

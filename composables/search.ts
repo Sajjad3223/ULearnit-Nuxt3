@@ -14,7 +14,7 @@ export const useSearch = () => {
 
         return  {
             pageId: Number(route.query.pageId?.toString() ?? "1"),
-            take: 10,
+            take: Number(route.query.take?.toString() ?? "1"),
             search: route.query?.q ?? null,
             categorySlug: categorySlug ?? null,
             orderFilter: route.query?.orderBy ?? null,

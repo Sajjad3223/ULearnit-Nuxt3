@@ -7,7 +7,7 @@
     </Head>
     <u-divider title="تیکت ها" />
     <div class="w-full mt-4">
-      <u-table>
+      <u-table :pagination-data="paginationData">
         <template #table-options="{showFilter}">
           <div class="w-full md:w-auto flex flex-col md:flex-row space-y-2 md:space-y-0 items-stretch md:items-center justify-end md:space-x-3 md:space-x-reverse flex-shrink-0">
             <div class="flex items-center space-x-3 space-x-reverse space-x-reverse w-full md:w-auto">
@@ -74,9 +74,9 @@
               </button>
               <div class="hidden table-option z-20 w-44 bg-white rounded divide-y divide-gray-100 shadow dark:bg-gray-700 dark:divide-gray-600">
                 <ul class="py-1 text-sm text-gray-700 dark:text-gray-200" aria-labelledby="apple-imac-27-dropdown-button">
-                  <!--<li v-if="c.commentStatus === ECommentStatus.Pending">
-                    <button @click="publishComment(c.id)" class="w-full text-right block py-2 px-4 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">انتشار</button>
-                  </li>-->
+                  <li v-if="t.ticketStatus != ETicketStatus.Closed">
+                    <button @click="closeTicket(t.id)" class="w-full text-right block py-2 px-4 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">بستن</button>
+                  </li>
                 </ul>
               </div>
             </td>
@@ -89,7 +89,10 @@
 
 <script setup lang="ts">
 import {ETicketStatus, TicketFilterData, TicketFilterParams} from "~/models/ticket/ticketDto";
-import {GetTicketsByAdmin} from "~/services/admin/tickets.admin.service";
+import {CloseTicket, GetTicketsByAdmin} from "~/services/admin/tickets.admin.service";
+import {PaginationData} from "~/models/baseFilterResult";
+import {FillPaginationData} from "~/utilities/FillPaginationData";
+import {successAlert} from "~/services/alert.service";
 
 definePageMeta({
   layout:'admin',
@@ -97,24 +100,47 @@ definePageMeta({
 })
 
 const tickets = ref<TicketFilterData[]>();
+const paginationData = ref<PaginationData>();
+
+const route = useRoute();
+const filterParams:TicketFilterParams = reactive({
+  pageId:Number(route.query?.pageId ?? '1'),
+  take:Number(route.query?.take ?? '10'),
+  search:route.query?.q?.toString() ?? null,
+  ticketStatus : null,
+  userId : null,
+})
+const setFilters = ()=>{
+  filterParams.pageId = Number(route.query?.pageId ?? '1');
+  filterParams.take = Number(route.query?.take ?? '10');
+  filterParams.search = route.query?.q?.toString() ?? null;
+}
+
+watch(
+    ()=>route.query,
+    async ()=> {
+      setFilters();
+      await loadData();
+    }
+);
 
 onMounted(async ()=>{
   await loadData();
 })
 
 const loadData = async ()=>{
-  const filterParams:TicketFilterParams = {
-    ticketStatus : null,
-    search : null,
-    userId : null,
-    take : 10,
-    pageId : 1
-  };
   const result = await GetTicketsByAdmin(filterParams);
   if(result.isSuccess){
     tickets.value = result.data.data;
+    paginationData.value = FillPaginationData(result.data);
   }
-
+}
+const closeTicket = async (id)=>{
+  const result = await CloseTicket(id);
+  if(result.isSuccess){
+    successAlert();
+    await loadData();
+  }
 }
 
 </script>

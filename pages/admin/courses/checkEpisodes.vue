@@ -2,7 +2,7 @@
   <div>
     <u-divider title="بررسی قسمت ها"/>
     <div class="w-full mt-4">
-      <u-table ref="dataTable">
+      <u-table ref="dataTable" :pagination-data="paginationData">
         <template #table-options="{showFilter}">
           <div class="w-full md:w-auto flex flex-col md:flex-row space-y-2 md:space-y-0 items-stretch md:items-center justify-end md:space-x-3 md:space-x-reverse flex-shrink-0">
             <div class="flex items-center space-x-3 space-x-reverse space-x-reverse w-full md:w-auto">
@@ -104,6 +104,9 @@ import {GetPendingEpisodes, PublishEpisode} from "~/services/admin/courses.admin
 import {EEpisodeStatus} from "~/models/course/courseEnums";
 import {EpisodeDto} from "~/models/course/courseDto";
 import {successAlert} from "~/services/alert.service";
+import {EpisodeFilterParams} from "~/models/course/courseSearchResultDto";
+import {PaginationData} from "~/models/baseFilterResult";
+import {FillPaginationData} from "~/utilities/FillPaginationData";
 
 definePageMeta({
   layout:'admin',
@@ -111,15 +114,40 @@ definePageMeta({
 })
 
 const dataTable = ref();
-const episodes = ref<EpisodeDto[]>();
+const episodes = ref<EpisodeDto[]>()
+const paginationData = ref<PaginationData>();
+
+const route = useRoute();
+const filterParams:EpisodeFilterParams = reactive({
+  pageId:Number(route.query?.pageId ?? '1'),
+  take:Number(route.query?.take ?? '10'),
+  search:route.query?.q?.toString() ?? null,
+  sectionId:null,
+  courseId:null
+})
+const setFilters = ()=>{
+  filterParams.pageId = Number(route.query?.pageId ?? '1');
+  filterParams.take = Number(route.query?.take ?? '10');
+  filterParams.search = route.query?.q?.toString() ?? null;
+}
+
+watch(
+    ()=>route.query,
+    async ()=> {
+      setFilters();
+      await loadData();
+    }
+);
+
 onMounted(async ()=>{
   await loadData();
 })
 
 const loadData = async ()=>{
-  const result = await GetPendingEpisodes();
+  const result = await GetPendingEpisodes(filterParams);
   if(result.isSuccess){
-    episodes.value = result.data;
+    episodes.value = result.data.data;
+    paginationData.value = FillPaginationData(result.data);
   }
 }
 

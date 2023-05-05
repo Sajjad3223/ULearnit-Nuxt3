@@ -26,7 +26,7 @@ import {GetRoles} from "~/services/admin/roles.service";
 import {successAlert} from "~/services/alert.service";
 import {UserDto} from "~/models/user/userDto";
 import {SetUserRolesCommand} from "~/models/user/setUserRolesCommand";
-import {GetUser, SetUserRoles} from "~/services/user.service";
+import {GetUser, SetUserRoles} from "~/services/admin/users.admin.service";
 
 definePageMeta({
   layout:'admin'

@@ -7,7 +7,7 @@ export interface PostFilterData extends BaseDto{
     slug:string;
     imageName:string;
     postStatus:EPostStatus;
-    writerName:EPostStatus;
+    writerName:string;
 }
 export interface PostFilterParams extends BaseFilterParams{
     search?:string | null;

@@ -30,7 +30,7 @@
                 قیمت دوره (تومان)
               </th>
               <th scope="col" class="px-6 py-3 hidden lg:table-cell">
-                تخفیف (تومان)
+                تخفیف (درصد)
               </th>
               <th scope="col" class="px-6 py-3">
                 مبلغ نهایی (تومان)
@@ -40,7 +40,7 @@
             <template #table-body>
               <tr class="bg-white border-b dark:bg-gray-800 dark:border-gray-700" v-for="(c,i) in cart.items">
                 <td class="hidden lg:block">
-                  <base-img :src="`${ApiUrl}/core/course/banner/${c.itemBanner}`" class="w-24 m-4 rounded-lg" />
+                  <base-img :src="`/ulearnit/core/course/banner/${c.itemBanner}`" class="w-24 m-4 rounded-lg" />
                 </td>
                 <th scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
                   <NuxtLink :to="`/courses/${c.itemSlug}`" class="hover:underline underline-offset-4">{{c.itemName}}</NuxtLink>
@@ -53,7 +53,7 @@
                   رایگان !
                 </td>
                 <td class="px-6 py-4 hidden lg:table-cell" v-if="c.discount > 0">
-                  {{ c.discount.toLocaleString() }}
+                  {{ c.discount.toLocaleString() }} %
                 </td>
                 <td class="px-6 py-4 hidden lg:table-cell" v-else>
                   0
