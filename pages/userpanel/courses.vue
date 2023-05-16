@@ -64,7 +64,7 @@ import {FillPaginationData} from "~/utilities/FillPaginationData";
 
 definePageMeta({
   layout:"user",
-  middleware:'auth',
+
 })
 
 const courses = ref<CourseCardDto[]>();

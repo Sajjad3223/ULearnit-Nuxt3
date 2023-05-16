@@ -7,7 +7,7 @@
     <div>
       <label for="">دسته بندی</label>
       <select v-model="filterData.category" name="category" class="h-14 bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full px-8 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
-        <option selected>همه دسته بندی ها</option>
+        <option selected value="">همه دسته بندی ها</option>
         <option v-for="c in categories" :value="c.slug" >{{c.title}}</option>
       </select>
     </div>
@@ -63,11 +63,11 @@ const props = defineProps<{
   filterParams:CourseFilterParams
 }>();
 
-const filterData = reactive({
+const filterData:CourseFilterParams = reactive({
   search:props.filterParams.search,
-  category:props.filterParams.categorySlug ?? null,
+  category:props.filterParams.categorySlug ?? "",
   orderby:props.filterParams.orderFilter ?? 0,
-  price:props.filterParams.priceFilter ?? 2
+  price:props.filterParams.priceFilter ?? 2,
 });
 
 

@@ -5,6 +5,7 @@
 </template>
 
 <style>
+
 /* Transitions */
 .page-enter-active,
 .page-leave-active {

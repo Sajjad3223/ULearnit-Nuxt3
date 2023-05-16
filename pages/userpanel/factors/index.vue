@@ -75,7 +75,7 @@ import {PaginationData} from "~/models/baseFilterResult";
 
 definePageMeta({
   layout: "user",
-  middleware:'auth',
+
 })
 
 const factors = ref<OrderDto[]>();

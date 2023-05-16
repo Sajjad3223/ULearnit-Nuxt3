@@ -1,0 +1,10 @@
+User-agent: *
+
+disallow: /courses/search/
+disallow: /blog/search/
+Disallow: /auth/*
+Disallow: /masterpanel/*
+Disallow: /userpanel/*
+Disallow: /error*
+
+Sitemap: https://ulearnit.ir/sitemap.xml

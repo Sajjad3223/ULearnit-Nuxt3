@@ -13,6 +13,13 @@ export function GetCurrentUser():Promise<ApiResponse<UserDto>>{
     return FetchApi('/user/current',{method:'GET'});
 }
 
+export function EditUser(command:EditUserViewModel):Promise<ApiResponse<undefined>>{
+    //@ts-ignore
+    return FetchApi('/User/edit',{
+        body: command,
+        method:'PUT',
+    });
+}
 
 export function ChangePassword(command:ChangePasswordViewModel):Promise<ApiResponse<undefined>>{
    //@ts-ignore

@@ -105,20 +105,6 @@ import {useAuthStore} from "~/stores/authStore";
 
 definePageMeta({
   layout:"user",
-  middleware:[
-    'auth',
-    async function (to, from) {
-      const authStore = useAuthStore();
-      if(!authStore.isLogin)
-      {
-        return navigateTo('/auth/login');
-      }
-      const amIWriter = await AmIWriter();
-      if(!amIWriter.data)
-      {
-        return navigateTo('/userpanel');
-      }
-    }]
 })
 
 const roadmapPosts = ref<RoadmapPostDto>();

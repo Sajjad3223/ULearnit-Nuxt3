@@ -15,7 +15,7 @@
             <base-img :src="`/ulearnit/blog/banner/${post.imageName}`" class="w-full rounded-lg mt-4 shadow-md" style="border-bottom-right-radius: 34em"/>
             <address class="flex items-center absolute bottom-8 right-0 not-italic" v-if="post.writer != undefined">
               <div class="inline-flex items-center ml-3 text-sm text-gray-900 dark:text-white" >
-                <base-img class="ml-4 w-16 h-16 rounded-full object-cover" :src="`/ulearnit/writer/avatar/${post.writer?.avatarName}`" :alt="post.writer.writerName" />
+                <base-img class="ml-4 w-16 h-16 rounded-full object-cover" :src="`/ulearnit/user/avatars/${post.writer?.avatarName}`" :alt="post.writer.writerName" />
                 <div>
                   <strong rel="author" class="text-xl font-bold text-gray-900 dark:text-white">{{post.writer.writerName}}</strong>
                   <u-date class="block text-base font-light text-gray-500 dark:text-gray-400" :date="post.creationDate" />
@@ -37,17 +37,9 @@
         <blog-related-posts :post-id="post.id" />
       </div>
     </main>
-    <Head>
-      <Title>
-        {{post.title}}
-      </Title>
-      <Meta name="title" :content="post.seoData.metaTitle" />
-      <Meta name="og:title" :content="post.seoData.metaTitle" />
-      <Meta name="description" :content="post.seoData.metaDescription" />
-      <Meta name="og:description" :content="post.seoData.metaDescription" />
-      <Meta name="og:site_name" content="ULearnit" />
-      <Meta name="keywords" :content="post.seoData.metaKeyWords" />
-    </Head>
+
+    <u-seo-data :seo-data="post.seoData"/>
+
   </div>
   <div class="relative flex flex-col justify-center space-y-4" v-else>
     <div class="w-full flex gap-6 items-start animate-pulse">

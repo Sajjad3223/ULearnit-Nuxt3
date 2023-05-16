@@ -4,7 +4,7 @@ import {FetchApi} from "~/utilities/CustomFetchApi";
 import {CreatePostViewModel} from "~/models/blog/createPostViewModel";
 import {RegisterWriterViewModel} from "~/models/blog/registerWriterViewModel";
 import {EditPostViewModel} from "~/models/blog/editPostViewModel";
-import {PostFilterResult} from "~/models/post/postFilterData";
+import {PostFilterParams, PostFilterResult} from "~/models/post/postFilterData";
 
 export function AmIWriter():Promise<ApiResponse<boolean>>{
     //@ts-ignore
@@ -18,14 +18,11 @@ export function GetRelatedPosts(postId:number):Promise<ApiResponse<PostFilterRes
         method:'GET',
     });
 }
-export function GetPostsByFilter(slug:string,search:string):Promise<ApiResponse<PostFilterResult>>{
+export function GetPostsByFilter(filterParams:PostFilterParams):Promise<ApiResponse<PostFilterResult>>{
     //@ts-ignore
     return FetchApi('/Blog/search',{
         method:'GET',
-        params:{
-            categorySlug:slug,
-            search
-        }
+        params:filterParams
     });
 }
 export function GetUserPosts():Promise<ApiResponse<PostDto>>{

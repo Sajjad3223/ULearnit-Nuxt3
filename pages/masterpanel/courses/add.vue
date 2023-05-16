@@ -91,7 +91,7 @@ const authStore = useAuthStore();
 
 definePageMeta({
   layout:"user",
-middleware:'master'
+  middleware:'master'
 })
 
 const addCourseValidationSchema = Yup.object().shape({

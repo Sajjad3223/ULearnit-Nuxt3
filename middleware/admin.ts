@@ -1,16 +1,16 @@
+import {GetCurrentUser} from "~/services/user.service";
 import {useAuthStore} from "~/stores/authStore";
 
-export default defineNuxtRouteMiddleware((to, from) => {
-    const authStore = useAuthStore();
+export default defineNuxtRouteMiddleware(async (to, from) => {
+    //@ts-ignore
+    if(process.client) {
 
-    if(!authStore.isLogin)
-    {
-        //TODO - in refresh middleware runs before auth Store so always isLogin is false
-        //return navigateTo('/auth/login');
-    }
-    if(!authStore.currentUser?.roles.some(r=>r.roleTitle === 'ادمین'))
-    {
-        // TODO - in refresh middleware runs before auth Store so always isLogin is false
-        //return navigateTo('/userpanel');
+        let user = useAuthStore().currentUser;
+        if(user == null)
+            user = (await GetCurrentUser()).data;
+
+        if (!user?.roles.some(r => r.roleTitle === 'ادمین')) {
+            return navigateTo('/userpanel');
+        }
     }
 })

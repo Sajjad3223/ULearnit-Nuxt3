@@ -49,7 +49,7 @@ onMounted(async ()=>{
 })
 
 const setUserRolesData:SetUserRolesCommand = reactive({
-  userId:route.params.userId,
+  userId:Number(route.params.userId),
   roles:[]
 })
 
@@ -59,7 +59,7 @@ const SetPermissions = async ()=>{
   toggles.forEach(t=>{
     if(t.checked)
     {
-      roleIds.push(t.value);
+      roleIds.push(Number(t.value));
     }
   })
 

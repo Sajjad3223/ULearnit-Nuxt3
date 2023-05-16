@@ -1,14 +1,7 @@
 <template>
   <div v-if="course !== undefined">
-    <Head>
-      <Title>{{course.title}}</Title>
-      <Meta name="title" :content="course.seoData.metaTitle" />
-      <Meta name="og:title" :content="course.seoData.metaTitle" />
-      <Meta name="description" :content="course.seoData.metaDescription" />
-      <Meta name="og:description" :content="course.seoData.metaDescription" />
-      <Meta name="og:site_name" content="ULearnit" />
-      <Meta name="keywords" :content="course.seoData.metaKeyWords" />
-    </Head>
+
+    <u-seo-data :seo-data="course.seoData"/>
 
     <div class="w-full lg:mx-auto mt-8" >
       <div class="flex flex-col lg:flex-row w-full items-center lg:items-end space-y-4 lg:space-y-0">
@@ -130,6 +123,7 @@ import {CourseDto} from "~/models/course/courseDto";
 import {GetCourseBySlug} from "~/services/course.service";
 import {useRoute} from "nuxt/app";
 import {EPostType} from "~/models/comment/commentDto";
+import USeoData from "~/components/USeoData.vue";
 
 const course = ref<CourseDto>();
 const route = useRoute();

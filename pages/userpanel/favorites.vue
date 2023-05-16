@@ -60,7 +60,7 @@ import {PaginationData} from "~/models/baseFilterResult";
 
 definePageMeta({
   layout: "user",
-  middleware:'auth',
+
 })
 
 const favorites = ref<FavoriteDto>();

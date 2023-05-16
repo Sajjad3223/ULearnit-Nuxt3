@@ -17,7 +17,18 @@ export default defineNuxtConfig({
         '@pinia/nuxt',
         '@nuxtjs/tailwindcss',
         '@nuxt/image-edge',
+        'nuxt-simple-sitemap',
     ],
+    nitro: {
+        prerender: {
+            crawlLinks: true,
+            ignore: ['/admin', '/userpanel', '/masterpanel','/cart','/auth'],
+        }
+    },
+    sitemap: {
+        exclude:['/admin/**','/userpanel/**', '/masterpanel/**' ,'/cart/**','/auth/**'],
+        siteUrl: 'https://ulearnit.ir',
+    },
     image:{
         domains:[
             'http://localhost:5161',
@@ -25,13 +36,13 @@ export default defineNuxtConfig({
             'http://dl.ulearnit.ir'
         ],
         alias:{
-            ulearnit:'http://localhost:5161',
-            //ulearnit:'http://dl.ulearnit.ir',
+            //ulearnit:'http://localhost:5161',
+            ulearnit:'http://dl.ulearnit.ir',
         }
     },
-    /*vite: {
+    vite: {
        server: {
          proxy: { "/api": "http://api.ulearnit.ir/" },
        },
-    },*/
+    },
 })

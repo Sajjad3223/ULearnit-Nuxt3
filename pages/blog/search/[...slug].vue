@@ -9,7 +9,7 @@
       <div class="flex flex-col space-y-1">
         <label for="">دسته بندی</label>
         <select v-model="category" name="category" class="h-10 bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full px-8 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
-          <option selected>همه دسته بندی ها</option>
+          <option selected value="">همه دسته بندی ها</option>
           <option v-for="c in categories" :value="c.slug" >{{c.title}}</option>
         </select>
       </div>
@@ -17,21 +17,30 @@
       <base-button type="submit" >جستجو</base-button>
     </Form>
     <div class="grid grid-col-1 md:grid-cols-2 lg:grid-cols-4 gap-4 mt-8">
-      <blog-card v-for="p in posts" :post="p" :key="p"/>
+      <blog-card v-for="p in posts" :post="p" :key="p" v-if="posts != null && posts.length > 0"/>
+      <u-alert class="col-span-full" color="warning" v-else>مقاله ای وجود ندارد!ُ</u-alert>
     </div>
+
+    <u-pagination :pagination-data="paginationData" />
+
   </div>
 </template>
 
 <script setup lang="ts">
 import {Form} from 'vee-validate';
 import {GetPostsByFilter} from "~/services/blog.service";
-import {PostFilterData} from "~/models/post/postFilterData";
+import {PostFilterData, PostFilterParams} from "~/models/post/postFilterData";
 import {GetBlogCategories} from "~/services/admin/blogCategory.service";
+import {PaginationData} from "~/models/baseFilterResult";
+import {FillPaginationData} from "~/utilities/FillPaginationData";
+import {UserCoursesFilterParams} from "~/models/user/userFilterParams";
 
 const search = ref();
-const category = ref();
+const category = ref("");
 
 const posts = ref<PostFilterData[]>();
+const paginationData = ref<PaginationData>();
+
 const route = useRoute();
 const router = useRouter();
 
@@ -58,11 +67,18 @@ onMounted(async ()=>{
   categories.value = result.data;
 })
 
+const filterParams:PostFilterParams = reactive({
+  take: Number(route.query?.take ?? '10'),
+  pageId: Number(route.query?.pageId ?? '1'),
+  search: route.query?.q?.toString() ?? null,
+  categorySlug:route.params?.slug[0]?.split('category-')[1] ?? null
+});
+
 const loadData = async ()=>{
-  const categorySlug = route.params?.slug[0]?.split('category-')[1];
-  const search = route.query?.q?.toString();
-  const result = await GetPostsByFilter(categorySlug,search);
-  if(result.isSuccess)
+  const result = await GetPostsByFilter(filterParams);
+  if(result.isSuccess) {
     posts.value = result.data.data;
+    paginationData.value = FillPaginationData(result.data);
+  }
 }
 </script>

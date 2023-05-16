@@ -62,7 +62,7 @@ import {EOrderStatus, OrderDto} from "~/models/cart/orderDto";
 
 definePageMeta({
   layout: "user",
-  middleware:'auth',
+
 })
 
 const factor = ref<OrderDto>();

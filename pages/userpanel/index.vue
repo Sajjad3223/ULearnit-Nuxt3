@@ -160,7 +160,6 @@ import {useAuthStore} from "~/stores/authStore";
 
 definePageMeta({
   layout: "user",
-  middleware: 'auth',
 })
 
 const authStore = useAuthStore();

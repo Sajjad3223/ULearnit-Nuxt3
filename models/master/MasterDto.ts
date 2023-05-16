@@ -6,7 +6,7 @@ import {BaseFilterResult} from "~/models/baseFilterResult";
 export interface MasterDto extends BaseDto{
     teacherName: string;
     cvFileName: string;
-    status: number;
+    status: EMasterStatus;
     user:UserDto;
 }
 

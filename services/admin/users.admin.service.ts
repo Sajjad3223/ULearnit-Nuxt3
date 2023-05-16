@@ -29,13 +29,6 @@ export function CreateUser(command:CreateUserViewModel):Promise<ApiResponse<unde
         body: command
     });
 }
-export function EditUser(command:EditUserViewModel):Promise<ApiResponse<undefined>>{
-    //@ts-ignore
-    return FetchApi('/admin/Users/edit',{
-        body: command,
-        method:'PUT',
-    });
-}
 export function SetUserActivity(command:SetUserActivityViewModel):Promise<ApiResponse<undefined>>{
     //@ts-ignore
     return FetchApi('/admin/Users/activity',{

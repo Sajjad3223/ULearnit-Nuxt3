@@ -6,6 +6,7 @@ import {GetCurrentUser} from "~/services/user.service";
 import {AppStatusCode} from "~/models/ApiResponse";
 import {FetchApi} from "~/utilities/CustomFetchApi";
 import {errorAlert, successAlert} from "~/services/alert.service";
+import {LogoutUser} from "~/services/auth.service";
 
 
 export const useAuthStore = defineStore('auth',()=>{
@@ -19,8 +20,10 @@ export const useAuthStore = defineStore('auth',()=>{
         loading.value = true;
 
         const localStorageData = localStorage.getItem('auth-data');
-        if(localStorageData == null)
+        if(localStorageData == null) {
+            loading.value = false;
             return;
+        }
 
         loginResult.value = JSON.parse(localStorageData);
         const currentUserData = await GetCurrentUser();
@@ -28,7 +31,8 @@ export const useAuthStore = defineStore('auth',()=>{
         {
             currentUser.value = currentUserData.data;
         }
-        else if(currentUserData.metaData.appStatusCode === AppStatusCode.UnAuthorize){
+        else if(currentUserData.metaData.appStatusCode === AppStatusCode.UnAuthorize ||
+            currentUserData.metaData.appStatusCode === AppStatusCode.NotFound){
             loginResult.value = null;
             localStorage.removeItem('auth-data');
         }
@@ -40,19 +44,16 @@ export const useAuthStore = defineStore('auth',()=>{
         const localStorageData = localStorage.getItem('auth-data');
         if(localStorageData == null)
             return;
-        localStorage.removeItem('auth-data');
 
-        const result = await FetchApi('/auth/logout',{
-            method:'DELETE',
-        });
+        const result = await LogoutUser();
         if(result.isSuccess){
+            loginResult.value = null;
+            currentUser.value = null;
+            localStorage.removeItem('auth-data');
             successAlert();
         }else{
             errorAlert(result.metaData.message);
         }
-
-        loginResult.value = null;
-        currentUser.value = null;
     }
 
     return {isLogin, loading, loginResult, currentUser, setCurrentUser, logOut}

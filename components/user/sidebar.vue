@@ -217,7 +217,8 @@
 <script setup lang="ts">
 import {useAuthStore} from "~/stores/authStore";
 import {SetAvatar} from "~/services/user.service";
-import {ApiUrl} from "~/utilities/ApiUrls";
+import {ApiUrl, FtpUrl} from "~/utilities/ApiUrls";
+import {errorAlert, successAlert} from "~/services/alert.service";
 
 const authStore = useAuthStore();
 
@@ -230,10 +231,10 @@ const setUserAvatar=async (e: any)=>{
   if(result.isSuccess)
   {
     await authStore.setCurrentUser();
-    //Toast
+    successAlert("تصویر پروفایل جدید با موفقیت ثبت شد!")
   }
   else{
-    //Toast
+    errorAlert();
   }
 }
 
@@ -244,5 +245,5 @@ const signOut = ()=>{
 
 const isMaster = computed(()=>authStore.currentUser?.roles.some( r=>r.roleTitle === "ادمین" || r.roleTitle === "مدرس"));
 
-const getUserAvatar = computed(()=>`${ApiUrl}/user/avatars/${authStore.currentUser?.avatar}`);
+const getUserAvatar = computed(()=>`${FtpUrl}/user/avatars/${authStore.currentUser?.avatar}`);
 </script>

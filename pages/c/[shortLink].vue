@@ -1,14 +1,8 @@
 <template>
   <div v-if="course !== undefined">
-    <Head>
-      <Title>{{course.title}}</Title>
-      <Meta name="title" :content="course.seoData.metaTitle" />
-      <Meta name="og:title" :content="course.seoData.metaTitle" />
-      <Meta name="description" :content="course.seoData.metaDescription" />
-      <Meta name="og:description" :content="course.seoData.metaDescription" />
-      <Meta name="og:site_name" content="ULearnit" />
-      <Meta name="keywords" :content="course.seoData.metaKeyWords" />
-    </Head>
+
+    <u-seo-data :seo-data="course.seoData"/>
+
     <div class="w-full lg:mx-auto mt-8" >
       <div class="flex flex-col lg:flex-row w-full items-center lg:items-end space-y-4 lg:space-y-0">
         <div class="flex-1 flex flex-col ">

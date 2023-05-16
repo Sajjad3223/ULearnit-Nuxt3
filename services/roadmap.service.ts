@@ -1,5 +1,5 @@
 import {ApiResponse} from "~/models/ApiResponse";
-import {RoadmapPostDto} from "~/models/roadmap/roadmapDto";
+import {RoadmapFilterParams, RoadmapFilterResult, RoadmapPostDto} from "~/models/roadmap/roadmapDto";
 import {FetchApi} from "~/utilities/CustomFetchApi";
 import {CreateRoadmapPostCommand} from "~/models/roadmap/createRoadmapPostCommand";
 import {EditRoadmapPostViewModel} from "~/models/roadmap/editPostViewModel";
@@ -17,14 +17,11 @@ export function GetRoadmapPosts():Promise<ApiResponse<RoadmapPostDto>>{
         method:'GET',
     });
 }
-export function GetRoadmapPostsByFilter(slug:string,search:string):Promise<ApiResponse<RoadmapPostDto>>{
+export function GetRoadmapPostsByFilter(filterParams:RoadmapFilterParams):Promise<ApiResponse<RoadmapFilterResult>>{
     //@ts-ignore
     return FetchApi('/Roadmap/search',{
         method:'GET',
-        params:{
-            categorySlug:slug,
-            search
-        }
+        params:filterParams
     });
 }
 export function GetUserRoadmapPosts():Promise<ApiResponse<RoadmapPostDto>>{

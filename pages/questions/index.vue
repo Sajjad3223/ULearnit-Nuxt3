@@ -13,7 +13,7 @@
 
     <!-- <hr class="h-px my-8 bg-gray-200 border-0 dark:bg-gray-700"> -->
 
-    <u-table>
+    <u-table :pagination-data="paginationData">
       <template v-slot:table-options="{showFilter}">
         <div class="w-full md:w-auto flex flex-col md:flex-row space-y-2 md:space-y-0 items-stretch md:items-center justify-end md:space-x-3 md:space-x-reverse flex-shrink-0">
           <div class="flex items-center space-x-3 space-x-reverse w-full md:w-auto">
@@ -82,17 +82,32 @@
 <script setup lang="ts">
 import {QuestionFilterData} from "~/models/question/questionFilterParams";
 import {ApiUrl} from "~/utilities/ApiUrls";
+import {PaginationData} from "~/models/baseFilterResult";
+import {FillPaginationData} from "~/utilities/FillPaginationData";
 
 definePageMeta({
   layout:'question',
 })
 
-const questions = ref<QuestionFilterData>();
+const questions = ref<QuestionFilterData[]>();
+const paginationData = ref<PaginationData>();
+
 const question = useQuestion();
 onMounted(async ()=>{
+  await loadData();
+})
+
+const route= useRoute();
+watch(
+    ()=>route.query,
+    async ()=>{await loadData();}
+)
+
+const loadData = async ()=>{
   const result = await question.getQuestionsByFilter();
   if(result.isSuccess) {
     questions.value = result.data.data;
+    paginationData.value = FillPaginationData(result.data);
   }
-})
+}
 </script>

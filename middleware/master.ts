@@ -1,16 +1,16 @@
 import {useAuthStore} from "~/stores/authStore";
-import {AmIMaster} from "~/services/teacher.service";
+import {GetCurrentUser} from "~/services/user.service";
 
 export default defineNuxtRouteMiddleware( async (to, from) => {
-    const authStore = useAuthStore();
+    //@ts-ignore
+    if(process.client) {
 
-    if(!authStore.isLogin)
-    {
-        return navigateTo('/auth/login');
-    }
-    const amIMaster = await AmIMaster();
-    if(!amIMaster.data)
-    {
-        return navigateTo('/userpanel');
+        let user = useAuthStore().currentUser;
+        if(user == null)
+            user = (await GetCurrentUser()).data;
+
+        if (!user?.roles.some(r => r.roleTitle === 'مدرس')) {
+            return navigateTo('/userpanel');
+        }
     }
 })

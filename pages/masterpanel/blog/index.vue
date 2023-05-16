@@ -58,7 +58,7 @@
           </th>
         </template>
         <template v-slot:table-body="{showOption,hideAll}">
-          <tr class="border-b dark:border-gray-700" v-for="(b,i) in blogs">
+          <tr class="border-b dark:border-gray-700" v-for="(b,i) in blogs" v-if="b != null">
             <th scope="row" class="px-4 py-3 font-medium text-gray-900 whitespace-nowrap dark:text-white">
               <NuxtLink :to="`/blog/${b.slug}`" class="link" >{{ b.title }}</NuxtLink>
             </th>
@@ -104,9 +104,6 @@ import {useAuthStore} from "~/stores/authStore";
 
 definePageMeta({
   layout:"user",
-  middleware:[
-      'auth'
-  ]
 })
 
 const blogs = ref<PostDto>();

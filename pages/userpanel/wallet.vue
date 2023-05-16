@@ -51,7 +51,7 @@ import {ChargeWalletViewModel} from "~/models/user/ChargeWalletViewModel";
 
 definePageMeta({
   layout: "user",
-  middleware:'auth',
+
 })
 
 const filterParams:WalletFilterParams = reactive({

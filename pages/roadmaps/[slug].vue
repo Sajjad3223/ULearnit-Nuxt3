@@ -1,10 +1,8 @@
 <template>
   <div v-if="post != undefined">
-    <Head>
-      <Title>
-        {{post.title}}
-      </Title>
-    </Head>
+
+    <u-seo-data :seo-data="post.seoData"/>
+
     <main class="flex flex-col lg:flex-row pt-8 pb-16 lg:pt-16 lg:pb-24 bg-white dark:bg-gray-900">
       <div class="flex flex-col px-4 mx-auto max-w-screen-xl ">
         <article class="mx-auto w-full max-w-screen-xl format format-sm sm:format-base lg:format-lg format-blue dark:format-invert">

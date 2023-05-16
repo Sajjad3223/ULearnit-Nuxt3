@@ -54,7 +54,7 @@
           </svg>
         </template>
       </base-input>
-      <base-input name="description" label="درباره من" v-model="editUser.description" multiline :is-required="false" max-length="500">
+      <base-input name="description" label="درباره من" v-model="editUser.description" multiline :is-required="false" :max-length="500">
         <template #icon>
           <svg class="opacity-75 scale-75" width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
             <path d="M12 12.75C8.83 12.75 6.25 10.17 6.25 7C6.25 3.83 8.83 1.25 12 1.25C15.17 1.25 17.75 3.83 17.75 7C17.75 10.17 15.17 12.75 12 12.75ZM12 2.75C9.66 2.75 7.75 4.66 7.75 7C7.75 9.34 9.66 11.25 12 11.25C14.34 11.25 16.25 9.34 16.25 7C16.25 4.66 14.34 2.75 12 2.75Z" fill="#FFFFFF"/>
@@ -77,11 +77,12 @@
 import {Form} from "vee-validate";
 import {useAuthStore} from "~/stores/authStore";
 import {EditUserViewModel} from "~/models/user/editUserViewModel";
-import {EditUser, GetCurrentUser} from "~/services/user.service";
+import {errorAlert, successAlert} from "~/services/alert.service";
+import {EditUser} from "~/services/user.service";
 
 definePageMeta({
   layout:"user",
-  middleware:'auth',
+
 })
 
 const authStore = useAuthStore();
@@ -98,7 +99,6 @@ const editUser:EditUserViewModel = reactive({
 });
 
 onMounted(()=>{
-  console.log(userDto)
   editUser.firstName = userDto.firstName;
   editUser.lastName = userDto.lastName;
   editUser.email = userDto.email;
@@ -112,12 +112,12 @@ const confirmEdit = async ()=>{
   const result = await EditUser(editUser);
   if(result.isSuccess)
   {
-    // Toast
+    successAlert();
     await authStore.setCurrentUser();
     await router.push('/userpanel');
   }
   else {
-    // Toast
+    errorAlert();
   }
 }
 </script>

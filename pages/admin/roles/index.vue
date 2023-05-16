@@ -102,7 +102,7 @@
 </template>
 
 <script setup lang="ts">
-import {CreateRole, GetRoles} from "~/services/admin/roles.service";
+import {CreateRole, EditRole, GetRoles} from "~/services/admin/roles.service";
 import {RoleDto} from "~/models/role/roleDto";
 import {CreateRoleCommand} from "~/models/role/createRoleCommand";
 import {successAlert} from "~/services/alert.service";
@@ -139,6 +139,12 @@ const createRole = async ()=>{
     successAlert()
     await loadData();
   }
+}
+const edit = async ()=>{
+
+}
+const remove = async ()=>{
+
 }
 </script>
 

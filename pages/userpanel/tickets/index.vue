@@ -106,9 +106,12 @@
           </tr>
         </template>
       </u-table>
-      <u-alert v-else>
-        شما هیچ تیکتی ثبت نکرده اید!
-      </u-alert>
+      <div v-else>
+        <base-button @click="ticketModal = true" class="mb-4">ثبت تیکت جدید</base-button>
+        <u-alert>
+          شما هیچ تیکتی ثبت نکرده اید!
+        </u-alert>
+      </div>
     </div>
   </div>
 </template>
@@ -122,7 +125,7 @@ import {PaginationData} from "~/models/baseFilterResult";
 
 definePageMeta({
   layout: "user",
-  middleware:'auth',
+
 })
 
 const tickets = ref<TicketFilterData[]>();

@@ -33,6 +33,7 @@ import {LoginUser} from "~/services/auth.service";
 import {LoginViewModel} from "~/models/auth/loginViewModel";
 import * as Yup from "yup";
 import {useAuthStore} from "~/stores/authStore";
+import {errorAlert, successAlert} from "~/services/alert.service";
 
 definePageMeta({
   layout:"auth",
@@ -66,15 +67,21 @@ const login = async (data,formEvent)=>{
   {
     localStorage.setItem("auth-data",JSON.stringify(result.data));
     authStore.setCurrentUser();
-    await router.push('/userpanel');
-    // Toast
+    successAlert();
+    const returnTo = router.currentRoute.value.query.returnTo?.toString();
+    if(returnTo){
+      await router.push(returnTo);
+    }
+    else {
+      await router.push('/userpanel');
+    }
   }
   else {
     formEvent.setFieldError(
         "phoneNumber",
         result.metaData.message
     )
-    // Toast
+    errorAlert(result.metaData.message);
   }
 };
 

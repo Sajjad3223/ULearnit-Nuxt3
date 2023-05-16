@@ -1,19 +1,25 @@
 import {useAuthStore} from "~/stores/authStore";
 import {errorAlert} from "~/services/alert.service";
+import {GetCurrentUser} from "~/services/user.service";
 
-export default defineNuxtRouteMiddleware((to, from) => {
-    const authStore = useAuthStore();
+export default defineNuxtRouteMiddleware(async (to, from) => {
 
+    //@ts-ignore
+    if(!process.client) return;
 
-    if(!authStore.isLogin)
+    let user = useAuthStore().currentUser;
+    if(user == null)
+        user = (await GetCurrentUser()).data;
+
+    if(user === null)
     {
         return navigateTo('/auth/login');
     }
     if(
-        authStore.currentUser?.firstName === "" ||
-        authStore.currentUser?.lastName === "" ||
-        authStore.currentUser?.email === "" ||
-        authStore.currentUser?.phoneNumber === "")
+        user?.firstName === "" ||
+        user?.lastName === "" ||
+        user?.email === "" ||
+        user?.phoneNumber === "")
     {
         errorAlert("لطفا ابتدا مشخصات خود را کامل کنید.","نام، نام خانوادگی، ایمیل و شماره تماس");
         return navigateTo('/userpanel/userInformation');

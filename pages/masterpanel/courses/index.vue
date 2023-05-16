@@ -96,7 +96,7 @@ import {PaginationData} from "~/models/baseFilterResult";
 
 definePageMeta({
   layout:"user",
-  //middleware:'master'
+  middleware:'master'
 })
 
 const courses = ref<CourseCardDto[]>();

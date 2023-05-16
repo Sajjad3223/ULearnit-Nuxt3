@@ -38,17 +38,8 @@
       </div>
     </main>
 
-    <Head>
-      <Title>
-        {{post.title}}
-      </Title>
-      <Meta name="title" :content="post.seoData.metaTitle" />
-      <Meta name="og:title" :content="post.seoData.metaTitle" />
-      <Meta name="description" :content="post.seoData.metaDescription" />
-      <Meta name="og:description" :content="post.seoData.metaDescription" />
-      <Meta name="og:site_name" content="ULearnit" />
-      <Meta name="keywords" :content="post.seoData.metaKeyWords" />
-    </Head>
+    <u-seo-data :seo-data="post.seoData"/>
+
   </div>
   <div class="relative flex flex-col justify-center space-y-4" v-else>
     <div class="w-full flex gap-6 items-start animate-pulse">

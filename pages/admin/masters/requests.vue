@@ -16,7 +16,7 @@
       <template v-slot:table-body="{showOption}">
         <tr class="border-b dark:border-gray-700" v-for="(r,i) in requests">
           <th class="p-2 w-2/12">
-            <img :src="getUserAvatar(r.user.avatar)" class="rounded-full max-w-[50px]">
+            <base-img :src="`/ulearnit/user/avatars/${r.user.avatar}`" class="rounded-full max-w-[50px]" />
           </th>
           <th scope="row" class="px-4 py-3 font-medium text-gray-900 whitespace-nowrap dark:text-white">
             <NuxtLink :to="`/profile/${r.user.id}`" class="link" >{{ r.user.fullName }}</NuxtLink>
@@ -56,7 +56,7 @@
 </template>
 
 <script setup lang="ts">
-import {ApiUrl} from "~/utilities/ApiUrls";
+import {ApiUrl, FtpUrl} from "~/utilities/ApiUrls";
 import {AcceptMasterRequest,RejectMasterRequest, GetMastersRequests} from "~/services/admin/teachers.admin.service";
 import {MasterDto, MasterFilterParams} from "~/models/master/MasterDto";
 import {PaginationData} from "~/models/baseFilterResult";
@@ -105,8 +105,7 @@ const loadData = async ()=>{
   }
 }
 
-const getUserAvatar = (avatarName:string)=>`${ApiUrl}/user/avatars/${avatarName}`;
-const getUserResume = (cvName:string)=>`${ApiUrl}/core/Teacher/${cvName}`;
+const getUserResume = (cvName:string)=>`${FtpUrl}/core/Teacher/${cvName}`;
 
 const router= useRouter();
 const accept=async (masterId:any,userId:number)=>{

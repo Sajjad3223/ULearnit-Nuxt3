@@ -1,7 +1,9 @@
 import {WriterDto} from "~/models/writerDto";
 import {CategoryDto} from "~/models/category/categoryDTO";
 import {SeoData} from "~/models/SeoData";
-import {EPostStatus} from "~/models/blog/postDto";
+import {BaseFilterParams} from "~/models/baseFilterParams";
+import {BaseFilterResult} from "~/models/baseFilterResult";
+import {EPostStatus} from "~/models/post/postFilterData";
 
 export interface RoadmapPostDto{
     id: number;
@@ -18,3 +20,12 @@ export interface RoadmapPostDto{
     creationDate: Date;
     seoData: SeoData;
 }
+
+export interface RoadmapFilterParams extends BaseFilterParams{
+    search?:string | null;
+    categorySlug?:string | null;
+    postStatus?:EPostStatus | null;
+    writerId?:number | null;
+}
+
+export interface RoadmapFilterResult extends BaseFilterResult<RoadmapPostDto>{}

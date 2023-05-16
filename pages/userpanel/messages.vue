@@ -1,5 +1,8 @@
 <template>
   <div>
+    <Head>
+      <Title>اطلاعیه ها</Title>
+    </Head>
     <u-divider title="اطلاعیه ها" />
     <div className="w-full mt-4">
       <u-alert v-for="n in notifs" :color="`${n.isSeen ? 'dark' : 'primary'}`">
@@ -27,7 +30,7 @@ import {GetUserNotifications, SeenNotification} from "~/services/notification.se
 
 definePageMeta({
   layout: "user",
-  middleware:'auth',
+
 })
 
 const notifs = ref<NotificationDto[]>();

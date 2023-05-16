@@ -79,6 +79,7 @@ const sendTicketMessageData:SendTicketMessageCommand = reactive({
 
 onMounted(async ()=>{
   await loadData();
+  setInterval(async()=>await loadData(),30000);
 })
 
 const loadData = async ()=>{
