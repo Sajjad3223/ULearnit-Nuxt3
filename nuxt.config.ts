@@ -42,7 +42,7 @@ export default defineNuxtConfig({
     },
     vite: {
        server: {
-         proxy: { "/api": "http://api.ulearnit.ir/" },
+         proxy: { "/api": "https://sajjadmirshabi.ir" },
        },
     },
 })

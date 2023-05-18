@@ -4,9 +4,52 @@
 
 
 @layer components{
+    @font-face {
+        font-family: Vazir FD-UI;
+        src: url("../fonts/Vazir-Regular-FD-UI.ttf") format("truetype");
+        font-weight: normal;
+        font-style: normal;
+    }
+
+    @font-face {
+        font-family: Vazir FD-UI;
+        src: url("../fonts/Vazir-Bold-FD-UI.ttf") format("truetype");
+        font-weight: bold;
+        font-style: normal;
+    }
+
+    @font-face {
+        font-family: Vazir FD-UI;
+        src: url("../fonts/Vazir-Black-FD-UI.ttf") format("truetype");
+        font-weight: 900;
+        font-style: normal;
+    }
+
+    @font-face {
+        font-family: Vazir FD-UI;
+        src: url("../fonts/Vazir-Medium-FD-UI.ttf") format("truetype");
+        font-weight: 500;
+        font-style: normal;
+    }
+
+    @font-face {
+        font-family: Vazir FD-UI;
+        src: url("../fonts/Vazir-Light-FD-UI.ttf") format("truetype");
+        font-weight: 300;
+        font-style: normal;
+    }
+
+    @font-face {
+        font-family: Vazir FD-UI;
+        src: url("../fonts/Vazir-Thin-FD-UI.ttf") format("truetype");
+        font-weight: 100;
+        font-style: normal;
+    }
+    
     html{
         direction: rtl;
         scroll-behavior: smooth;
+        font-family: 'Vazir FD-UI';
     }
     h1{@apply text-4xl font-bold;} h2{@apply text-3xl font-bold;} h3{@apply text-2xl font-bold;} h4{@apply text-xl font-bold;} h5{@apply text-lg font-bold;} h6{@apply text-base font-bold;}
     body{
