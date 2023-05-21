@@ -99,7 +99,7 @@
 import {AmIWriter, DeletePost, GetUserPosts} from "~/services/blog.service";
 import {PostDto} from "~/models/blog/postDto";
 import {errorAlert, successAlert} from "~/services/alert.service";
-import Swal from "sweetalert2";
+import Swal from 'sweetalert2';
 import {useAuthStore} from "~/stores/authStore";
 
 definePageMeta({

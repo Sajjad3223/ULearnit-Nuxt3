@@ -71,7 +71,7 @@
 
 <script setup lang="ts">
 import {errorAlert, successAlert} from "~/services/alert.service";
-import Swal from "sweetalert2";
+import Swal from 'sweetalert2';
 import {BundleFilterData} from "~/models/bundle/bundleFilterResult";
 import {DeleteBundle, GetUserBundles} from "~/services/bundle.service";
 

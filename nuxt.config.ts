@@ -2,6 +2,7 @@
 import {ApiUrl} from "~/utilities/ApiUrls";
 
 export default defineNuxtConfig({
+    //@ts-ignore
     app:{
         layoutTransition: { name: 'layout', mode: 'out-in' },
         pageTransition: { name: 'page', mode: 'out-in' }

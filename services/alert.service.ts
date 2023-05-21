@@ -1,4 +1,5 @@
-import Swal from "sweetalert2";
+import Swal from 'sweetalert2';
+import 'sweetalert2/dist/sweetalert2.min.css';
 
 export function successAlert(title='عملیات با موفقیت انجام شد',desc:string="",hasTimer:boolean=true){
     Swal.fire({

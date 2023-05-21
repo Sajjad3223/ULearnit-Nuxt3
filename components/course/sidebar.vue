@@ -100,7 +100,7 @@ import {AddToCartViewModel, EItemType} from "~/models/cart/addToCartViewModel";
 import {AddToCart} from "~/services/cart.service";
 import {successAlert} from "~/services/alert.service";
 import {useAuthStore} from "~/stores/authStore";
-import Swal from "sweetalert2";
+import Swal from 'sweetalert2';
 
 const props = defineProps({
   id:{

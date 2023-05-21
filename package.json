@@ -23,7 +23,7 @@
     "axios": "^1.3.4",
     "flowbite": "^1.6.3",
     "pinia": "^2.0.29",
-    "sweetalert2": "^11.4.8",
+    "sweetalert2": "^11.7.5",
     "vee-validate": "^4.7.4",
     "yup": "^1.0.0"
   }

@@ -20,7 +20,7 @@ import {Form} from "vee-validate";
 import * as Yup from "yup";
 import {CreateSectionViewModel} from "~/models/course/createSectionViewModel";
 import {CreateSection} from "~/services/course.service";
-import Swal from "sweetalert2";
+import Swal from 'sweetalert2';
 
 const props = defineProps({
   courseId:{
@@ -53,7 +53,7 @@ const addSection = async ()=>{
     createSectionData.title = "";
     createSectionData.description = "";
     showModal.value = false;
-    Swal.fire({
+    await Swal.fire({
       title:'سرفصل با موفقیت اضافه شد',
       icon:'info',
     })

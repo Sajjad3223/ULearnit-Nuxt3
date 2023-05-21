@@ -17,7 +17,7 @@
             <li class="him">
               <p>{{ticket.text}}</p>
               <div class="flex text-sm opacity-70 mr-auto">
-                <u-time :time="ticket.creationDate" dir="ltr"/>
+                <u-time :time="ticket.creationDate" dir="rtl"/>
                 -
                 <u-date :date="ticket.creationDate" dir="ltr"/>
               </div>
@@ -34,7 +34,7 @@
           </ul>
           <hr class="my-4">
 
-          <Form @submit="sendMessage">
+          <Form @submit.prevent="sendMessage">
             <label for="chat" class="sr-only">Your message</label>
             <div class="flex items-start px-3 py-2 rounded-lg bg-gray-50 dark:bg-gray-700">
               <button type="button" class="inline-flex justify-center p-2 text-gray-500 rounded-lg cursor-pointer hover:text-gray-900 hover:bg-gray-100 dark:text-gray-400 dark:hover:text-white dark:hover:bg-gray-600">
@@ -73,8 +73,8 @@ const ticket = ref<TicketDto>();
 const route = useRoute();
 
 const sendTicketMessageData:SendTicketMessageCommand = reactive({
-  ticketId:route.params.id,
-  message:""
+  ticketId:Number(route.params.id),
+  message:"",
 })
 
 onMounted(async ()=>{

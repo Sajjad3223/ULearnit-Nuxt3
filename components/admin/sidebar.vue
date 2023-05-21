@@ -26,6 +26,7 @@
                   <path d="M8.73828 12.0001V10.3301C8.73828 8.25014 10.2083 7.40014 12.0083 8.44014L13.4583 9.28014L14.9083 10.1201C16.7083 11.1601 16.7083 12.8601 14.9083 13.9001L13.4583 14.7401L12.0083 15.5801C10.2083 16.6201 8.73828 15.7701 8.73828 13.6901V12.0001Z" fill="currentColor"/>
                 </svg>
                 <span class="mr-3">لیست دوره ها</span>
+                <u-badge color="warning" v-if="pendingData && pendingData.courses > 0">{{ pendingData?.courses }}</u-badge>
               </NuxtLink>
             </li>
             <li class="mr-2 p-2">
@@ -38,6 +39,7 @@
                   <path d="M22 8.35937V12.7394C22 13.1094 21.61 13.3494 21.28 13.1794C20.44 12.7394 19.48 12.4994 18.5 12.4994C16.89 12.4994 15.32 13.1594 14.2 14.3094C13.1 15.4294 12.5 16.9194 12.5 18.4994C12.5 19.3094 12.82 20.3494 13.22 21.2194C13.38 21.5694 13.14 21.9994 12.75 21.9994H7.81C4.6 21.9994 2 19.3994 2 16.1894V8.35937C2 8.07937 2.22 7.85938 2.5 7.85938H21.5C21.78 7.85938 22 8.07937 22 8.35937Z" fill="currentColor"/>
                 </svg>
                 <span class="mr-3">بررسی قسمت ها</span>
+                <u-badge color="warning" v-if="pendingData && pendingData.episodes > 0">{{ pendingData?.episodes }}</u-badge>
               </NuxtLink>
             </li>
           </admin-sidebar-accordion>
@@ -113,6 +115,7 @@
               <path d="M20.5 10.19H17.61C15.24 10.19 13.31 8.26 13.31 5.89V3C13.31 2.45 12.86 2 12.31 2H8.07C4.99 2 2.5 4 2.5 7.57V16.43C2.5 20 4.99 22 8.07 22H15.93C19.01 22 21.5 20 21.5 16.43V11.19C21.5 10.64 21.05 10.19 20.5 10.19ZM11.5 17.75H7.5C7.09 17.75 6.75 17.41 6.75 17C6.75 16.59 7.09 16.25 7.5 16.25H11.5C11.91 16.25 12.25 16.59 12.25 17C12.25 17.41 11.91 17.75 11.5 17.75ZM13.5 13.75H7.5C7.09 13.75 6.75 13.41 6.75 13C6.75 12.59 7.09 12.25 7.5 12.25H13.5C13.91 12.25 14.25 12.59 14.25 13C14.25 13.41 13.91 13.75 13.5 13.75Z" fill="currentColor"/>
             </svg>
             <span class="flex-1 mr-3 whitespace-nowrap">مقالات</span>
+            <u-badge color="warning" v-if="pendingData && pendingData.blogPosts > 0">{{ pendingData?.blogPosts }}</u-badge>
           </NuxtLink>
         </li>
         <li>
@@ -122,6 +125,7 @@
               <path d="M13 15.2298C13 16.4198 12.56 17.5198 11.82 18.3898C10.83 19.5898 9.26 20.3598 7.5 20.3598L4.89 21.9098C4.45 22.1798 3.89 21.8098 3.95 21.2998L4.2 19.3298C2.86 18.3998 2 16.9098 2 15.2298C2 13.4698 2.94 11.9198 4.38 10.9998C5.27 10.4198 6.34 10.0898 7.5 10.0898C10.54 10.0898 13 12.3898 13 15.2298Z" fill="currentColor"/>
             </svg>
             <span class="flex-1 mr-3 whitespace-nowrap">نظرات</span>
+            <u-badge color="warning" v-if="pendingData && pendingData.comments > 0">{{ pendingData?.comments }}</u-badge>
           </NuxtLink>
         </li>
         <li>
@@ -139,6 +143,7 @@
               <path d="M17 3.5H7C4 3.5 2 5 2 8.5V15.5C2 19 4 20.5 7 20.5H17C20 20.5 22 19 22 15.5V8.5C22 5 20 3.5 17 3.5ZM17.47 9.59L14.34 12.09C13.68 12.62 12.84 12.88 12 12.88C11.16 12.88 10.31 12.62 9.66 12.09L6.53 9.59C6.21 9.33 6.16 8.85 6.41 8.53C6.67 8.21 7.14 8.15 7.46 8.41L10.59 10.91C11.35 11.52 12.64 11.52 13.4 10.91L16.53 8.41C16.85 8.15 17.33 8.2 17.58 8.53C17.84 8.85 17.79 9.33 17.47 9.59Z" fill="currentColor"/>
             </svg>
             <span class="flex-1 mr-3 whitespace-nowrap">تیکت ها</span>
+            <u-badge color="warning" v-if="pendingData && pendingData.tickets > 0">{{ pendingData?.tickets }}</u-badge>
           </NuxtLink>
         </li>
         <li>
@@ -203,10 +208,17 @@
   </aside>
 </template>
 
-<script>
-export default {
-  name: "sidebar"
-}
+<script setup lang="ts">
+import {GetAdminPanelPendings} from "~/services/admin/adminpanel.service";
+import {AdminPanelPendingsViewModel} from "~/models/admin/adminPanelPendingsViewModel";
+
+const pendingData = ref<AdminPanelPendingsViewModel>();
+onMounted(async ()=>{
+  const result = await GetAdminPanelPendings();
+  if(result.isSuccess){
+    pendingData.value = result.data;
+  }
+})
 </script>
 
 <style scoped>

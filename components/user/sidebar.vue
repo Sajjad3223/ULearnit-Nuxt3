@@ -155,6 +155,7 @@
                 fill="currentColor"/>
           </svg>
           <span>تیکت ها</span>
+          <u-badge color="warning" class="absolute left-4" v-if="pendingData && pendingData.tickets > 0">{{ pendingData?.tickets }}</u-badge>
         </NuxtLink>
       </li>
       <li>
@@ -191,6 +192,7 @@
             <path d="M12.0195 22.8101C11.0295 22.8101 10.0695 22.4101 9.36953 21.7101C8.66953 21.0101 8.26953 20.0501 8.26953 19.0601H9.76953C9.76953 19.6501 10.0095 20.2301 10.4295 20.6501C10.8495 21.0701 11.4295 21.3101 12.0195 21.3101C13.2595 21.3101 14.2695 20.3001 14.2695 19.0601H15.7695C15.7695 21.1301 14.0895 22.8101 12.0195 22.8101Z" fill="currentColor"/>
           </svg>
           <span>اطلاعیه ها</span>
+          <u-badge color="warning" class="absolute left-4" v-if="pendingData && pendingData.notifications > 0">{{ pendingData?.notifications }}</u-badge>
         </NuxtLink>
       </li>
       <li >
@@ -219,6 +221,8 @@ import {useAuthStore} from "~/stores/authStore";
 import {SetAvatar} from "~/services/user.service";
 import {ApiUrl, FtpUrl} from "~/utilities/ApiUrls";
 import {errorAlert, successAlert} from "~/services/alert.service";
+import {GetUserPanelPendings} from "~/services/userpanel.service";
+import {UserPanelPendingsViewModel} from "~/models/user/userPanelPendingsViewModel";
 
 const authStore = useAuthStore();
 
@@ -237,6 +241,14 @@ const setUserAvatar=async (e: any)=>{
     errorAlert();
   }
 }
+
+const pendingData = ref<UserPanelPendingsViewModel>();
+onMounted( async ()=>{
+  const result = await GetUserPanelPendings();
+  if(result.isSuccess){
+    pendingData.value = result.data;
+  }
+})
 
 const signOut = ()=>{
   authStore.logOut();

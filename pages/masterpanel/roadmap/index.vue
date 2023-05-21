@@ -98,7 +98,7 @@
 
 <script setup lang="ts">
 import {errorAlert, successAlert} from "~/services/alert.service";
-import Swal from "sweetalert2";
+import Swal from 'sweetalert2';
 import {RoadmapPostDto} from "~/models/roadmap/roadmapDto";
 import {AmIWriter, DeleteRoadmapPost, GetUserRoadmapPosts} from "~/services/roadmap.service";
 import {useAuthStore} from "~/stores/authStore";

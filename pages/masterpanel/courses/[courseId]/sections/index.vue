@@ -72,7 +72,7 @@
 <script setup lang="ts">
 import {CourseDto, SectionDto} from "~/models/course/courseDto";
 import {DeleteSection, GetCourse, GetSectionsByFilter} from "~/services/course.service";
-import Swal from "sweetalert2";
+import Swal from 'sweetalert2';
 import {SectionFilterParams} from "~/models/course/courseSearchResultDto";
 import {PaginationData} from "~/models/baseFilterResult";
 import {FillPaginationData} from "~/utilities/FillPaginationData";
