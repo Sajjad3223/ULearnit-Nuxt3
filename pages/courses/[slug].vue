@@ -1,7 +1,9 @@
 <template>
   <div v-if="course !== undefined && course !== null">
 
-    <u-seo-data :seo-data="course.seoData"/>
+    <u-seo-data :seo-data="course.seoData"
+                :image-url="`${FtpUrl}/core/course/banner/${course.imageName}`"
+                :image-width="null" :image-height="null"/>
 
     <div class="w-full lg:mx-auto mt-8" >
       <div class="flex flex-col lg:flex-row w-full items-center lg:items-end space-y-4 lg:space-y-0">
@@ -124,12 +126,18 @@ import {GetCourseBySlug} from "~/services/course.service";
 import {useRoute} from "nuxt/app";
 import {EPostType} from "~/models/comment/commentDto";
 import USeoData from "~/components/USeoData.vue";
+import {FtpUrl} from "~/utilities/ApiUrls";
+import imageFetch from "#image/utils";
 
 
 const route = useRoute();
 const slug = route.params.slug.toString();
 const { data: result, refresh, pending } = await useAsyncData("getCourse", async () => await GetCourseBySlug(route.params.slug  ))
 const course:CourseDto | undefined = result?.value?.data;
+
+/*const img = new Image();
+img.src = `${FtpUrl}/core/course/banner/${course?.imageName}`;*/
+
 /*onMounted(async ()=>{
   const result = await GetCourseBySlug(slug);
   course.value = result.data;

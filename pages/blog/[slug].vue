@@ -13,12 +13,12 @@
             {title:post.title},
             ]" />
             <base-img :src="`/ulearnit/blog/banner/${post.imageName}`" class="w-full rounded-lg mt-4 shadow-md" style="border-bottom-right-radius: 34em"/>
-            <address class="flex items-center absolute bottom-8 right-0 not-italic" v-if="post.writer != undefined">
+            <address class="flex items-center lg:absolute lg:bottom-8 right-0 not-italic" v-if="post.writer != undefined">
               <div class="inline-flex items-center ml-3 text-sm text-gray-900 dark:text-white" >
                 <base-img class="ml-4 w-16 h-16 rounded-full object-cover" :src="`/ulearnit/user/avatars/${post.writer?.avatarName}`" :alt="post.writer.writerName" />
-                <div>
-                  <strong rel="author" class="text-xl font-bold text-gray-900 dark:text-white">{{post.writer.writerName}}</strong>
-                  <u-date class="block text-base font-light text-gray-500 dark:text-gray-400" :date="post.creationDate" />
+                <div class="flex flex-col items-start">
+                  <strong rel="author" class="lg:text-xl font-bold text-gray-900 dark:text-white">{{post.writer.writerName}}</strong>
+                  <u-date class="block text-sm lg:text-base font-light text-gray-500 dark:text-gray-400" :date="post.creationDate" />
                 </div>
               </div>
             </address>

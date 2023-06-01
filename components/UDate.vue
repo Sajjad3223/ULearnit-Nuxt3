@@ -1,5 +1,5 @@
 <template>
-  <time class="pr-2 border-dotted" pubdate datetime="2022-02-08"
+  <time class=" border-dotted" pubdate
         :title="getTitleDate">
     {{ new Date(date).toLocaleDateString('fa-IR') }}
   </time>

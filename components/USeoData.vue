@@ -7,13 +7,24 @@
     <Meta name="description" :content="seoData.metaDescription" />
     <Meta name="og:description" :content="seoData.metaDescription" />
     <Meta name="twitter:description" :content="seoData.metaDescription" />
-    <Meta name="og:site_name" content="ULearnit" />
+    <Meta name="twitter:image" :content="imageUrl" v-if="imageUrl" />
+    <Meta name="og:site_name" content="یولرنیت - وبسایت تخصصی آموزش بازی سازی" />
     <Meta name="keywords" :content="seoData.metaKeyWords" />
 
-    <Meta rel="canonical" :href="seoData.canonical"/>
+    <Meta property="og:image" :content="imageUrl" v-if="imageUrl"/>
+    <Meta property="og:image:url" :content="imageUrl" v-if="imageUrl" />
+    <Meta property="og:image:width" :content="imageWidth" v-if="imageUrl && imageWidth" />
+    <Meta property="og:image:height" :content="imageHeight" v-if="imageUrl && imageHeight" />
+    <Meta property="og:image:type" content="image/jpg" v-if="imageUrl" />
 
-    <meta content="index, follow" name="robots" v-if="seoData.indexPage"/>
-    <meta content="noindex, nofollow" name="robots" v-else/>
+    <Meta property="og:price:currency" content="IRR" />
+    <Meta property="og:locale" content="ir_FA" />
+
+    <Meta rel="canonical" :href="seoData.canonical"/>
+    <Meta property="og:url" :content="seoData.canonical" />
+
+    <Meta content="index, follow" name="robots" v-if="seoData.indexPage"/>
+    <Meta content="noindex, nofollow" name="robots" v-else/>
 
     <slot />
   </Head>
@@ -23,6 +34,9 @@
 import {SeoData} from "~/models/SeoData";
 
 defineProps<{
-  seoData:SeoData
+  seoData:SeoData,
+  imageUrl:string | null,
+  imageWidth:number | null,
+  imageHeight:number | null,
 }>();
 </script>
