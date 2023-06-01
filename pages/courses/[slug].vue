@@ -3,7 +3,7 @@
 
     <u-seo-data :seo-data="course.seoData"
                 :image-url="`${FtpUrl}/core/course/banner/${course.imageName}`"
-                :image-width="null" :image-height="null"/>
+                :image-width="imgWidth" :image-height="imgHeight"/>
 
     <div class="w-full lg:mx-auto mt-8" >
       <div class="flex flex-col lg:flex-row w-full items-center lg:items-end space-y-4 lg:space-y-0">
@@ -132,16 +132,21 @@ import imageFetch from "#image/utils";
 
 const route = useRoute();
 const slug = route.params.slug.toString();
-const { data: result, refresh, pending } = await useAsyncData("getCourse", async () => await GetCourseBySlug(route.params.slug  ))
+const { data: result, pending } = await useAsyncData("getCourse", async () => await GetCourseBySlug(route.params.slug))
 const course:CourseDto | undefined = result?.value?.data;
 
-/*const img = new Image();
-img.src = `${FtpUrl}/core/course/banner/${course?.imageName}`;*/
+const imgWidth = ref<number>();
+const imgHeight = ref<number>();
 
-/*onMounted(async ()=>{
-  const result = await GetCourseBySlug(slug);
-  course.value = result.data;
-})*/
+imgWidth.value = 900;
+imgHeight.value = 500;
+
+onMounted(async ()=>{
+  const img = new Image();
+  img.src = course !== undefined ? `${FtpUrl}/core/course/banner/${course?.imageName}` : '';
+  imgWidth.value = img.width;
+  imgHeight.value = img.height;
+})
 
 const getEpisodesCount = computed(()=>{
   if(course !== undefined && course?.sections.length > 0) {

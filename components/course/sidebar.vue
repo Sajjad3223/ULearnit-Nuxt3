@@ -102,60 +102,21 @@ import {successAlert} from "~/services/alert.service";
 import {useAuthStore} from "~/stores/authStore";
 import Swal from 'sweetalert2';
 
-const props = defineProps({
-  id:{
-    type:Number,
-    required:true,
-  },
-  price:{
-    type:Number,
-    required:true,
-  },
-  discount:{
-    type:Number,
-    default:0
-  },
-  realPrice:{
-    type:Number,
-    required:true,
-  },
-  teacher:{
-    type:String,
-    required:true
-  },
-  teacherResume:{
-    type:String,
-    required:true
-  },
-  studentsCount:{
-    type:Number,
-    required:true
-  },
-  time:{
-    type:String,
-    required:true
-  },
-  videosCount:{
-    type:Number,
-    required:true
-  },
-  status:{
-    type:Number,
-    required:true
-  },
-  level:{
-    type:Number,
-    required:true
-  },
-  lastUpdate:{
-    type:String,
-    required:true
-  },
-  userHasCourse:{
-    type:Boolean,
-    required:true
-  }
-})
+const props = defineProps<{
+  id:number,
+  price:number,
+  discount:number,
+  realPrice:number,
+  teacher:string,
+  teacherResume:string,
+  studentsCount:number,
+  time:string,
+  videosCount:number,
+  status:number,
+  level:number,
+  lastUpdate:string,
+  userHasCourse:boolean
+}>();
 
 const addToCartData:AddToCartViewModel = reactive({
   itemId : props.id,
