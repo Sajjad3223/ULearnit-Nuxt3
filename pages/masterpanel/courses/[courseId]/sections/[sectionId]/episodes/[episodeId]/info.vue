@@ -7,7 +7,7 @@
     </Head>
 
     <base-button class="self-start" is-link
-                 :link="`http://localhost:3000/masterpanel/courses/${courseId}/sections/${sectionId}/episodes`">بازگشت</base-button>
+                 :link="`/masterpanel/courses/${courseId}/sections/${sectionId}/episodes`">بازگشت</base-button>
     <div class="flex items-center">
       <span class="w-1/5">عنوان قسمت:</span>
       <strong class="flex-1">{{episode.title}}</strong>
@@ -41,13 +41,13 @@
     <div class="flex flex-col space-y-2">
       <span class="w-1/5">ویدئو:</span>
       <video controls class="w-full rounded-lg">
-        <source :src="`${ApiUrl}/core/course/${courseId}/${sectionId}/${episode.videoName}`" type="video/mp4">
+        <source :src="`${FtpUrl}/core/course/${courseId}/${sectionId}/${episode.videoName}`" type="video/mp4">
         Your browser does not support the video tag.
       </video>
     </div>
     <div class="flex items-center">
       <span class="w-1/5">فایل ضمیمه:</span>
-      <a :href="`${ApiUrl}/core/course/${courseId}/${sectionId}/${episode.attachmentName}`" class="link" download v-if="episode.attachmentName">{{episode.attachmentName}}</a>
+      <a :href="`${FtpUrl}/core/course/${courseId}/${sectionId}/${episode.attachmentName}`" class="link" download v-if="episode.attachmentName">{{episode.attachmentName}}</a>
       <strong v-else>فایل ضمیمه ندارد</strong>
     </div>
 
@@ -60,7 +60,7 @@
 <script setup lang="ts">
 import {GetEpisode, PublishEpisode} from "~/services/course.service";
 import {EpisodeDto} from "~/models/course/courseDto";
-import {ApiUrl} from "~/utilities/ApiUrls";
+import {FtpUrl} from "~/utilities/ApiUrls";
 definePageMeta({
   layout:"user",
 middleware:'master'

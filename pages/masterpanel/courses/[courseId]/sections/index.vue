@@ -7,7 +7,7 @@
     </Head>
 
     <base-button class="self-start" is-link
-                 :link="`http://localhost:3000/masterpanel/courses`">بازگشت</base-button>
+                 :link="`/masterpanel/courses`">بازگشت</base-button>
     <u-divider :title="`مدیریت سرفصل ${courseTitle}`" />
     <master-sections-create ref="createModal" :courseId="getCourseId" @sectionCreated="loadSections"/>
     <master-sections-edit ref="editModal" :courseId="getCourseId" @sectionUpdated="loadSections"/>
@@ -62,9 +62,18 @@
           </tr>
         </template>
       </u-table>
-      <u-alert v-else>
-        هنوز قسمتی ثبت نشده است!
-      </u-alert>
+      <div v-else>
+        <button @click="addSection"  class="flex items-center justify-center text-white bg-indigo-700 hover:bg-indigo-800 focus:ring-4 focus:ring-indigo-300 font-medium rounded-lg text-sm px-4 py-2 dark:bg-indigo-600 dark:hover:bg-indigo-700 focus:outline-none dark:focus:ring-indigo-800">
+          <svg class="ml-2 scale-125" width="14" height="14" viewBox="0 0 14 14" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+            <path d="M10.5 7.4375H3.5C3.26083 7.4375 3.0625 7.23917 3.0625 7C3.0625 6.76083 3.26083 6.5625 3.5 6.5625H10.5C10.7392 6.5625 10.9375 6.76083 10.9375 7C10.9375 7.23917 10.7392 7.4375 10.5 7.4375Z" fill="white"/>
+            <path d="M7 10.9375C6.76083 10.9375 6.5625 10.7392 6.5625 10.5V3.5C6.5625 3.26083 6.76083 3.0625 7 3.0625C7.23917 3.0625 7.4375 3.26083 7.4375 3.5V10.5C7.4375 10.7392 7.23917 10.9375 7 10.9375Z" fill="white"/>
+          </svg>
+          سرفصل جدید
+        </button>
+        <u-alert>
+          هنوز قسمتی ثبت نشده است!
+        </u-alert>
+      </div>
     </div>
   </div>
 </template>
