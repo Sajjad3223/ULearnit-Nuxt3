@@ -1,7 +1,7 @@
 <template>
   <div>
-    <Form @submit="Send" class="m-6 flex flex-col" v-if="authStore.isLogin">
-      <base-input multiline name="comment" v-model="sendCommentData.text" label="نظر شما:" placeholder="نظر خود را بنویسید..."/>
+    <Form @submit="Send" :validation-schema="sendCommentSchema" class="m-6 flex flex-col" v-if="authStore.isLogin">
+      <base-input multiline name="comment" v-model="sendCommentData.text" label="نظر شما:" placeholder="نظر خود را بنویسید..." is-required/>
       <base-button color="success" class="w-1/2 md:w-1/3 mr-auto mt-4">
         ارسال نظر
       </base-button>
@@ -26,6 +26,7 @@ import {EPostType} from "~/models/comment/commentDto";
 import {SendCommentViewModel} from "~/models/comment/sendCommentViewModel";
 import {SendComment} from "~/services/comment.service";
 import {errorAlert, successAlert} from "~/services/alert.service";
+import {object,string} from 'yup';
 
 const props = defineProps<{
   postType:EPostType,
@@ -37,6 +38,11 @@ const emits = defineEmits(['commentSent']);
 const parentId = ref(null);
 
 const authStore = useAuthStore();
+
+const sendCommentSchema = object().shape({
+  text:string().required('متن نظر الزمای است').max(500,'متن نظر نباید بیشتر از 500 کاراکتر باشد')
+});
+
 const sendCommentData:SendCommentViewModel = {
   parentId: null,
   postId: 0,

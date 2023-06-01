@@ -1,5 +1,5 @@
 <template>
-  <div v-if="course !== undefined">
+  <div v-if="course !== undefined && course !== null">
 
     <u-seo-data :seo-data="course.seoData"/>
 
@@ -125,17 +125,19 @@ import {useRoute} from "nuxt/app";
 import {EPostType} from "~/models/comment/commentDto";
 import USeoData from "~/components/USeoData.vue";
 
-const course = ref<CourseDto>();
+
 const route = useRoute();
-onMounted(async ()=>{
-  const slug = route.params.slug.toString();
+const slug = route.params.slug.toString();
+const { data: result, refresh, pending } = await useAsyncData("getCourse", async () => await GetCourseBySlug(route.params.slug  ))
+const course:CourseDto | undefined = result?.value?.data;
+/*onMounted(async ()=>{
   const result = await GetCourseBySlug(slug);
   course.value = result.data;
-})
+})*/
 
 const getEpisodesCount = computed(()=>{
-  if(course.value.sections.length > 0) {
-    const episodes = course.value.sections.map(c => c.episodes);
+  if(course !== undefined && course?.sections.length > 0) {
+    const episodes = course?.sections.map(c => c.episodes);
     return episodes[0].length;
   }
   else{

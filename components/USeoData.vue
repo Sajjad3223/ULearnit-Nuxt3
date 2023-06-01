@@ -15,8 +15,6 @@
     <meta content="index, follow" name="robots" v-if="seoData.indexPage"/>
     <meta content="noindex, nofollow" name="robots" v-else/>
 
-
-
     <slot />
   </Head>
 </template>

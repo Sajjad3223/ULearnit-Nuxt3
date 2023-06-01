@@ -2,10 +2,12 @@
   <article :class="['p-6 mb-6 text-base bg-white rounded-lg border-2 dark:border-gray-800 dark:bg-gray-900',{'mr-6 lg:mr-12':isChild}]">
     <footer class="relative flex justify-between items-center mb-2">
       <div class="flex items-center">
-        <p class="inline-flex items-center ml-3 text-sm text-gray-900 dark:text-white"><img
+        <p class="inline-flex items-center ml-3 text-sm text-gray-900 dark:text-white">
+          <base-img
             class="ml-2 w-6 h-6 rounded-full"
-            :src="`${ApiUrl}/user/avatars/${comment.sender.avatar}`"
-            alt="Michael Gough">{{ comment.sender.fullName }}</p>
+            :src="`/ulearnit/user/avatars/${comment.sender.avatar}`"
+            :alt="comment.sender.fullName" />{{ comment.sender.fullName }}
+        </p>
         <p class="text-sm text-gray-600 dark:text-gray-400">
           <time pubdate datetime="2022-02-08"
                 title="دوشنبه 16 ام بهمن">{{ new Date(comment.creationDate).toLocaleDateString('fa-IR') }}</time>

@@ -174,6 +174,7 @@ const AddOrderItem = async ()=>{
       title:'لطفا ابتدا وارد حساب شوید!',
     });
     router.push('/auth/login');
+    return;
   }
   const result = await AddToCart(addToCartData);
   if(result.isSuccess) {
