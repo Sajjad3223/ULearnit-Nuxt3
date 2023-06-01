@@ -38,7 +38,7 @@
       </div>
     </main>
 
-    <u-seo-data :seo-data="post.seoData"/>
+    <u-seo-data :seo-data="post.seoData" :image-url="`${FtpUrl}/blog/banner/${post.imageName}`"/>
 
   </div>
   <div class="relative flex flex-col justify-center space-y-4" v-else>
@@ -70,6 +70,7 @@
 import {PostDto} from "~/models/blog/postDto";
 import {GetPostBySlug} from "~/services/blog.service";
 import {EPostType} from "~/models/comment/commentDto";
+import {FtpUrl} from "~/utilities/ApiUrls";
 
 const tags = ref<string[]>();
 
