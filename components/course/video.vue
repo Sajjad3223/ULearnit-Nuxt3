@@ -79,9 +79,6 @@ const toggleDescription=()=>{
 const playOnline= async ()=>{
   const result = await GetEpisodeVideo(props.episode.token);
   if(result.isSuccess) {
-    if (result.data === "")
-      errorAlert("لطفا ابتدا در دوره ثبت نام کنید")
-    else{
       const videoPlayer = document.getElementById("videoPlayer");
       videoPlayer?.pause();
       let source = document.getElementsByTagName('source')[0];
@@ -96,25 +93,26 @@ const playOnline= async ()=>{
       setTimeout(()=>{
         videoPlayer?.play();
       },1500)
-    }
   }
 }
 const downloadEpisode= async ()=>{
-  const result = await GetEpisodeVideoFile(props.episode.token);
+  //const result = await GetEpisodeVideoFile(props.episode.token);
+  const result = await GetEpisodeVideo(props.episode.token);
   if(result !== undefined || result !== null || result.isSuccess){
-    resolveAndDownloadBlob(result,`${props.sectionIndex}_${props.index}_${props.episode.englishTitle}`);
+    resolveAndDownloadBlob(result.data,`${props.sectionIndex}_${props.index}_${props.episode.englishTitle}`);
   }
 }
 const downloadAttachment= async ()=>{
   const result = await GetEpisodeAttachmentFile(props.episode.token);
-  console.log(result);
+
   if(result !== undefined || result !== null || result.isSuccess){
     resolveAndDownloadBlob(result,`${props.sectionIndex}_${props.index}_${props.episode.englishTitle}.rar`);
   }
 }
 
 const resolveAndDownloadBlob = (response: any,fileName:string) => {
-  const url = window.URL.createObjectURL(response);
+  //const url = window.URL.createObjectURL(response);
+  const url = `${FtpUrl}/core/course/${props.episode.courseId}/${props.episode.sectionId}/${response}`;
   const link = document.createElement('a');
   link.href = url;
   link.setAttribute('download', fileName);
