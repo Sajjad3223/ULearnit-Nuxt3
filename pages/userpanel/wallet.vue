@@ -48,6 +48,7 @@ import {Form} from 'vee-validate';
 import {ChargeWallet, GetUserWallets} from "~/services/user.service";
 import {EWalletType, WalletFilterParams, WalletFilterResult} from "~/models/user/walletFilterResult";
 import {ChargeWalletViewModel} from "~/models/user/ChargeWalletViewModel";
+import {CurrentDomainUrl} from "~/utilities/ApiUrls";
 
 definePageMeta({
   layout: "user",
@@ -62,11 +63,10 @@ const filterParams:WalletFilterParams = reactive({
   userId:null,
   walletType:null
 });
-
 const chargeWalletData:ChargeWalletViewModel = reactive({
   price:0,
-  errorCallBackUrl:"http://localhost:3000/cart/paymentFailed",
-  successCallBackUrl:"http://localhost:3000/userpanel/wallet"
+  errorCallBackUrl:`${CurrentDomainUrl}/cart/paymentFailed`,
+  successCallBackUrl:`${CurrentDomainUrl}/userpanel/wallet`
 });
 
 const wallets = ref<WalletFilterResult>();

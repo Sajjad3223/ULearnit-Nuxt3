@@ -1,5 +1,5 @@
 <template>
-  <time class="pl-2 border-dotted" pubdate datetime="19-57"
+  <time class="pl-2 border-dotted" pubdate
         :title="getTimeTitle">
     {{ getTwoDigits(new Date(time).getMinutes()) }}
     :

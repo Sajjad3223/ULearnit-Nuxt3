@@ -137,7 +137,7 @@
 
 <script setup lang="ts">
 import {FinalizeOrder, GetPendingCart, PayOrder, RemoveOrderItem} from "~/services/cart.service";
-import {ApiUrl} from "~/utilities/ApiUrls";
+import {ApiUrl, CurrentDomainUrl} from "~/utilities/ApiUrls";
 import {successAlert} from "~/services/alert.service";
 import {OrderItemCommand} from "~/models/cart/orderItemCommand";
 import {EItemType} from "~/models/cart/addToCartViewModel";
@@ -188,9 +188,9 @@ const deleteOrderItem = async (id:Number,itemType:EItemType)=>{
 const router = useRouter();
 const finalizeOrder = async ()=>{
   const result = await PayOrder(
-      cart.value.id,
-      "http://localhost:3000/cart/paymentFailed",
-  "http://localhost:3000/cart/paymentSucceed"
+      Number(cart?.value?.id),
+      `${CurrentDomainUrl}/cart/paymentFailed`,
+  `${CurrentDomainUrl}/cart/paymentSucceed`
   );
   if(result.isSuccess) {
     window.location.replace(result.data);

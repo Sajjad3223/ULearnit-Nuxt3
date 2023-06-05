@@ -17,7 +17,7 @@
               ]" />
         </div>
         <div class="w-full lg:w-1/3">
-          <short-link :link="`https://ULearnit.ir/c/${course.shortLink}`"/>
+          <short-link :link="`${CurrentDomainUrl}/c/${course.shortLink}`"/>
         </div>
       </div>
     </div>
@@ -76,7 +76,7 @@
           <course-video-player :image-name="course.imageName" :video-name="course.introVideo" />
           <div class="course-description p-4 border-2 border-slate-200 dark:border-slate-700 rounded-lg mt-2">
             <h3 class="text-xl font-semibold my-4">{{course.title}}</h3>
-            <p class="p-1 lg:p-4 text-justify text-sm lg:text-base" v-html="course.description"></p>
+            <p ref="description" class="p-1 lg:p-4 text-justify text-sm lg:text-base" v-html="course.description"></p>
             <u-tags title="نیازمندی ها" :tags="course.requirements" v-if="course.requirements.length > 0 && course.requirements[0] !== ''"/>
             <div v-else class="flex flex-col space-y-2 mt-8">
               <span>نیازمندی ها:</span>
@@ -126,31 +126,37 @@ import {GetCourseBySlug} from "~/services/course.service";
 import {useRoute} from "nuxt/app";
 import {EPostType} from "~/models/comment/commentDto";
 import USeoData from "~/components/USeoData.vue";
-import {FtpUrl} from "~/utilities/ApiUrls";
+import {CurrentDomainUrl, FtpUrl} from "~/utilities/ApiUrls";
 import imageFetch from "#image/utils";
 
 
 const route = useRoute();
 const slug = route.params.slug.toString();
+const course = ref<CourseDto>();
+const description = ref();
+
 const { data: result, pending } = await useAsyncData("getCourse", async () => await GetCourseBySlug(route.params.slug))
-const course:CourseDto | undefined = result?.value?.data;
+if(result.value?.isSuccess){
+  course.value = result?.value?.data;
+}
 
 const imgWidth = ref<number>();
 const imgHeight = ref<number>();
 
-imgWidth.value = 900;
-imgHeight.value = 500;
+imgWidth.value = 1000;
+imgHeight.value = 714;
 
 onMounted(async ()=>{
   const img = new Image();
-  img.src = course !== undefined ? `${FtpUrl}/core/course/banner/${course?.imageName}` : '';
+  img.src = course.value !== undefined ? `${FtpUrl}/core/course/banner/${course.value?.imageName}` : '';
   imgWidth.value = img.width;
   imgHeight.value = img.height;
+  description.value.innerHTML = course?.value?.description;
 })
 
 const getEpisodesCount = computed(()=>{
-  if(course !== undefined && course?.sections.length > 0) {
-    const episodes = course?.sections.map(c => c.episodes);
+  if(course.value !== undefined && course.value?.sections?.length > 0) {
+    const episodes = course.value?.sections.map(c => c.episodes);
     return episodes[0].length;
   }
   else{
