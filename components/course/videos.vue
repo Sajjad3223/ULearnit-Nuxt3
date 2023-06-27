@@ -34,18 +34,18 @@
 
       <div>
         <div v-for="(s,i) in sections" >
-          <h4 >
+          <h4>
             <button @click.prevent="toggleSection(i)" type="button"
-                    :class="['flex items-center justify-between w-full p-5 font-medium text-left text-gray-500 border border-gray-200 focus:ring-4 focus:ring-gray-200 dark:focus:ring-gray-800 dark:border-gray-700 dark:text-gray-400 hover:bg-gray-100 dark:hover:bg-gray-800'
+                    :class="['flex items-center flex-wrap lg:justify-between w-full p-5 font-medium text-left text-gray-500 border border-gray-200 focus:ring-4 focus:ring-gray-200 dark:focus:ring-gray-800 dark:border-gray-700 dark:text-gray-400 hover:bg-gray-100 dark:hover:bg-gray-800'
                     ,{'rounded-t-xl':i === 0}
                     ,{'border-b-0':i < sections.length - 1}]">
               <span>{{s.title}}</span>
               <u-badge color="dark" class="mr-3" v-if="s.episodes.length > 0">{{s.episodes.length}} قسمت</u-badge>
               <u-badge color="dark" class="mr-3" v-if="s.sectionQuizzes.length > 0">{{s.sectionQuizzes.length}} آزمون</u-badge>
               <u-badge color="dark" class="mr-auto ml-4">{{s.time}}</u-badge>
-              <svg class="w-6 h-6 rotate-180 shrink-0" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" clip-rule="evenodd"></path></svg>
+              <svg class="w-6 h-6 rotate-180" ref="arrow" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" clip-rule="evenodd"></path></svg>
             </button>
-          </h4 >
+          </h4>
           <div ref="section" :class="[{'hidden':i>0}]">
             <div :class="['p-2 font-light border border-gray-200 dark:border-gray-700 dark:bg-black/10'
                         ,{'border-b-0':i < sections.length - 1}
@@ -60,37 +60,37 @@
                             :teacher-user-id="teacherUserId"/>
               <u-alert v-else color="warning">قسمتی برای این فصل بارگزاری نشده است!</u-alert>
               <u-divider title="آزمون ها" />
-              <div v-if="s.sectionQuizzes != undefined && s.sectionQuizzes.length > 0" v-for="(q,i) in s.sectionQuizzes" class="mx-4 my-2 px-4 py-2 flex items-center bg-blue-100 dark:bg-gray-800 rounded-lg space-x-4 space-x-reverse">
+              <div v-if="s.sectionQuizzes != undefined && s.sectionQuizzes.length > 0" v-for="(q,i) in s.sectionQuizzes" class="mx-4 my-2 px-4 py-2 flex flex-col lg:flex-row lg:items-center bg-blue-100 dark:bg-gray-800 rounded-lg lg:space-x-4 space-x-reverse">
                 <span class="w-8 h-8 grid place-items-center font-bold text-center rounded-full dark:bg-gray-900 ">{{i + 1}}</span>
-                <div class="w-full grid grid-cols-7 gap-4 items-center">
+                <div class="w-full grid grid-cols-2 lg:grid-cols-7 gap-4 items-center">
                   <div class="flex flex-col items-center col-span-2">
-                    <span>عنوان آزمون</span>
+                    <span class="text-xs md:text-sm">عنوان آزمون</span>
                     <div class="h-[1px] bg-gray-400 dark:bg-gray-600 w-full my-1"></div>
                     <NuxtLink :to="`/quizzes/${courseId}/${s.id}/${q.id}`" class="link" v-if="!q.userHasPassed">{{q.title}}</NuxtLink>
                     <strong v-else>{{q.title}}</strong>
                   </div>
                   <div class="flex flex-col items-center">
-                    <span>تعداد سؤالات</span>
+                    <span class="text-xs md:text-sm">سؤالات</span>
                     <div class="h-[1px] bg-gray-400 dark:bg-gray-600 w-full my-1"></div>
                     <strong >{{q.totalQuestions}}</strong>
                   </div>
                   <div class="flex flex-col items-center">
-                    <span>امتیاز کل</span>
+                    <span class="text-xs md:text-sm">امتیاز کل</span>
                     <div class="h-[1px] bg-gray-400 dark:bg-gray-600 w-full my-1"></div>
                     <strong >{{q.totalScore}}</strong>
                   </div>
                   <div class="flex flex-col items-center">
-                    <span>امتیاز پیروزی</span>
+                    <span class="text-xs md:text-sm">امتیاز قبولی</span>
                     <div class="h-[1px] bg-gray-400 dark:bg-gray-600 w-full my-1"></div>
                     <strong >{{q.passScore}}</strong>
                   </div>
                   <div class="flex flex-col items-center">
-                    <span>امتیاز شما</span>
+                    <span class="text-xs md:text-sm">امتیاز شما</span>
                     <div class="h-[1px] bg-gray-400 dark:bg-gray-600 w-full my-1"></div>
                     <strong >{{q.userScore ?? 0}}</strong>
                   </div>
-                  <div class="flex flex-col items-center">
-                    <span>وضعیت</span>
+                  <div class="flex flex-col items-center col-span-2 lg:col-span-1">
+                    <span class="text-xs md:text-sm">وضعیت</span>
                     <div class="h-[1px] bg-gray-400 dark:bg-gray-600 w-full my-1"></div>
                     <u-badge color="warning" v-if="!q.userHasPassed">
                       <NuxtLink :to="`/quizzes/${courseId}/${s.id}/${q.id}`" v-if="!q.userHasPassed">شرکت در کوییز</NuxtLink>
@@ -125,14 +125,17 @@ const props = defineProps<{
   courseId:Number
 }>();
 const section = ref();
+const arrow = ref();
 const toggleSection = (i)=>{
   if(!section.value[i].classList.contains('hidden')) {
     section.value[i].classList.add('hidden');
+    arrow.value[i].classList.add('rotate-180');
     return;
   }
   section.value.forEach(s=>{
     s.classList.add('hidden');
   })
   section.value[i].classList.remove('hidden');
+  arrow.value[i].classList.remove('rotate-180');
 }
 </script>

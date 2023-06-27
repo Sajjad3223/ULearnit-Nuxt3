@@ -2,12 +2,12 @@
   <div v-if="quiz !== undefined">
     <div class="border-x-2 border-gray-500 rounded-xl p-4">
       <div class="p-4 bg-gray-800 rounded-lg flex items-center justify-center gap-4">
-        <div class="w-full flex items-center justify-around">
+        <div class="w-full flex flex-col lg:flex-row lg:items-center justify-around">
           <div class="flex items-center space-x-2 space-x-reverse">
             <span>عنوان آزمون:</span>
-            <h2>{{quiz.title}}</h2>
+            <h2 class="text-base lg:text-2xl">{{quiz.title}}</h2>
           </div>
-          <div class="flex space-x-4 space-x-reverse">
+          <div class="flex flex-col lg:flex-row md:flex-wrap lg:space-x-4 space-x-reverse">
             <div class="flex items-center space-x-2 space-x-reverse">
               <span>نمره کل آزمون:</span>
               <u-badge>{{quiz.totalScore}}</u-badge>
@@ -31,13 +31,13 @@
       <Form @submit="sendQuizResult" class="quizForm flex flex-col mt-8 px-4">
         <ol class="w-full flex flex-col space-y-4">
           <li v-for="(q,i) in quiz.questions" class="question-container flex flex-col pb-2 border-b border-white/20 last-of-type:border-none">
-            <div class="w-full flex justify-between items-start">
+            <div class="w-full flex flex-col  lg:flex-row justify-between items-start">
               <p>{{i+1}} - {{q.title}}</p>
-              <u-badge color="primary">نمره: {{q.score}}</u-badge>
+              <u-badge color="primary" class="self-end">نمره: {{q.score}}</u-badge>
             </div>
             <input type="hidden" :value="q.questionType" class="qType">
             <input type="hidden" :value="q.id" class="qID">
-            <div v-if="q.questionType == EQuestionType.MultipleChoice && q.choices != null" class="question grid grid-cols-2 lg:grid-cols-4 gap-4 p-2">
+            <div v-if="q.questionType == EQuestionType.MultipleChoice && q.choices != null" class="question grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 p-2">
               <div class="relative" v-for="(c,j) in q.choices">
                 <label :for="`choice${i}-${j}`" class="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500 cursor-pointer">
                   {{j + 1}} - {{c.title}}
@@ -59,7 +59,7 @@
           </li>
         </ol>
 
-        <base-button class="mt-8 w-1/3 mr-auto">ثبت پاسخ</base-button>
+        <base-button class="mt-8 w-full lg:w-1/3 mr-auto">ثبت پاسخ</base-button>
       </Form>
 
     </div>
