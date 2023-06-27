@@ -66,7 +66,7 @@
                   <div class="flex flex-col items-center col-span-2">
                     <span class="text-xs md:text-sm">عنوان آزمون</span>
                     <div class="h-[1px] bg-gray-400 dark:bg-gray-600 w-full my-1"></div>
-                    <NuxtLink :to="`/quizzes/${courseId}/${s.id}/${q.id}`" class="link" v-if="!q.userHasPassed">{{q.title}}</NuxtLink>
+                    <NuxtLink :to="`/quizzes/${courseId}/${s.id}/${q.id}`" class="link" v-if="!q.userHasPassed && userHasCourse">{{q.title}}</NuxtLink>
                     <strong v-else>{{q.title}}</strong>
                   </div>
                   <div class="flex flex-col items-center">
@@ -92,12 +92,13 @@
                   <div class="flex flex-col items-center col-span-2 lg:col-span-1">
                     <span class="text-xs md:text-sm">وضعیت</span>
                     <div class="h-[1px] bg-gray-400 dark:bg-gray-600 w-full my-1"></div>
-                    <u-badge color="warning" v-if="!q.userHasPassed">
+                    <u-badge color="warning" v-if="!q.userHasPassed && userHasCourse">
                       <NuxtLink :to="`/quizzes/${courseId}/${s.id}/${q.id}`" v-if="!q.userHasPassed">شرکت در کوییز</NuxtLink>
                     </u-badge>
                     <u-badge color="dark" v-else-if="q.userHasPassed && q.userScore === 0">شرکت کرده اید</u-badge>
                     <u-badge color="success" v-else-if="q.userHasPassed && (q.userScore ?? 0) > q.passScore">قبول</u-badge>
                     <u-badge color="danger" v-else-if="q.userHasPassed && (q.userScore ?? 0) < q.passScore">رد</u-badge>
+                    <u-badge color="dark" v-else-if="!userHasCourse">دانشجوی این دوره نیستید!</u-badge>
                   </div>
                 </div>
                 </div>
