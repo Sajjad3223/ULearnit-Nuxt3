@@ -4,6 +4,14 @@
   </NuxtLayout>
 </template>
 
+<script setup>
+useHead({
+  htmlAttrs:{
+    lang:'fa-IR'
+  }
+})
+</script>
+
 <style>
 
 /* Transitions */

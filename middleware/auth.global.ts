@@ -1,6 +1,7 @@
 export default defineNuxtRouteMiddleware((to, from) => {
     if(to.path.toLocaleLowerCase().startsWith('/userpanel') ||
        to.path.toLocaleLowerCase().startsWith('/admin') ||
+       to.path.toLocaleLowerCase().startsWith('/cart') ||
        to.path.toLocaleLowerCase().startsWith('/masterpanel')
         ){
         //@ts-ignore

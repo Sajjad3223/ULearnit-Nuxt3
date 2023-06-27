@@ -24,7 +24,9 @@ export function RefreshToken(refreshToken:string) : Promise<ApiResponse<LoginRes
     //@ts-ignore
     return FetchApi("/auth/refreshToken",{
         method:"POST",
-        body:refreshToken,
+        body:{
+            refreshToken
+        },
     });
 }
 

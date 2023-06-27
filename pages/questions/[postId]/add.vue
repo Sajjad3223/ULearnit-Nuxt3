@@ -40,7 +40,17 @@ import {errorAlert, successAlert} from "~/services/alert.service";
 
 definePageMeta({
   layout:'question',
-  middleware:'auth'
+  middleware:[
+      function (to,from){
+        if(process.client)
+        {
+          const token = localStorage.getItem('auth-data');
+          if(!token){
+            return navigateTo(`/auth/login?returnTo=${to.path}`);
+          }
+        }
+      }
+  ]
 })
 
 const addQuestionSchema = Yup.object().shape({

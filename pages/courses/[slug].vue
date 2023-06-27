@@ -89,7 +89,8 @@
               :sections="course.sections"
               :user-has-course="course.userHasCourse"
               :course-price="course.totalPrice"
-              :teacher-user-id="course.teacher.user.id"/>
+              :teacher-user-id="course.teacher.user.id"
+              :course-id="course.id"/>
           <comments :post-type="EPostType.Course" :post-id="course.id" />
         </div>
       </div>

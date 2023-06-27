@@ -2,6 +2,8 @@ import {SeoData} from "~/models/SeoData";
 import {MasterDto} from "~/models/master/MasterDto";
 import {CategoryDto} from "~/models/category/categoryDTO";
 import {ECourseLevel, ECourseStatus, EEpisodeStatus} from "~/models/course/courseEnums";
+import {QuizDto} from "~/models/quiz/quizDto";
+import {QuizFilterData} from "~/models/quiz/quizFilterData";
 
 export interface CourseDto{
     id: number;
@@ -39,6 +41,7 @@ export interface SectionDto {
     time: string;
     displayOrder: number;
     episodes: EpisodeDto[];
+    sectionQuizzes: QuizFilterData[];
 }
 export interface EpisodeDto {
     id: number;
@@ -56,4 +59,9 @@ export interface EpisodeDto {
     isFree: boolean;
     hasAttachment: boolean;
     episodeStatus:EEpisodeStatus;
+}
+
+export interface SectionForSelectDto{
+    id:number;
+    title:string;
 }

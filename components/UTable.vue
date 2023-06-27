@@ -144,7 +144,7 @@ const showFilter = ()=>{
 
     const x = filterButton.getBoundingClientRect().left - (table.getBoundingClientRect().left) - 8;
     const y = filterButton.getBoundingClientRect().top - (table.getBoundingClientRect().top) + filterButton.getBoundingClientRect().height + 8;
-    console.log(x,y)
+
     filterMenu.style.transform = `translate(${x}px,${y}px)`;
     enableHider.value = true;
   }
@@ -198,14 +198,17 @@ const showOption = (i:any)=>{
   })
   options[i].classList.toggle('hidden');
   options[i].classList.add('absolute');
+
+  //Show options above current row
   if((document.documentElement.clientHeight > options[i].parentElement.parentElement.getBoundingClientRect().bottom &&
     table.getBoundingClientRect().bottom - options[i].parentElement.parentElement.getBoundingClientRect().bottom > 100) ||
-    rowCount <= 1
+    rowCount < 1
     ) {
     const y = (options[0].parentElement.parentElement.getBoundingClientRect().top - table.getBoundingClientRect().top) + options[0].parentElement.parentElement.getBoundingClientRect().height;
     options[i].style.inset = "0px auto auto 0px";
     options[i].style.transform = `translate(0px, ${y + (i * 49)}px)`;
   }
+  //Show options below current row
   else{
     const y = -(table.getBoundingClientRect().bottom - options[rowCount-1].parentElement.parentElement.getBoundingClientRect().bottom) - options[rowCount-1].parentElement.parentElement.getBoundingClientRect().height;
     options[i].style.inset = "auto auto 0px 0px";

@@ -24,7 +24,7 @@
     isTitle:{
       type:Boolean,
       default:true
-    }
+    },
   })
 </script>
 

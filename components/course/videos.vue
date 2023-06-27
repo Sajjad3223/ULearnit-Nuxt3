@@ -33,33 +33,79 @@
       </li>
 
       <div>
-        <div v-for="(s,i) in sections" v-if="episodesCount != 0">
+        <div v-for="(s,i) in sections" >
           <h4 >
             <button @click.prevent="toggleSection(i)" type="button"
                     :class="['flex items-center justify-between w-full p-5 font-medium text-left text-gray-500 border border-gray-200 focus:ring-4 focus:ring-gray-200 dark:focus:ring-gray-800 dark:border-gray-700 dark:text-gray-400 hover:bg-gray-100 dark:hover:bg-gray-800'
                     ,{'rounded-t-xl':i === 0}
-                    ,{'border-b-0':i < 3}]">
+                    ,{'border-b-0':i < sections.length - 1}]">
               <span>{{s.title}}</span>
-              <u-badge color="dark" class="mr-3">{{s.episodes.length}} قسمت</u-badge>
+              <u-badge color="dark" class="mr-3" v-if="s.episodes.length > 0">{{s.episodes.length}} قسمت</u-badge>
+              <u-badge color="dark" class="mr-3" v-if="s.sectionQuizzes.length > 0">{{s.sectionQuizzes.length}} آزمون</u-badge>
               <u-badge color="dark" class="mr-auto ml-4">{{s.time}}</u-badge>
               <svg class="w-6 h-6 rotate-180 shrink-0" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" clip-rule="evenodd"></path></svg>
             </button>
           </h4 >
           <div ref="section" :class="[{'hidden':i>0}]">
-            <div :class="['p-2 font-light border border-gray-200 dark:border-gray-700 dark:bg-gray-900'
-                        ,{'border-b-0':i < 3}
-                        ,{'rounded-b-xl':i === 3}]">
-              <course-video v-for="(e,j) in s.episodes.filter(e=>e.isActive)"
+            <div :class="['p-2 font-light border border-gray-200 dark:border-gray-700 dark:bg-black/10'
+                        ,{'border-b-0':i < sections.length - 1}
+                        ,{'rounded-b-xl':i === sections.length - 1}]">
+              <u-divider title="آموزش ها" />
+              <course-video v-if="s.episodes != undefined && s.episodes.length > 0" v-for="(e,j) in s.episodes.filter(e=>e.isActive)"
                             :index="j + 1"
                             :section-index="i + 1"
                             :episode="e"
                             :user-has-course="userHasCourse"
                             :course-price="coursePrice"
                             :teacher-user-id="teacherUserId"/>
+              <u-alert v-else color="warning">قسمتی برای این فصل بارگزاری نشده است!</u-alert>
+              <u-divider title="آزمون ها" />
+              <div v-if="s.sectionQuizzes != undefined && s.sectionQuizzes.length > 0" v-for="(q,i) in s.sectionQuizzes" class="mx-4 my-2 px-4 py-2 flex items-center bg-blue-100 dark:bg-gray-800 rounded-lg space-x-4 space-x-reverse">
+                <span class="w-8 h-8 grid place-items-center font-bold text-center rounded-full dark:bg-gray-900 ">{{i + 1}}</span>
+                <div class="w-full grid grid-cols-7 gap-4 items-center">
+                  <div class="flex flex-col items-center col-span-2">
+                    <span>عنوان آزمون</span>
+                    <div class="h-[1px] bg-gray-400 dark:bg-gray-600 w-full my-1"></div>
+                    <NuxtLink :to="`/quizzes/${courseId}/${s.id}/${q.id}`" class="link" v-if="!q.userHasPassed">{{q.title}}</NuxtLink>
+                    <strong v-else>{{q.title}}</strong>
+                  </div>
+                  <div class="flex flex-col items-center">
+                    <span>تعداد سؤالات</span>
+                    <div class="h-[1px] bg-gray-400 dark:bg-gray-600 w-full my-1"></div>
+                    <strong >{{q.totalQuestions}}</strong>
+                  </div>
+                  <div class="flex flex-col items-center">
+                    <span>امتیاز کل</span>
+                    <div class="h-[1px] bg-gray-400 dark:bg-gray-600 w-full my-1"></div>
+                    <strong >{{q.totalScore}}</strong>
+                  </div>
+                  <div class="flex flex-col items-center">
+                    <span>امتیاز پیروزی</span>
+                    <div class="h-[1px] bg-gray-400 dark:bg-gray-600 w-full my-1"></div>
+                    <strong >{{q.passScore}}</strong>
+                  </div>
+                  <div class="flex flex-col items-center">
+                    <span>امتیاز شما</span>
+                    <div class="h-[1px] bg-gray-400 dark:bg-gray-600 w-full my-1"></div>
+                    <strong >{{q.userScore ?? 0}}</strong>
+                  </div>
+                  <div class="flex flex-col items-center">
+                    <span>وضعیت</span>
+                    <div class="h-[1px] bg-gray-400 dark:bg-gray-600 w-full my-1"></div>
+                    <u-badge color="warning" v-if="!q.userHasPassed">
+                      <NuxtLink :to="`/quizzes/${courseId}/${s.id}/${q.id}`" v-if="!q.userHasPassed">شرکت در کوییز</NuxtLink>
+                    </u-badge>
+                    <u-badge color="dark" v-else-if="q.userHasPassed && q.userScore === 0">شرکت کرده اید</u-badge>
+                    <u-badge color="success" v-else-if="q.userHasPassed && (q.userScore ?? 0) > q.passScore">قبول</u-badge>
+                    <u-badge color="danger" v-else-if="q.userHasPassed && (q.userScore ?? 0) < q.passScore">رد</u-badge>
+                  </div>
+                </div>
+                </div>
+              <u-alert v-else color="dark">آزمونی برای این فصل بارگزاری نشده است!</u-alert>
             </div>
           </div>
         </div>
-        <u-alert class="text-center" v-else color="warning">هنوز قسمتی بارگزاری نشده است!</u-alert>
+<!--        <u-alert class="text-center" v-else color="warning">هنوز قسمتی بارگزاری نشده است!</u-alert>-->
       </div>
 
     </ul>
@@ -75,10 +121,10 @@ const props = defineProps<{
   userHasCourse:boolean,
   coursePrice:Number,
   teacherUserId:Number,
-  episodesCount:Number
+  episodesCount:Number,
+  courseId:Number
 }>();
 const section = ref();
-
 const toggleSection = (i)=>{
   if(!section.value[i].classList.contains('hidden')) {
     section.value[i].classList.add('hidden');

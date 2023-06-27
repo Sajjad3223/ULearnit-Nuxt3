@@ -12,6 +12,7 @@
       <span class="fake-btn">انتخاب فایل</span>
       <span ref="fileName" class="file-msg">یا بکشید و اینجا رها کنید</span>
       <input @input="Upload" class="file-input" type="file"
+             :name="name"
              :accept="getAcceptFormat"
              @dragenter="fileDropArea.classList.add('is-active')"
              @focus="fileDropArea.classList.add('is-active')"
@@ -20,7 +21,7 @@
              @blur="fileDropArea.classList.remove('is-active')"
              @drop="fileDropArea.classList.remove('is-active')">
     </div>
-<!--    <master-upload-progress :value="uploadPercentage">{{ uploadPercentage }}</master-upload-progress>-->
+    <master-upload-progress :value="uploadPercentage">{{ uploadPercentage }}</master-upload-progress>
   </div>
 </template>
 
@@ -30,8 +31,8 @@ import axios from "axios";
 import {useAuthStore} from "~/stores/authStore";
 import Swal from 'sweetalert2';
 import {errorAlert, successAlert} from "~/services/alert.service";
+import {FetchApi} from "~/utilities/CustomFetchApi";
 const authStore = useAuthStore();
-
 const props = defineProps<{
   uploadUrl:{
     type:string,
@@ -45,10 +46,14 @@ const props = defineProps<{
     type:string,
     default:'',
   },
+  name:{
+    type:string,
+    required:false
+  },
   acceptFormat: 'video' | 'image' | 'compressed'
 }>()
 
-const emits = defineEmits(['update:modelValue','setIsUploading'])
+const emits = defineEmits(['fileUploaded','update:modelValue','setIsUploading'])
 
 const fileDropArea = ref();
 const fileName = ref();
@@ -63,7 +68,7 @@ const getAcceptFormat = computed(()=>{
     return '.rar';
 })
 
-const uploadPercentage = ref(0);
+const uploadPercentage = ref<Number>(0);
 const Upload = async (e:any)=>{
   if(e.target.files.length === 0) return;
   const file = e.target.files[0];
@@ -83,7 +88,7 @@ const Upload = async (e:any)=>{
     if(result.isConfirmed) {
         isUploading.value = true;
         emits('setIsUploading',isUploading.value);
-        await axios.post(url,form,{
+        axios.post(url,form,{
           headers: {
             'Content-Type': 'multipart/form-data',
             'Authorization': `Bearer ${authStore?.loginResult?.token}`,
@@ -95,18 +100,40 @@ const Upload = async (e:any)=>{
           isUploading.value = false;
           emits('setIsUploading',isUploading.value);
           emits('update:modelValue',response.data.data);
+          emits('fileUploaded',{fileName:response.data.data,name:props.name});
           successAlert('فایل با موفقیت آپلود شد!');
         })
         .catch(function(){
           isUploading.value = false;
           emits('setIsUploading',isUploading.value);
           errorAlert('در آپلود فایل مشکلی پیش آمده است');
-        });
+        }).finally(stopUpdatingProgressIndicator);
+        startProgressbar();
       }
       else{
         fileName.value.innerText = "یا بکشید و اینجا رها کنید";
       }
   });
+}
+
+let intervalId:number;
+function startProgressbar()
+{
+  //const progresses = document.querySelectorAll('.progressbar .progressbar-thumb');
+
+  intervalId = setInterval(
+      async ()=>{
+        const result = await FetchApi('/Course/Progress',{
+          method:'GET',
+        });
+        uploadPercentage.value = Number(result);
+      }
+      ,10
+  )
+}
+
+function stopUpdatingProgressIndicator() {
+  clearInterval(intervalId);
 }
 </script>
 

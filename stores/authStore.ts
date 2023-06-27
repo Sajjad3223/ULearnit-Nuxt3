@@ -4,9 +4,8 @@ import {Ref} from "vue";
 import {UserDto} from "~/models/user/userDto";
 import {GetCurrentUser} from "~/services/user.service";
 import {AppStatusCode} from "~/models/ApiResponse";
-import {FetchApi} from "~/utilities/CustomFetchApi";
 import {errorAlert, successAlert} from "~/services/alert.service";
-import {LogoutUser} from "~/services/auth.service";
+import {LogoutUser, RefreshToken} from "~/services/auth.service";
 
 
 export const useAuthStore = defineStore('auth',()=>{
@@ -31,10 +30,20 @@ export const useAuthStore = defineStore('auth',()=>{
         {
             currentUser.value = currentUserData.data;
         }
-        else if(currentUserData.metaData.appStatusCode === AppStatusCode.UnAuthorize ||
-            currentUserData.metaData.appStatusCode === AppStatusCode.NotFound){
-            loginResult.value = null;
-            localStorage.removeItem('auth-data');
+        else{
+            const refreshResult = await RefreshToken(loginResult.value?.refreshToken ?? '');
+            if(refreshResult.isSuccess){
+                loginResult.value = refreshResult.data;
+                localStorage.setItem('auth-data',JSON.stringify(loginResult.value));
+                const currentUserData = await GetCurrentUser();
+                if(currentUserData.isSuccess)
+                {
+                    currentUser.value = currentUserData.data;
+                }
+            } /*else{
+                loginResult.value = null;
+                localStorage.removeItem('auth-data');
+            }*/
         }
 
         loading.value = false;

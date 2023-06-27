@@ -1,7 +1,7 @@
 import {ApiResponse} from "~/models/ApiResponse";
 import {FetchApi} from "~/utilities/CustomFetchApi";
 import {CreateCourseViewModel} from "~/models/course/createCourseViewModel";
-import {CourseDto, EpisodeDto} from "~/models/course/courseDto";
+import {CourseDto, EpisodeDto, SectionForSelectDto} from "~/models/course/courseDto";
 import {CreateSectionViewModel} from "~/models/course/createSectionViewModel";
 import {CreateEpisodeViewModel} from "~/models/course/createEpisodeViewModel";
 import {EditCourseViewModel} from "~/models/course/editCourseViewModel";
@@ -228,5 +228,12 @@ export function GetStudents(filterParams:CourseStudentsFilterParams):Promise<Api
     return FetchApi(`/Course/students`,{
         method:'GET',
         params:filterParams
+    });
+}
+
+export function GetSectionIdsOfTeacher():Promise<ApiResponse<SectionForSelectDto[]>>{
+    //@ts-ignore
+    return FetchApi(`/Course/my-sections`,{
+        method:'GET'
     });
 }

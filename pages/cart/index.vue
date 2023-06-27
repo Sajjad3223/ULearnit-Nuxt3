@@ -145,9 +145,6 @@ import {Ref} from "vue";
 import {OrderDto} from "~/models/cart/orderDto";
 import {GetCash} from "~/services/user.service";
 
-definePageMeta({
-  middleware:'auth'
-})
 
 const cart = ref<OrderDto>();
 const cash = ref<number>(0);
